@@ -21,21 +21,23 @@
     <div id="live-clock" class="live-clock"></div>
 
     <main class="scroll-container">
-      <!-- PANEL 1 -->
+      <!-- PANEL 1 - Album Cover -->
       <section class="panel panel-1">
         <img src="/images/gemini.png" alt="Album Cover" class="album-cover-fullscreen" />
-        <video id="promo-video" class="promo-video" playsinline></video>
-
-        <button class="enter-button">ENTER</button>
-
         <div class="album-info">
           <p class="album-title">UNA CARA MÁS</p>
           <p class="album-date">DROPPED ON FEBRUARY 28, 2025</p>
         </div>
       </section>
 
-      <!-- PANEL 2 -->
-      <section class="panel panel-2">
+      <!-- PANEL 2 - Video -->
+      <section class="panel panel-2 panel-video">
+        <video id="promo-video" class="promo-video" playsinline muted loop></video>
+        <button class="unmute-button" id="unmute-button">UNMUTE</button>
+      </section>
+
+      <!-- PANEL 3 - Poster Grid -->
+      <section class="panel panel-3">
         <div class="poster-grid">
           <!-- Poster Items with hover videos -->
           <div class="poster-item">
@@ -73,8 +75,8 @@
         </div>
       </section>
 
-      <!-- PANEL 3 -->
-      <section class="panel panel-3">
+      <!-- PANEL 4 - Section 3 -->
+      <section class="panel panel-4">
         <h1>Section 3</h1>
       </section>
     </main>
@@ -114,57 +116,52 @@
       }
       setInterval(updateClock, 1000); updateClock();
 
-      // PANEL 1 elements
-      const enterButton = document.querySelector('.enter-button');
-      const albumCover = document.querySelector('.album-cover-fullscreen');
-      const albumInfo = document.querySelector('.album-info');
+      // PANEL elements
       const promoVideo = document.getElementById('promo-video');
+      const unmuteButton = document.getElementById('unmute-button');
       const panel1 = document.querySelector('.panel-1');
       const panel2 = document.querySelector('.panel-2');
+      const panel3 = document.querySelector('.panel-3');
+      const panel4 = document.querySelector('.panel-4');
 
       const worldClocksEl = document.querySelector('.world-clocks');
       const liveClockEl = document.getElementById('live-clock');
 
-      let promoStarted = false;
-
       promoVideo.src = '/videos/promo.mov';
-      promoVideo.volume = 1;
 
-      // ENTER click
-      enterButton.addEventListener('click', () => {
-        albumCover.style.display = 'none';
-        albumInfo.style.display = 'none';
-        enterButton.style.display = 'none';
-        promoVideo.style.display = 'block';
-        promoVideo.play();
-        promoStarted = true;
+      // Intersection Observer for video autoplay
+      const videoObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.target === panel2) {
+            if (entry.isIntersecting) {
+              promoVideo.play();
+            } else {
+              promoVideo.pause();
+            }
+          }
+        });
+      }, { threshold: 0.5 });
+
+      videoObserver.observe(panel2);
+
+      // Unmute button
+      unmuteButton.addEventListener('click', () => {
+        promoVideo.muted = false;
+        unmuteButton.style.display = 'none';
       });
 
-      // Video ends → scroll to Panel 2
-      promoVideo.addEventListener('ended', () => {
-        panel2.scrollIntoView({ behavior: 'smooth' });
-      });
-
-      // Scroll behavior
+      // Scroll behavior for header color changes
       document.querySelector('.scroll-container').addEventListener('scroll', () => {
         const scrollTop = panel1.parentElement.scrollTop;
         const panel1Height = panel1.offsetHeight;
+        const panel2Height = panel2.offsetHeight;
 
-        if (scrollTop >= panel1Height) {
+        if (scrollTop >= (panel1Height + panel2Height)) {
           worldClocksEl.style.color = 'black';
           liveClockEl.style.color = 'black';
-          if (!promoVideo.ended && promoStarted) promoVideo.pause();
         } else {
           worldClocksEl.style.color = 'white';
           liveClockEl.style.color = 'white';
-          if (!promoVideo.ended && promoVideo.paused && promoStarted) promoVideo.play();
-          if (promoVideo.ended) {
-            promoVideo.style.display = 'none';
-            albumCover.style.display = 'block';
-            albumInfo.style.display = 'flex';
-            enterButton.style.display = 'block';
-            promoStarted = false;
-          }
         }
       });
 
@@ -182,87 +179,94 @@
         });
       });
     </script>
+
+    <style>
+      html, body { margin: 0; height: 100%; }
+      body { font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif; overflow: hidden; }
+
+      .scroll-container { height: 100vh; overflow-y: auto; scroll-snap-type: y mandatory; }
+
+      .panel {
+        height: 100vh;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+      }
+
+      .panel-2, .panel-3, .panel-4 { font-size: 4rem; }
+      .panel-2 { background: black; }
+      .panel-3 { background: white; }
+      .panel-4 { background: #555; }
+
+      .panel video { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+
+      .panel-1 { background: white; }
+      .album-cover-fullscreen {
+        position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover; z-index:1;
+      }
+      
+      .panel-video { position: relative; }
+      .promo-video {
+        position:absolute; top:0; left:0; width:100%; height:100vh; object-fit:cover; z-index:1;
+      }
+
+      .unmute-button {
+        position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%); z-index: 10;
+        background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+        border: 2px solid white; border-radius: 0;
+        padding: 1.5rem 3rem; cursor: pointer;
+        font-size: 1.5rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.1em;
+        color: black; transition: all 0.3s;
+      }
+      .unmute-button:hover {
+        background: white; transform: translate(-50%, -50%) scale(1.05);
+        box-shadow: 0 10px 30px rgba(255,255,255,0.3);
+      }
+
+      .world-clocks {
+        position: fixed; top:1rem; left:1rem;
+        display:flex; flex-direction: column; gap:0.25rem;
+        font-size: clamp(0.6rem,1vw,0.9rem); font-family: monospace; text-transform: uppercase; color:white; z-index:999;
+      }
+      .world-clocks .city { display:flex; gap:0.25rem; }
+
+      .artist-name {
+        position: fixed; top:1rem; left:50%; transform:translateX(-50%);
+        font-size: clamp(1rem,2.5vw,1.5rem); font-weight:bold; text-transform:uppercase; margin:0; z-index:999; color:white;
+        mix-blend-mode: difference; text-align:center;
+      }
+
+      .live-clock {
+        position: fixed; top:1rem; right:1rem; font-family: monospace;
+        font-size: clamp(0.7rem,1.2vw,0.9rem); text-transform:uppercase; z-index:999; text-align:right; color:white;
+      }
+
+      .album-info {
+        position:absolute; bottom:clamp(5%,8vh,6%); left:50%; transform:translateX(-50%);
+        display:flex; flex-direction:column; align-items:center; gap:0.25rem; text-transform:uppercase; z-index:2;
+      }
+      .album-title, .album-date { color:white; }
+      .album-title { font-size: clamp(0.6rem,1.5vw,0.9rem); font-weight:bold; margin:0; text-align:center; }
+      .album-date { font-size: clamp(0.5rem,1vw,0.8rem); opacity:0.8; margin:0; text-align:center; }
+
+      /* Poster grid for Panel 3 */
+      .poster-grid {
+        display:grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: auto;
+        gap:1rem;
+        width:90%;
+        max-width:1200px;
+        margin:0 auto;
+      }
+      .poster-item { position:relative; overflow:hidden; cursor:pointer; }
+      .poster-item img { width:100%; height:auto; display:block; }
+      .poster-item .poster-video { position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; display:none; z-index:1; }
+    </style>
   </body>
 </html>
-
-<style>
-  html, body { margin: 0; height: 100%; }
-  body { font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif; overflow: hidden; }
-
-  .scroll-container { height: 100vh; overflow-y: auto; scroll-snap-type: y mandatory; }
-
-  .panel {
-    height: 100vh;
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-  }
-
-  .panel-2, .panel-3 { font-size: 4rem; }
-  .panel-2 { background: white; }
-  .panel-3 { background: #555; }
-
-  .panel video { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
-
-  .panel-1 { background: white; }
-  .album-cover-fullscreen {
-    position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover; z-index:1;
-  }
-  .promo-video {
-    position:absolute; top:0; left:0; width:100%; height:100vh; object-fit:cover; display:none; z-index:5; pointer-events:none;
-  }
-
-  .world-clocks {
-    position: fixed; top:1rem; left:1rem;
-    display:flex; flex-direction: column; gap:0.25rem;
-    font-size: clamp(0.6rem,1vw,0.9rem); font-family: monospace; text-transform: uppercase; color:white; z-index:999;
-  }
-  .world-clocks .city { display:flex; gap:0.25rem; }
-
-  .artist-name {
-    position: fixed; top:1rem; left:50%; transform:translateX(-50%);
-    font-size: clamp(1rem,2.5vw,1.5rem); font-weight:bold; text-transform:uppercase; margin:0; z-index:999; color:white;
-    mix-blend-mode: difference; text-align:center;
-  }
-
-  .live-clock {
-    position: fixed; top:1rem; right:1rem; font-family: monospace;
-    font-size: clamp(0.7rem,1.2vw,0.9rem); text-transform:uppercase; z-index:999; text-align:right; color:white;
-  }
-
-  .enter-button {
-    position:absolute; bottom:clamp(15%,20vh,18%); left:50%; transform:translateX(-50%);
-    background-color:white; color:black; border:none;
-    padding: clamp(0.3rem,1vw,0.6rem) clamp(0.8rem,2vw,1.2rem);
-    font-size: clamp(0.8rem,1.5vw,1rem); font-weight:bold; text-transform:uppercase;
-    cursor:pointer; z-index:2; transition:background 0.3s, transform 0.2s;
-  }
-  .enter-button:hover { background-color:#eee; transform:translateX(-50%) scale(1.05); }
-
-  .album-info {
-    position:absolute; bottom:clamp(5%,8vh,6%); left:50%; transform:translateX(-50%);
-    display:flex; flex-direction:column; align-items:center; gap:0.25rem; text-transform:uppercase; z-index:2;
-  }
-  .album-title, .album-date { color:white; }
-  .album-title { font-size: clamp(0.6rem,1.5vw,0.9rem); font-weight:bold; margin:0; text-align:center; }
-  .album-date { font-size: clamp(0.5rem,1vw,0.8rem); opacity:0.8; margin:0; text-align:center; }
-
-  /* Poster grid for Panel 2 */
-  .poster-grid {
-    display:grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: auto;
-    gap:1rem;
-    width:90%;
-    max-width:1200px;
-    margin:0 auto;
-  }
-  .poster-item { position:relative; overflow:hidden; cursor:pointer; }
-  .poster-item img { width:100%; height:auto; display:block; }
-  .poster-item .poster-video { position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; display:none; z-index:1; }
-</style>
