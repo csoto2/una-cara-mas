@@ -7,7 +7,6 @@
   </head>
 
   <body>
-    <!-- HEADER ELEMENTS (always visible) -->
     <div class="world-clocks">
       <div class="city" data-timezone="America/New_York">NYC: <span class="clock"></span></div>
       <div class="city" data-timezone="America/Phoenix">Phoenix: <span class="clock"></span></div>
@@ -20,7 +19,6 @@
     <div id="live-clock" class="live-clock"></div>
 
     <main class="scroll-container">
-      <!-- PANEL 1 - Album Cover -->
       <section class="panel panel-1">
         <img src="/images/gemini.png" alt="Album Cover" class="album-cover-fullscreen" />
         <div class="album-info">
@@ -29,152 +27,145 @@
         </div>
       </section>
 
-      <!-- PANEL 2 - Video -->
       <section class="panel panel-2 panel-video">
         <video id="promo-video" class="promo-video" playsinline muted loop></video>
         <button class="unmute-button" id="unmute-button">UNMUTE</button>
       </section>
 
-      <!-- PANEL 3 - Poster Grid -->
       <section class="panel panel-3">
         <div class="poster-grid">
-          <!-- Poster Items with hover videos and flip cards -->
+          
           <div class="poster-item">
-            <div class="poster-inner">
-              <div class="poster-front">
-                <img src="/images/goboy.png" alt="Go Boy" />
-                <video class="poster-video" src="/videos/goboy.mp4" muted loop playsinline></video>
-              </div>
-              <div class="poster-back">
-                <h3 class="poster-title">GO BOY!!!</h3>
-                <div class="poster-credits">
-                  <p>KOVA PARKER</p>
-                  <p><strong>PRODUCERS:</strong><br>KOVA PARKER<br>DONTKNOWMORGAN</p>
-                  <p><strong>MIXING:</strong><br>CRISTIAN SOTO<br>RAFFERTY SANTIAGO</p>
-                  <p><strong>MASTERING:</strong><br>ORLANDO FERRER</p>
-                </div>
+            <div class="poster-media">
+              <img src="/images/goboy.png" alt="Go Boy" />
+              <video class="poster-video" src="/videos/goboy.mp4" muted loop playsinline></video>
+            </div>
+            <div class="poster-info">
+              <h3 class="poster-title">GO BOY!!!</h3>
+              <div class="poster-credits">
+                <p>KOVA PARKER</p>
+                <p><strong>PRODUCERS:</strong> KOVA PARKER, DONTKNOWMORGAN</p>
+                <p><strong>MIXING:</strong> CRISTIAN SOTO, RAFFERTY SANTIAGO</p>
+                <p><strong>MASTERING:</strong> ORLANDO FERRER</p>
               </div>
             </div>
           </div>
+
           <div class="poster-item">
-            <div class="poster-inner">
-              <div class="poster-front">
-                <img src="/images/manana.png" alt="Mañana" />
-                <video class="poster-video" src="/videos/manana.mp4" muted loop playsinline></video>
-              </div>
-              <div class="poster-back">
-                <h3 class="poster-title">Mañana se Acaba el 🌎🌎🌎</h3>
-                <div class="poster-credits">
-                  <p>KOVA PARKER</p>
-                  <p><strong>PRODUCERS:</strong><br>KOVA PARKER<br>DONTKNOWMORGAN</p>
-                  <p><strong>MIXING:</strong><br>CRISTIAN SOTO<br>RAFFERTY SANTIAGO</p>
-                  <p><strong>MASTERING:</strong><br>ORLANDO FERRER</p>
-                </div>
+            <div class="poster-media">
+              <img src="/images/manana.png" alt="Mañana" />
+              <video class="poster-video" src="/videos/manana.mp4" muted loop playsinline></video>
+            </div>
+            <div class="poster-info">
+              <h3 class="poster-title">Mañana se Acaba el 🌎🌎🌎</h3>
+              <div class="poster-credits">
+                <p>KOVA PARKER</p>
+                <p><strong>PRODUCERS:</strong> KOVA PARKER, DONTKNOWMORGAN</p>
+                <p><strong>MIXING:</strong> CRISTIAN SOTO, RAFFERTY SANTIAGO</p>
+                <p><strong>MASTERING:</strong> ORLANDO FERRER</p>
               </div>
             </div>
           </div>
+
           <div class="poster-item">
-            <div class="poster-inner">
-              <div class="poster-front">
-                <img src="/images/undia.png" alt="Un Día" />
-                <video class="poster-video" src="/videos/undia.mp4" muted loop playsinline></video>
-              </div>
-              <div class="poster-back">
-                <h3 class="poster-title">Un Día Normalllll</h3>
-                <div class="poster-credits">
-                  <p>KOVA PARKER</p>
-                  <p><strong>PRODUCERS:</strong><br>KOVA PARKER<br>DONTKNOWMORGAN</p>
-                  <p><strong>MIXING:</strong><br>CRISTIAN SOTO<br>RAFFERTY SANTIAGO</p>
-                  <p><strong>MASTERING:</strong><br>ORLANDO FERRER</p>
-                </div>
+            <div class="poster-media">
+              <img src="/images/undia.png" alt="Un Día" />
+              <video class="poster-video" src="/videos/undia.mp4" muted loop playsinline></video>
+            </div>
+            <div class="poster-info">
+              <h3 class="poster-title">Un Día Normalllll</h3>
+              <div class="poster-credits">
+                <p>KOVA PARKER</p>
+                <p><strong>PRODUCERS:</strong> KOVA PARKER, DONTKNOWMORGAN</p>
+                <p><strong>MIXING:</strong> CRISTIAN SOTO, RAFFERTY SANTIAGO</p>
+                <p><strong>MASTERING:</strong> ORLANDO FERRER</p>
               </div>
             </div>
           </div>
+
           <div class="poster-item">
-            <div class="poster-inner">
-              <div class="poster-front">
-                <img src="/images/gioia.png" alt="Gioia" />
-                <video class="poster-video" src="/videos/gioia.mp4" muted loop playsinline></video>
-              </div>
-              <div class="poster-back">
-                <h3 class="poster-title">GIOIAAAA</h3>
-                <div class="poster-credits">
-                  <p><strong>PRODUCERS:</strong><br>KOVA PARKER<br>DONTKNOWMORGAN</p>
-                  <p><strong>MIXING:</strong><br>RAFFERTY SANTIAGO<br>CRISTIAN SOTO</p>
-                  <p><strong>MASTERING:</strong><br>ORLANDO FERRER</p>
-                </div>
+            <div class="poster-media">
+              <img src="/images/gioia.png" alt="Gioia" />
+              <video class="poster-video" src="/videos/gioia.mp4" muted loop playsinline></video>
+            </div>
+            <div class="poster-info">
+              <h3 class="poster-title">GIOIAAAA</h3>
+              <div class="poster-credits">
+				<p>KOVA PARKER</p>
+                <p><strong>PRODUCERS:</strong> KOVA PARKER, DONTKNOWMORGAN</p>
+                <p><strong>MIXING:</strong> RAFFERTY SANTIAGO, CRISTIAN SOTO</p>
+                <p><strong>MASTERING:</strong> ORLANDO FERRER</p>
               </div>
             </div>
           </div>
+
           <div class="poster-item">
-            <div class="poster-inner">
-              <div class="poster-front">
-                <img src="/images/togya.png" alt="Togya" />
-                <video class="poster-video" src="/videos/togya.mp4" muted loop playsinline></video>
-              </div>
-              <div class="poster-back">
-                <h3 class="poster-title">TOGYAAAA</h3>
-                <div class="poster-credits">
-                  <p><strong>PRODUCERS:</strong><br>KOVA PARKER<br>SAPJER<br>DONTKNOWMORGAN</p>
-                  <p><strong>MIXING:</strong><br>RAFFERTY SANTIAGO<br>CRISTIAN SOTO</p>
-                  <p><strong>MASTERING:</strong><br>ORLANDO FERRER</p>
-                </div>
+            <div class="poster-media">
+              <img src="/images/togya.png" alt="Togya" />
+              <video class="poster-video" src="/videos/togya.mp4" muted loop playsinline></video>
+            </div>
+            <div class="poster-info">
+              <h3 class="poster-title">TOGYAAAA</h3>
+              <div class="poster-credits">
+				<p>KOVA PARKER</p>
+                <p><strong>PRODUCERS:</strong> KOVA PARKER, SAPJER, DONTKNOWMORGAN</p>
+                <p><strong>MIXING:</strong> RAFFERTY SANTIAGO, CRISTIAN SOTO</p>
+                <p><strong>MASTERING:</strong> ORLANDO FERRER</p>
               </div>
             </div>
           </div>
+
           <div class="poster-item">
-            <div class="poster-inner">
-              <div class="poster-front">
-                <img src="/images/obsesivo.png" alt="Obsesivo" />
-                <video class="poster-video" src="/videos/obsesivo.mp4" muted loop playsinline></video>
-              </div>
-              <div class="poster-back">
-                <h3 class="poster-title">OBSESIVO COMPULSIVO.</h3>
-                <div class="poster-credits">
-                  <p><strong>PRODUCERS:</strong><br>KOVA PARKER<br>DONTKNOWMORGAN</p>
-                  <p><strong>GUITAR:</strong><br>MO BHUIYAN</p>
-                  <p><strong>MIXING:</strong><br>RAFFERTY SANTIAGO<br>CRISTIAN SOTO</p>
-                  <p><strong>MASTERING:</strong><br>ORLANDO FERRER</p>
-                </div>
+            <div class="poster-media">
+              <img src="/images/obsesivo.png" alt="Obsesivo" />
+              <video class="poster-video" src="/videos/obsesivo.mp4" muted loop playsinline></video>
+            </div>
+            <div class="poster-info">
+              <h3 class="poster-title">OBSESIVO COMPULSIVO.</h3>
+              <div class="poster-credits">
+				<p>KOVA PARKER</p>
+                <p><strong>PRODUCERS:</strong> KOVA PARKER, DONTKNOWMORGAN, MO BHUIYAN</p>
+                <p><strong>MIXING:</strong> RAFFERTY SANTIAGO, CRISTIAN SOTO</p>
+                <p><strong>MASTERING:</strong> ORLANDO FERRER</p>
               </div>
             </div>
           </div>
+
           <div class="poster-item">
-            <div class="poster-inner">
-              <div class="poster-front">
-                <img src="/images/redrocks.png" alt="Red Rocks" />
-                <video class="poster-video" src="/videos/redrocks.mp4" muted loop playsinline></video>
-              </div>
-              <div class="poster-back">
-                <h3 class="poster-title">KOVA AT RED ROCKSSSS</h3>
-                <div class="poster-credits">
-                  <p><strong>PRODUCERS:</strong><br>KOVA PARKER<br>DONTKNOWMORGAN</p>
-                  <p><strong>MIXING:</strong><br>CRISTIAN SOTO</p>
-                  <p><strong>MASTERING:</strong><br>ORLANDO FERRER</p>
-                </div>
+            <div class="poster-media">
+              <img src="/images/redrocks.png" alt="Red Rocks" />
+              <video class="poster-video" src="/videos/redrocks.mp4" muted loop playsinline></video>
+            </div>
+            <div class="poster-info">
+              <h3 class="poster-title">KOVA AT RED ROCKSSSS</h3>
+              <div class="poster-credits">
+				<p>KOVA PARKER</p>
+                <p><strong>PRODUCERS:</strong> KOVA PARKER, DONTKNOWMORGAN</p>
+                <p><strong>MIXING:</strong> CRISTIAN SOTO</p>
+                <p><strong>MASTERING:</strong> ORLANDO FERRER</p>
               </div>
             </div>
           </div>
+
           <div class="poster-item">
-            <div class="poster-inner">
-              <div class="poster-front">
-                <img src="/images/yono.png" alt="Yo No" />
-                <video class="poster-video" src="/videos/yono.mp4" muted loop playsinline></video>
-              </div>
-              <div class="poster-back">
-                <h3 class="poster-title">yo no soy tu paiiii</h3>
-                <div class="poster-credits">
-                  <p><strong>PRODUCERS:</strong><br>KOVA PARKER<br>DONTKNOWMORGAN</p>
-                  <p><strong>MIXING:</strong><br>RAFFERTY SANTIAGO<br>CRISTIAN SOTO</p>
-                  <p><strong>MASTERING:</strong><br>ORLANDO FERRER</p>
-                </div>
+            <div class="poster-media">
+              <img src="/images/yono.png" alt="Yo No" />
+              <video class="poster-video" src="/videos/yono.mp4" muted loop playsinline></video>
+            </div>
+            <div class="poster-info">
+              <h3 class="poster-title">yo no soy tu paiiii</h3>
+              <div class="poster-credits">
+				<p>KOVA PARKER</p>
+                <p><strong>PRODUCERS:</strong> KOVA PARKER, DONTKNOWMORGAN</p>
+                <p><strong>MIXING:</strong> RAFFERTY SANTIAGO, CRISTIAN SOTO</p>
+                <p><strong>MASTERING:</strong> ORLANDO FERRER</p>
               </div>
             </div>
           </div>
+
         </div>
       </section>
 
-      <!-- PANEL 4 - Feature Image -->
       <section class="panel panel-4">
         <div class="feature-wrapper">
           <img
@@ -189,7 +180,6 @@
       </section>
     </main>
 
-    <!-- Scripts -->
     <script type="module">
       const MONTHS = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
       function padZero(num) { return num.toString().padStart(2, '0'); }
@@ -266,6 +256,8 @@
         const panel1Height = panel1.offsetHeight;
         const panel2Height = panel2.offsetHeight;
 
+        // Note: Logic simplified here, assuming strictly 100vh panels
+        // You might need to adjust logic if Panel 3 becomes scrollable internally
         if (scrollTop >= (panel1Height + panel2Height)) {
           worldClocksEl.style.color = 'black';
           liveClockEl.style.color = 'black';
@@ -277,52 +269,20 @@
         }
       });
 
-      // Poster hover videos and flip interaction
+      // Simplified Poster hover videos (No Flip Logic)
       const posterItems = document.querySelectorAll('.poster-item');
-      let currentlyFlipped = null;
 
       posterItems.forEach(item => {
         const video = item.querySelector('.poster-video');
-        const inner = item.querySelector('.poster-inner');
         
-        // Hover behavior - only when not flipped
         item.addEventListener('mouseenter', () => {
-          if (!item.classList.contains('flipped')) {
-            video.style.display = 'block';
-            video.play();
-          }
+          video.style.display = 'block';
+          video.play();
         });
         
         item.addEventListener('mouseleave', () => {
-          if (!item.classList.contains('flipped')) {
-            video.pause();
-            video.style.display = 'none';
-          }
-        });
-
-        // Click to flip
-        item.addEventListener('click', () => {
-          // If clicking the currently flipped card, flip it back
-          if (item.classList.contains('flipped')) {
-            item.classList.remove('flipped');
-            video.pause();
-            video.style.display = 'none';
-            currentlyFlipped = null;
-          } else {
-            // Flip back the previously flipped card if exists
-            if (currentlyFlipped) {
-              currentlyFlipped.classList.remove('flipped');
-              const prevVideo = currentlyFlipped.querySelector('.poster-video');
-              prevVideo.pause();
-              prevVideo.style.display = 'none';
-            }
-            
-            // Flip this card
-            item.classList.add('flipped');
-            video.pause();
-            video.style.display = 'none';
-            currentlyFlipped = item;
-          }
+          video.pause();
+          video.style.display = 'none';
         });
       });
     </script>
@@ -346,7 +306,17 @@
       }
 
       .panel-2 { background: black; }
-      .panel-3 { background: white; }
+      
+      /* Updated Panel 3 Styles */
+      .panel-3 { 
+        background: white; 
+        /* Allow internal scrolling if grid content exceeds viewport height */
+        overflow-y: auto; 
+        justify-content: flex-start; /* Align content to top */
+        padding-top: 80px; /* Space for fixed header */
+        box-sizing: border-box;
+      }
+      
       .panel-4 { background: white; }
 
       .panel video { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
@@ -475,97 +445,49 @@
         text-align: center; 
       }
 
-      /* Poster grid for Panel 3 */
+      /* UPDATED Poster Grid Styling */
       .poster-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         grid-auto-rows: auto;
-        gap: 1rem;
+        gap: 1.5rem; /* Increased gap */
         width: 90%;
-        max-width: 1200px;
-        margin: 0 auto;
+        max-width: 1400px;
+        margin: 0 auto 3rem auto; /* Bottom margin for scrolling space */
       }
       
+      /* Responsive: Switch to fewer columns on small screens so text fits */
+      @media (max-width: 768px) {
+        .poster-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
       .poster-item { 
         position: relative; 
-        cursor: pointer;
-        perspective: 1000px;
+        background-color: #f4f4f4; /* Light grey container */
+        padding: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        border-radius: 4px; /* Optional slight round */
       }
       
-      .poster-inner {
+      .poster-media {
         position: relative;
         width: 100%;
-        height: 0;
-        padding-bottom: 100%; /* 1:1 aspect ratio */
-        transition: transform 0.6s;
-        transform-style: preserve-3d;
-      }
-      
-      .poster-item.flipped .poster-inner {
-        transform: rotateY(180deg);
-      }
-      
-      .poster-front, .poster-back {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        backface-visibility: hidden;
-      }
-      
-      .poster-front {
-        z-index: 2;
+        aspect-ratio: 1 / 1;
         overflow: hidden;
       }
       
-      .poster-back {
-        transform: rotateY(180deg);
-        background: black;
-        color: white;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 0.5rem;
-        text-align: center;
-        box-sizing: border-box;
-        overflow: auto;
-      }
-      
-      .poster-title {
-        font-size: clamp(0.5rem, 1vw, 0.8rem);
-        font-weight: bold;
-        text-transform: uppercase;
-        margin: 0 0 0.3rem 0;
-        letter-spacing: 0.02em;
-        line-height: 1;
-      }
-      
-      .poster-credits {
-        font-size: clamp(0.35rem, 0.5vw, 0.45rem);
-        line-height: 1.2;
-      }
-      
-      .poster-credits p {
-        margin: 0.15rem 0;
-      }
-      
-      .poster-credits strong {
-        font-weight: bold;
-      }
-      
-      .poster-front img { 
-        position: absolute;
-        top: 0;
-        left: 0;
+      .poster-media img { 
         width: 100%; 
         height: 100%; 
         object-fit: cover;
         display: block; 
       }
       
-      .poster-front .poster-video { 
+      .poster-media .poster-video { 
         position: absolute; 
         top: 0; 
         left: 0; 
@@ -574,6 +496,38 @@
         object-fit: cover; 
         display: none; 
         z-index: 1; 
+      }
+      
+      .poster-info {
+        color: black;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+      
+      .poster-title {
+        font-size: clamp(0.7rem, 1.1vw, 1rem);
+        font-weight: 800;
+        text-transform: uppercase;
+        margin: 0;
+        letter-spacing: 0.02em;
+        line-height: 1.2;
+      }
+      
+      .poster-credits {
+        font-size: clamp(0.5rem, 0.7vw, 0.65rem);
+        line-height: 1.3;
+        opacity: 0.8;
+      }
+      
+      .poster-credits p {
+        margin: 0.15rem 0;
+      }
+      
+      .poster-credits strong {
+        font-weight: bold;
+        opacity: 1;
       }
 
       /* PANEL 4 FEATURE */
