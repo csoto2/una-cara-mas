@@ -10,7 +10,6 @@
     <!-- HEADER ELEMENTS (always visible) -->
     <div class="world-clocks">
       <div class="city" data-timezone="America/New_York">NYC: <span class="clock"></span></div>
-      <div class="city" data-timezone="America/New_York">Miami: <span class="clock"></span></div>
       <div class="city" data-timezone="America/Phoenix">Phoenix: <span class="clock"></span></div>
       <div class="city" data-timezone="America/Puerto_Rico">San Juan: <span class="clock"></span></div>
       <div class="city" data-timezone="Europe/London">London: <span class="clock"></span></div>
@@ -175,9 +174,18 @@
         </div>
       </section>
 
-      <!-- PANEL 4 - Section 3 -->
+      <!-- PANEL 4 - Feature Image -->
       <section class="panel panel-4">
-        <h1>Section 3</h1>
+        <div class="feature-wrapper">
+          <img
+            src="/images/kova-parker.jpeg"
+            alt="Kova Parker"
+            class="feature-image"
+          />
+          <p class="feature-caption">
+            Kova Parker <span>( Discover )</span>
+          </p>
+        </div>
       </section>
     </main>
 
@@ -214,7 +222,8 @@
           city.querySelector('.clock').textContent = formatWorldClock(now, tz);
         });
       }
-      setInterval(updateClock, 1000); updateClock();
+      setInterval(updateClock, 1000); 
+      updateClock();
 
       // PANEL elements
       const promoVideo = document.getElementById('promo-video');
@@ -226,6 +235,7 @@
 
       const worldClocksEl = document.querySelector('.world-clocks');
       const liveClockEl = document.getElementById('live-clock');
+      const artistNameEl = document.querySelector('.artist-name');
 
       promoVideo.src = 'https://sbbcylaz068adqhu.public.blob.vercel-storage.com/promo.mov';
 
@@ -259,9 +269,11 @@
         if (scrollTop >= (panel1Height + panel2Height)) {
           worldClocksEl.style.color = 'black';
           liveClockEl.style.color = 'black';
+          artistNameEl.classList.add('dark');
         } else {
           worldClocksEl.style.color = 'white';
           liveClockEl.style.color = 'white';
+          artistNameEl.classList.remove('dark');
         }
       });
 
@@ -333,76 +345,150 @@
         color: white;
       }
 
-      .panel-2, .panel-3, .panel-4 { font-size: 4rem; }
       .panel-2 { background: black; }
       .panel-3 { background: white; }
-      .panel-4 { background: #555; }
+      .panel-4 { background: white; }
 
       .panel video { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
 
       .panel-1 { background: white; }
       .album-cover-fullscreen {
-        position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover; z-index:1;
+        position: absolute; 
+        inset: 0;
+        width: 100%; 
+        height: 100%; 
+        object-fit: cover; 
+        z-index: 1;
       }
       
       .panel-video { position: relative; }
       .promo-video {
-        position:absolute; top:0; left:0; width:100%; height:100vh; object-fit:cover; z-index:1;
+        position: absolute; 
+        top: 0; 
+        left: 0; 
+        width: 100%; 
+        height: 100vh; 
+        object-fit: cover; 
+        z-index: 1;
       }
 
       .unmute-button {
-        position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%); z-index: 10;
-        background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
-        border: 2px solid white; border-radius: 0;
-        padding: 1.5rem 3rem; cursor: pointer;
-        font-size: 1.5rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.1em;
-        color: black; transition: all 0.3s;
+        position: absolute; 
+        top: 60%; 
+        left: 50%; 
+        transform: translate(-50%, -50%); 
+        z-index: 10;
+        background: rgba(255,255,255,0.95); 
+        backdrop-filter: blur(10px);
+        border: 2px solid white; 
+        border-radius: 0;
+        padding: 1.5rem 3rem; 
+        cursor: pointer;
+        font-size: 1.5rem; 
+        font-weight: bold; 
+        text-transform: uppercase; 
+        letter-spacing: 0.1em;
+        color: black; 
+        transition: all 0.3s;
       }
       .unmute-button:hover {
-        background: white; transform: translate(-50%, -50%) scale(1.05);
+        background: white; 
+        transform: translate(-50%, -50%) scale(1.05);
         box-shadow: 0 10px 30px rgba(255,255,255,0.3);
       }
 
       .world-clocks {
-        position: fixed; top:1rem; left:1rem;
-        display:flex; flex-direction: column; gap:0.25rem;
-        font-size: clamp(0.6rem,1vw,0.9rem); font-family: monospace; text-transform: uppercase; color:white; z-index:999;
+        position: fixed; 
+        top: 1rem; 
+        left: 1rem;
+        display: flex; 
+        flex-direction: column; 
+        gap: 0.25rem;
+        font-size: clamp(0.6rem,1vw,0.9rem); 
+        font-family: monospace; 
+        text-transform: uppercase; 
+        color: white; 
+        z-index: 999;
+        transition: color 0.3s;
       }
-      .world-clocks .city { display:flex; gap:0.25rem; }
+      .world-clocks .city { display: flex; gap: 0.25rem; }
 
       .artist-name {
-        position: fixed; top:1rem; left:50%; transform:translateX(-50%);
-        font-size: clamp(1rem,2.5vw,1.5rem); font-weight:bold; text-transform:uppercase; margin:0; z-index:999; color:white;
-        mix-blend-mode: difference; text-align:center;
+        position: fixed; 
+        top: 1rem; 
+        left: 50%; 
+        transform: translateX(-50%);
+        font-size: clamp(1rem,2.5vw,1.5rem); 
+        font-weight: bold; 
+        text-transform: uppercase; 
+        margin: 0; 
+        z-index: 999; 
+        color: white;
+        mix-blend-mode: unset;
+        filter: drop-shadow(0 6px 12px rgba(0,0,0,0.6));
+        text-shadow: 0 4px 4px rgba(0, 0, 0, 0.175);
+        text-align: center;
+        transition: color 0.3s, filter 0.3s;
+      }
+      .artist-name.dark {
+        color: black;
+        filter: none;
+        text-shadow: none;
       }
 
       .live-clock {
-        position: fixed; top:1rem; right:1rem; font-family: monospace;
-        font-size: clamp(0.7rem,1.2vw,0.9rem); text-transform:uppercase; z-index:999; text-align:right; color:white;
+        position: fixed; 
+        top: 1rem; 
+        right: 1rem; 
+        font-family: monospace;
+        font-size: clamp(0.7rem,1.2vw,0.9rem); 
+        text-transform: uppercase; 
+        z-index: 999; 
+        text-align: right; 
+        color: white;
+        transition: color 0.3s;
       }
 
       .album-info {
-        position:absolute; bottom:clamp(5%,8vh,6%); left:50%; transform:translateX(-50%);
-        display:flex; flex-direction:column; align-items:center; gap:0.25rem; text-transform:uppercase; z-index:2;
+        position: absolute; 
+        bottom: clamp(5%,8vh,6%); 
+        left: 50%; 
+        transform: translateX(-50%);
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        gap: 0.25rem; 
+        text-transform: uppercase; 
+        z-index: 2;
       }
-      .album-title, .album-date { color:white; }
-      .album-title { font-size: clamp(0.6rem,1.5vw,0.9rem); font-weight:bold; margin:0; text-align:center; }
-      .album-date { font-size: clamp(0.5rem,1vw,0.8rem); opacity:0.8; margin:0; text-align:center; }
+      .album-title, .album-date { color: white; }
+      .album-title { 
+        font-size: clamp(0.6rem,1.5vw,0.9rem); 
+        font-weight: bold; 
+        margin: 0; 
+        text-align: center; 
+      }
+      .album-date { 
+        font-size: clamp(0.5rem,1vw,0.8rem); 
+        opacity: 0.8; 
+        margin: 0; 
+        text-align: center; 
+      }
 
       /* Poster grid for Panel 3 */
       .poster-grid {
-        display:grid;
+        display: grid;
         grid-template-columns: repeat(4, 1fr);
         grid-auto-rows: auto;
-        gap:1rem;
-        width:90%;
-        max-width:1200px;
-        margin:0 auto;
+        gap: 1rem;
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
       }
       
       .poster-item { 
-        position:relative; 
-        cursor:pointer;
+        position: relative; 
+        cursor: pointer;
         perspective: 1000px;
       }
       
@@ -489,6 +575,32 @@
         display: none; 
         z-index: 1; 
       }
+
+      /* PANEL 4 FEATURE */
+      .feature-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .feature-image {
+        max-height: 75vh;
+        max-width: 80vw;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+      }
+
+      .feature-caption {
+        font-size: clamp(0.9rem, 1.2vw, 1.2rem);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: black;
+        margin: 0;
+      }
+
+      .feature-caption span { opacity: 0.6; }
     </style>
   </body>
 </html>
