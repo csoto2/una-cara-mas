@@ -4,549 +4,734 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Una Cara Más</title>
-  </head>
-
-  <body>
-    <div class="world-clocks">
-      <div class="city" data-timezone="America/New_York">NYC: <span class="clock"></span></div>
-      <div class="city" data-timezone="America/Phoenix">Phoenix: <span class="clock"></span></div>
-      <div class="city" data-timezone="America/Puerto_Rico">San Juan: <span class="clock"></span></div>
-      <div class="city" data-timezone="Europe/London">London: <span class="clock"></span></div>
-      <div class="city" data-timezone="Asia/Tokyo">Tokyo: <span class="clock"></span></div>
-    </div>
-
-    <p class="artist-name">KOVA PARKER</p>
-    <div id="live-clock" class="live-clock"></div>
-
-    <main class="scroll-container">
-      <section class="panel panel-1">
-        <img src="/images/gemini.png" alt="Album Cover" class="album-cover-fullscreen" />
-        <div class="album-info">
-          <p class="album-title">UNA CARA MÁS</p>
-          <p class="album-date">DROPPED ON FEBRUARY 28, 2025</p>
-        </div>
-      </section>
-
-      <section class="panel panel-2 panel-video">
-        <video id="promo-video" class="promo-video" playsinline muted loop></video>
-        <button class="unmute-button" id="unmute-button">UNMUTE</button>
-      </section>
-
-      <section class="panel panel-3">
-        <div class="poster-grid">
-          
-          <div class="poster-item">
-            <div class="poster-media">
-              <img src="/images/goboy.png" alt="Go Boy" />
-              <video class="poster-video" src="/videos/goboy.mp4" muted loop playsinline></video>
-            </div>
-            <div class="poster-info">
-              <h3 class="poster-title">GO BOY!!!</h3>
-              <div class="poster-credits">
-                <p>KOVA PARKER</p>
-                <p><strong>PRODUCERS:</strong> KOVA PARKER, DONTKNOWMORGAN</p>
-                <p><strong>MIXED AND MASTERED BY:</strong> RAFFERTY SANTIAGO, CRISTIAN SOTO, ORLANDO FERRER</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="poster-item">
-            <div class="poster-media">
-              <img src="/images/manana.png" alt="Mañana" />
-              <video class="poster-video" src="/videos/manana.mp4" muted loop playsinline></video>
-            </div>
-            <div class="poster-info">
-              <h3 class="poster-title">Mañana se Acaba el 🌎🌎🌎</h3>
-              <div class="poster-credits">
-                <p>KOVA PARKER</p>
-                <p><strong>PRODUCERS:</strong> KOVA PARKER, DONTKNOWMORGAN</p>
-                <p><strong>MIXED AND MASTERED BY:</strong> CRISTIAN SOTO, RAFFERTY SANTIAGO, ORLANDO FERRER</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="poster-item">
-            <div class="poster-media">
-              <img src="/images/undia.png" alt="Un Día" />
-              <video class="poster-video" src="/videos/undia.mp4" muted loop playsinline></video>
-            </div>
-            <div class="poster-info">
-              <h3 class="poster-title">Un Día Normalllll</h3>
-              <div class="poster-credits">
-                <p>KOVA PARKER</p>
-                <p><strong>PRODUCERS:</strong> KOVA PARKER, DONTKNOWMORGAN</p>
-                <p><strong>MIXED AND MASTERED BY:</strong> CRISTIAN SOTO, RAFFERTY SANTIAGO, ORLANDO FERRER</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="poster-item">
-            <div class="poster-media">
-              <img src="/images/gioia.png" alt="Gioia" />
-              <video class="poster-video" src="/videos/gioia.mp4" muted loop playsinline></video>
-            </div>
-            <div class="poster-info">
-              <h3 class="poster-title">GIOIAAAA</h3>
-              <div class="poster-credits">
-				<p>KOVA PARKER</p>
-                <p><strong>PRODUCERS:</strong> KOVA PARKER, DONTKNOWMORGAN</p>
-                <p><strong>MIXED AND MASTERED BY:</strong> RAFFERTY SANTIAGO, CRISTIAN SOTO, ORLANDO FERRER</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="poster-item">
-            <div class="poster-media">
-              <img src="/images/togya.png" alt="Togya" />
-              <video class="poster-video" src="/videos/togya.mp4" muted loop playsinline></video>
-            </div>
-            <div class="poster-info">
-              <h3 class="poster-title">TOGYAAAA</h3>
-              <div class="poster-credits">
-				<p>KOVA PARKER</p>
-                <p><strong>PRODUCERS:</strong> KOVA PARKER, SAPJER, DONTKNOWMORGAN</p>
-                <p><strong>MIXED AND MASTERED BY:</strong> RAFFERTY SANTIAGO, CRISTIAN SOTO, ORLANDO FERRER</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="poster-item">
-            <div class="poster-media">
-              <img src="/images/obsesivo.png" alt="Obsesivo" />
-              <video class="poster-video" src="/videos/obsesivo.mp4" muted loop playsinline></video>
-            </div>
-            <div class="poster-info">
-              <h3 class="poster-title">OBSESIVO COMPULSIVO.</h3>
-              <div class="poster-credits">
-				<p>KOVA PARKER</p>
-                <p><strong>PRODUCERS:</strong> KOVA PARKER, DONTKNOWMORGAN, MO BHUIYAN</p>
-                <p><strong>MIXED AND MASTERED BY:</strong> RAFFERTY SANTIAGO, CRISTIAN SOTO, ORLANDO FERRER</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="poster-item">
-            <div class="poster-media">
-              <img src="/images/redrocks.png" alt="Red Rocks" />
-              <video class="poster-video" src="/videos/redrocks.mp4" muted loop playsinline></video>
-            </div>
-            <div class="poster-info">
-              <h3 class="poster-title">KOVA AT RED ROCKSSSS</h3>
-              <div class="poster-credits">
-				<p>KOVA PARKER</p>
-                <p><strong>PRODUCERS:</strong> KOVA PARKER, DONTKNOWMORGAN</p>
-                <p><strong>MIXED AND MASTERED BY:</strong> CRISTIAN SOTO, ORLANDO FERRER</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="poster-item">
-            <div class="poster-media">
-              <img src="/images/yono.png" alt="Yo No" />
-              <video class="poster-video" src="/videos/yono.mp4" muted loop playsinline></video>
-            </div>
-            <div class="poster-info">
-              <h3 class="poster-title">yo no soy tu paiiii</h3>
-              <div class="poster-credits">
-				<p>KOVA PARKER</p>
-                <p><strong>PRODUCERS:</strong> KOVA PARKER, DONTKNOWMORGAN</p>
-                <p><strong>MIXED AND MASTERED BY:</strong> RAFFERTY SANTIAGO, CRISTIAN SOTO, ORLANDO FERRER</p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <section class="panel panel-4">
-        <div class="feature-wrapper">
-          <img
-            src="/images/kova-parker.jpeg"
-            alt="Kova Parker"
-            class="feature-image"
-          />
-          <p class="feature-caption">
-            Kova Parker <span>( Discover )</span>
-          </p>
-        </div>
-      </section>
-    </main>
-
-    <script type="module">
-      const MONTHS = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
-      function padZero(num) { return num.toString().padStart(2, '0'); }
-
-      function formatWorldClock(date, tz) {
-        const options = { timeZone: tz };
-        const local = new Date(date.toLocaleString('en-US', options));
-        const month = MONTHS[local.getMonth()];
-        const day = local.getDate();
-        const hours = padZero(local.getHours());
-        const minutes = padZero(local.getMinutes());
-        return `${month} ${day} ${hours}:${minutes}`;
-      }
-
-      function formatLiveClock(date) {
-        const month = MONTHS[date.getMonth()];
-        const day = date.getDate();
-        const year = date.getFullYear();
-        const hours = padZero(date.getHours());
-        const minutes = padZero(date.getMinutes());
-        const seconds = padZero(date.getSeconds());
-        return `${month} ${day} ${year} ${hours}:${minutes}:${seconds}`;
-      }
-
-      function updateClock() {
-        const now = new Date();
-        document.getElementById('live-clock').textContent = formatLiveClock(now);
-        document.querySelectorAll('.city').forEach(city => {
-          const tz = city.getAttribute('data-timezone');
-          city.querySelector('.clock').textContent = formatWorldClock(now, tz);
-        });
-      }
-      setInterval(updateClock, 1000); 
-      updateClock();
-
-      // PANEL elements
-      const promoVideo = document.getElementById('promo-video');
-      const unmuteButton = document.getElementById('unmute-button');
-      const panel1 = document.querySelector('.panel-1');
-      const panel2 = document.querySelector('.panel-2');
-      const panel3 = document.querySelector('.panel-3');
-      const panel4 = document.querySelector('.panel-4');
-
-      const worldClocksEl = document.querySelector('.world-clocks');
-      const liveClockEl = document.getElementById('live-clock');
-      const artistNameEl = document.querySelector('.artist-name');
-
-      promoVideo.src = 'https://sbbcylaz068adqhu.public.blob.vercel-storage.com/promo.mov';
-
-      // Intersection Observer for video autoplay
-      const videoObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.target === panel2) {
-            if (entry.isIntersecting) {
-              promoVideo.play();
-            } else {
-              promoVideo.pause();
-            }
-          }
-        });
-      }, { threshold: 0.5 });
-
-      videoObserver.observe(panel2);
-
-      // Unmute button
-      unmuteButton.addEventListener('click', () => {
-        promoVideo.muted = false;
-        unmuteButton.style.display = 'none';
-      });
-
-      // Scroll behavior for header color changes
-      document.querySelector('.scroll-container').addEventListener('scroll', () => {
-        const scrollTop = panel1.parentElement.scrollTop;
-        const panel1Height = panel1.offsetHeight;
-        const panel2Height = panel2.offsetHeight;
-
-        // Note: Logic simplified here, assuming strictly 100vh panels
-        // You might need to adjust logic if Panel 3 becomes scrollable internally
-        if (scrollTop >= (panel1Height + panel2Height)) {
-          worldClocksEl.style.color = 'black';
-          liveClockEl.style.color = 'black';
-          artistNameEl.classList.add('dark');
-        } else {
-          worldClocksEl.style.color = 'white';
-          liveClockEl.style.color = 'white';
-          artistNameEl.classList.remove('dark');
-        }
-      });
-
-      // Simplified Poster hover videos (No Flip Logic)
-      const posterItems = document.querySelectorAll('.poster-item');
-
-      posterItems.forEach(item => {
-        const video = item.querySelector('.poster-video');
-        
-        item.addEventListener('mouseenter', () => {
-          video.style.display = 'block';
-          video.play();
-        });
-        
-        item.addEventListener('mouseleave', () => {
-          video.pause();
-          video.style.display = 'none';
-        });
-      });
-    </script>
-
     <style>
-      html, body { margin: 0; height: 100%; }
-      body { font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif; overflow: hidden; }
+      /* --- CORE RESET --- */
+      * { box-sizing: border-box; }
+      
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        font-family: system-ui, -apple-system, sans-serif;
+        background-color: #000;
+        cursor: none;
+        overflow: hidden;
+      }
 
-      .scroll-container { height: 100vh; overflow-y: auto; scroll-snap-type: y mandatory; }
+      /* --- THE SNAP ENGINE --- */
+      #snap-container {
+        position: absolute;
+        inset: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        scroll-snap-type: y mandatory;
+        scroll-behavior: smooth;
+        z-index: 100; 
+        -webkit-overflow-scrolling: touch;
+        pointer-events: auto; /* Scroller must be active to scroll */
+      }
 
-      .panel {
+      .snap-trigger {
         height: 100vh;
+        height: 100dvh;
+        width: 100%;
         scroll-snap-align: start;
         scroll-snap-stop: always;
-        position: relative;
+      }
+
+      /* --- THE VISUAL LAYER --- */
+      #visual-stack {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: 1;
+      }
+
+      .panel {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        color: white;
+        overflow: hidden;
+        will-change: transform;
+        transform: translateY(100%);
       }
 
-      .panel-2 { background: black; }
-      
-      /* Updated Panel 3 Styles */
-      .panel-3 { 
-        background: white; 
-        /* Allow internal scrolling if grid content exceeds viewport height */
-        overflow-y: auto; 
-        justify-content: flex-start; /* Align content to top */
-        padding-top: 80px; /* Space for fixed header */
-        box-sizing: border-box;
+      /* STACKING ORDER & THEMES */
+      .panel-1 { z-index: 1; background: #000; transform: translateY(0%); }
+      .panel-2 { z-index: 2; background: #000; }
+      .panel-3 { z-index: 3; background: #fff; } 
+      /* panel-4 removed */
+      .panel-5 { z-index: 5; background: #e3e3e3; }
+
+      .gallery-rail {
+        display: flex;
+        width: 200%;
+        height: 100%;
+        will-change: transform;
       }
-      
-      .panel-4 { background: white; }
 
-      .panel video { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+      .gallery-section {
+        width: 50%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
 
-      .panel-1 { background: white; }
-      .album-cover-fullscreen {
-        position: absolute; 
+      .panel-bg {
+        position: absolute;
         inset: 0;
-        width: 100%; 
-        height: 100%; 
-        object-fit: cover; 
+        width: 100%;
+        height: 100%;
         z-index: 1;
-      }
-      
-      .panel-video { position: relative; }
-      .promo-video {
-        position: absolute; 
-        top: 0; 
-        left: 0; 
-        width: 100%; 
-        height: 100vh; 
-        object-fit: cover; 
-        z-index: 1;
+        pointer-events: none; 
       }
 
-      .unmute-button {
-        position: absolute; 
-        top: 60%; 
-        left: 50%; 
-        transform: translate(-50%, -50%); 
-        z-index: 10;
-        background: rgba(255,255,255,0.95); 
-        backdrop-filter: blur(10px);
-        border: 2px solid white; 
-        border-radius: 0;
-        padding: 1.5rem 3rem; 
-        cursor: pointer;
-        font-size: 1.5rem; 
-        font-weight: bold; 
-        text-transform: uppercase; 
-        letter-spacing: 0.1em;
-        color: black; 
-        transition: all 0.3s;
-      }
-      .unmute-button:hover {
-        background: white; 
-        transform: translate(-50%, -50%) scale(1.05);
-        box-shadow: 0 10px 30px rgba(255,255,255,0.3);
+      .panel-bg img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
       }
 
-      .world-clocks {
-        position: fixed; 
-        top: 1rem; 
-        left: 1rem;
-        display: flex; 
-        flex-direction: column; 
-        gap: 0.25rem;
-        font-size: clamp(0.6rem,1vw,0.9rem); 
-        font-family: monospace; 
-        text-transform: uppercase; 
-        color: white; 
-        z-index: 999;
-        transition: color 0.3s;
+      .panel-1 .panel-bg img {
+        object-fit: contain;
+        transform: scale(1);
+        transition: transform 15s ease-out;
       }
-      .world-clocks .city { display: flex; gap: 0.25rem; }
-
-      .artist-name {
-        position: fixed; 
-        top: 1rem; 
-        left: 50%; 
-        transform: translateX(-50%);
-        font-size: clamp(1rem,2.5vw,1.5rem); 
-        font-weight: bold; 
-        text-transform: uppercase; 
-        margin: 0; 
-        z-index: 999; 
-        color: white;
-        mix-blend-mode: unset;
-        filter: drop-shadow(0 6px 12px rgba(0,0,0,0.6));
-        text-shadow: 0 4px 4px rgba(0, 0, 0, 0.175);
-        text-align: center;
-        transition: color 0.3s, filter 0.3s;
+      .panel-1 .panel-bg img.zoomed {
+        transform: scale(var(--target-scale, 1.5));
       }
-      .artist-name.dark {
-        color: black;
-        filter: none;
-        text-shadow: none;
+      .panel-1 .panel-bg img.finished {
+        object-fit: cover !important;
+        transform: none !important;
+        transition: none !important;
       }
 
-      .live-clock {
-        position: fixed; 
-        top: 1rem; 
-        right: 1rem; 
-        font-family: monospace;
-        font-size: clamp(0.7rem,1.2vw,0.9rem); 
-        text-transform: uppercase; 
-        z-index: 999; 
-        text-align: right; 
-        color: white;
-        transition: color 0.3s;
+      .panel-bg video {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
       }
 
-      .album-info {
-        position: absolute; 
-        bottom: clamp(5%,8vh,6%); 
-        left: 50%; 
-        transform: translateX(-50%);
-        display: flex; 
-        flex-direction: column; 
-        align-items: center; 
-        gap: 0.25rem; 
-        text-transform: uppercase; 
+      .panel-content {
+        position: relative;
         z-index: 2;
-      }
-      .album-title, .album-date { color: white; }
-      .album-title { 
-        font-size: clamp(0.6rem,1.5vw,0.9rem); 
-        font-weight: bold; 
-        margin: 0; 
-        text-align: center; 
-      }
-      .album-date { 
-        font-size: clamp(0.5rem,1vw,0.8rem); 
-        opacity: 0.8; 
-        margin: 0; 
-        text-align: center; 
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        pointer-events: auto; /* Content needs to be interactive */
       }
 
-      /* UPDATED Poster Grid Styling */
+      /* --- POSTER GRID (SMALLER COMPACT LOOK) --- */
       .poster-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        grid-auto-rows: auto;
-        gap: 1.5rem; /* Increased gap */
-        width: 90%;
-        max-width: 1400px;
-        margin: 0 auto 3rem auto; /* Bottom margin for scrolling space */
-      }
-      
-      /* Responsive: Switch to fewer columns on small screens so text fits */
-      @media (max-width: 768px) {
-        .poster-grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
+        gap: 1.2rem;
+        width: 85%;
+        max-width: 1100px;
+        pointer-events: auto; /* Grid items need to be hit-testable */
       }
 
       .poster-item { 
-        position: relative; 
-        background-color: #f4f4f4; /* Light grey container */
-        padding: 0.75rem;
+        background: #e9e9e9; 
+        padding: 6px;
+        padding-bottom: 18px;
+        color: #000;
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
-        border-radius: 4px; /* Optional slight round */
+        /* box-shadow: 0 8px 30px rgba(0,0,0,0.12); */
+        pointer-events: auto;
       }
-      
-      .poster-media {
-        position: relative;
-        width: 100%;
-        aspect-ratio: 1 / 1;
-        overflow: hidden;
+
+      .poster-media { 
+        position: relative; 
+        aspect-ratio: 1 / 1; 
+        overflow: hidden; 
+        background: #111;
+        pointer-events: auto;
       }
-      
+
       .poster-media img { 
         width: 100%; 
         height: 100%; 
-        object-fit: cover;
-        display: block; 
+        object-fit: cover; 
+        pointer-events: none;
       }
-      
-      .poster-media .poster-video { 
+
+      .poster-video { 
         position: absolute; 
         top: 0; 
         left: 0; 
         width: 100%; 
         height: 100%; 
         object-fit: cover; 
-        display: none; 
-        z-index: 1; 
+        display: none;
+        z-index: 10;
+        pointer-events: none;
       }
-      
+
       .poster-info {
-        color: black;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
+        padding: 10px 2px 0 2px;
+        pointer-events: none;
       }
-      
+
       .poster-title {
-        font-size: clamp(0.7rem, 1.1vw, 1rem);
-        font-weight: 800;
+        font-size: 1.2rem;
+        font-family: Impact;
+        font-weight: 900;
+        letter-spacing: -0.01em;
         text-transform: uppercase;
         margin: 0;
-        letter-spacing: 0.02em;
-        line-height: 1.2;
+        line-height: 1.1;
       }
-      
+
       .poster-credits {
-        font-size: clamp(0.5rem, 0.7vw, 0.65rem);
-        line-height: 1.3;
-        opacity: 0.8;
-      }
-      
-      .poster-credits p {
-        margin: 0.15rem 0;
-      }
-      
-      .poster-credits strong {
-        font-weight: bold;
-        opacity: 1;
-      }
-
-      /* PANEL 4 FEATURE */
-      .feature-wrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-      }
-
-      .feature-image {
-        max-height: 75vh;
-        max-width: 80vw;
-        width: auto;
-        height: auto;
-        object-fit: contain;
-      }
-
-      .feature-caption {
-        font-size: clamp(0.9rem, 1.2vw, 1.2rem);
+        margin-top: 8px;
+        font-size: 0.48rem;
+        letter-spacing: 0.04em;
         text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: black;
-        margin: 0;
+        opacity: 0.7;
+        border-top: 1px solid #eee;
+        padding-top: 6px;
+        line-height: 1.3;
       }
 
-      .feature-caption span { opacity: 0.6; }
+      /* UI ELEMENTS */
+      .fixed-ui {
+        position: fixed;
+        top: 0; left: 0; width: 100%;
+        padding: 2rem;
+        z-index: 1000;
+        display: flex;
+        justify-content: space-between;
+        pointer-events: none;
+        color: white;
+        mix-blend-mode: difference;
+        font-family: monospace;
+        text-transform: uppercase;
+      }
+
+      .fixed-ui.panel-1-active {
+        mix-blend-mode: normal;
+      }
+
+      .fixed-ui.panel-1-active .fixed-center {
+        text-shadow: 0 0 10px rgba(0,0,0,0.8);
+      }
+
+      .fixed-center { position: absolute; left: 50%; transform: translateX(-50%); font-size: 1.2rem; font-weight: 900; }
+
+      .unmute-button {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255,255,255,0.3);
+        color: white;
+        padding: 1rem 2rem;
+        font-size: 0.75rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        cursor: pointer;
+        z-index: 200;
+        position: fixed;
+        bottom: 8vh;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+      .unmute-button.visible { opacity: 1; pointer-events: auto; }
+
+      #custom-cursor {
+        position: fixed; top: 0; left: 0;
+        width: 8px; height: 8px;
+        background: white;
+        border-radius: 50%;
+        pointer-events: none;
+        mix-blend-mode: difference;
+        z-index: 10001;
+        transform: translate(-50%, -50%);
+      }
+
+      @media (max-width: 900px) {
+        .poster-grid { grid-template-columns: repeat(2, 1fr); width: 90%; }
+      }
     </style>
+  </head>
+
+  <body>
+    <div class="fixed-ui">
+      <div class="fixed-left">
+        <div id="phx-block" style="text-align:left;">
+          <div id="phx-time">PHX --:--</div>
+          <div id="phx-weather" style="font-size:0.8rem; margin-top:4px;">--</div>
+        </div>
+      </div>
+      <div class="fixed-center">KOVA PARKER</div>
+      <div class="fixed-right" id="live-clock">-- -- --</div>
+    </div>
+
+    <div id="custom-cursor"></div>
+
+    <button class="unmute-button" id="unmute-button">UNMUTE</button>
+
+    <div id="snap-container">
+      <div class="snap-trigger"></div>
+      <div class="snap-trigger"></div>
+      <div class="snap-trigger"></div>
+      <div class="snap-trigger"></div>
+      <div class="snap-trigger"></div>
+    </div>
+
+    <div id="visual-stack">
+      <!-- Panel 1: Hero -->
+      <section class="panel panel-1" id="p1">
+        <div class="panel-bg"><img id="hero-img" src="/images/gemini.png" onerror="this.src='https://placehold.co/1920x1080/000/fff?text=UNA+CARA+MAS'"></div>
+        <div class="panel-content" style="justify-content: flex-end; padding-bottom: 2rem;">
+          <div style="text-align: center;">
+            <h1 style="color:white; font-size: 1.4vw; letter-spacing: 0em; text-transform: uppercase; mix-blend-mode: difference; margin: 0;">Una Cara Más</h1>
+            <p style="color:white; font-size: 0.8vw; letter-spacing: 0em; text-transform: uppercase; mix-blend-mode: difference; margin: 10px 0 0 0;">DROPPED ON FEBRUARY 28, 2026</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 2: Promo Video -->
+      <section class="panel panel-2" id="p2">
+        <div class="panel-bg">
+          <video id="promo-video" playsinline loop muted preload="metadata">
+            <source src="https://files.catbox.moe/kkgy0w.mov" type="video/mp4">
+          </video>
+        </div>
+      </section>
+
+      <!-- Panel 3: Track Gallery Combined -->
+      <section class="panel panel-3" id="p3">
+        <div class="panel-content" style="padding: 0; align-items: flex-start; justify-content: flex-start;">
+          <div class="gallery-rail" id="gallery-rail">
+            
+            <!-- Section 1 (Previously Panel 3) -->
+            <div class="gallery-section">
+              <div class="poster-grid">
+                <div class="poster-item">
+                  <div class="poster-media">
+                    <img src="/images/goboy.png" loading="lazy" decoding="async">
+                    <video class="poster-video" src="/videos/goboy.mp4" muted loop playsinline preload="metadata"></video>
+                  </div>
+                  <div class="poster-info">
+                    <h2 class="poster-title">GO BOY!!!</h2>
+                    <div class="poster-credits">
+                      PROD: KOVA PARKER, DONTKNOWMORGAN<br>
+                      MIX/MASTER: CRISTIAN SOTO, RAFFERTY SANTIAGO, ORLANDO FERRER
+                    </div>
+                  </div>
+                </div>
+                <div class="poster-item">
+                  <div class="poster-media">
+                    <img src="/images/manana.png" loading="lazy" decoding="async">
+                    <video class="poster-video" src="/videos/manana.mp4" muted loop playsinline preload="metadata"></video>
+                  </div>
+                  <div class="poster-info">
+                    <h2 class="poster-title">Mañana se Acaba el 🌎</h2>
+                    <div class="poster-credits">
+                      PROD: KOVA PARKER, DONTKNOWMORGAN<br>
+                      MIX/MASTER: CRISTIAN SOTO, RAFFERTY SANTIAGO, ORLANDO FERRER
+                    </div>
+                  </div>
+                </div>
+                <div class="poster-item">
+                  <div class="poster-media">
+                    <img src="/images/undia.png" loading="lazy" decoding="async">
+                    <video class="poster-video" src="/videos/undia.mp4" muted loop playsinline preload="metadata"></video>
+                  </div>
+                  <div class="poster-info">
+                    <h2 class="poster-title">Un Día Normalllll</h2>
+                    <div class="poster-credits">
+                      PROD: KOVA PARKER, DONTKNOWMORGAN<br>
+                      MIX/MASTER: CRISTIAN SOTO, RAFFERTY SANTIAGO, ORLANDO FERRER
+                    </div>
+                  </div>
+                </div>
+                <div class="poster-item">
+                  <div class="poster-media">
+                    <img src="/images/gioia.png" loading="lazy" decoding="async">
+                    <video class="poster-video" src="/videos/gioia.mp4" muted loop playsinline preload="metadata"></video>
+                  </div>
+                  <div class="poster-info">
+                    <h2 class="poster-title">GIOIAAAA</h2>
+                    <div class="poster-credits">
+                      PROD: KOVA PARKER, DONTKNOWMORGAN<br>
+                      MIX/MASTER: RAFFERTY SANTIAGO, CRISTIAN SOTO, ORLANDO FERRER
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Section 2 (Previously Panel 4) -->
+            <div class="gallery-section">
+              <div class="poster-grid">
+                <div class="poster-item">
+                  <div class="poster-media">
+                    <img src="/images/togya.png" loading="lazy" decoding="async">
+                    <video class="poster-video" src="/videos/togya.mp4" muted loop playsinline preload="metadata"></video>
+                  </div>
+                  <div class="poster-info">
+                    <h2 class="poster-title">TOGYAAAA</h2>
+                    <div class="poster-credits">
+                      PROD: KOVA PARKER, SAPJER, DONTKNOWMORGAN<br>
+                      MIX/MASTER: RAFFERTY SANTIAGO, CRISTIAN SOTO, ORLANDO FERRER
+                    </div>
+                  </div>
+                </div>
+                <div class="poster-item">
+                  <div class="poster-media">
+                    <img src="/images/redrocks.png" loading="lazy" decoding="async">
+                    <video class="poster-video" src="/videos/redrocks.mp4" muted loop playsinline preload="metadata"></video>
+                  </div>
+                  <div class="poster-info">
+                    <h2 class="poster-title">Kova at Red Rockssss</h2>
+                    <div class="poster-credits">
+                      PROD: KOVA PARKER, DONTKNOWMORGAN<br>
+                      MIX/MASTER: CRISTIAN SOTO, ORLANDO FERRER
+                    </div>
+                  </div>
+                </div>
+                <div class="poster-item">
+                  <div class="poster-media">
+                    <img src="/images/obsesivo.png" loading="lazy" decoding="async">
+                    <video class="poster-video" src="/videos/obsesivo.mp4" muted loop playsinline preload="metadata"></video>
+                  </div>
+                  <div class="poster-info">
+                    <h2 class="poster-title">Obsesivo Compulsivo</h2>
+                    <div class="poster-credits">
+                      PROD: KOVA PARKER, DONTKNOWMORGAN, MO BHUIYAN<br>
+                      MIX/MASTER: RAFFERTY SANTIAGO, CRISTIAN SOTO, ORLANDO FERRER
+                    </div>
+                  </div>
+                </div>
+                <div class="poster-item">
+                  <div class="poster-media">
+                    <img src="/images/yono.png" loading="lazy" decoding="async">
+                    <video class="poster-video" src="/videos/yono.mp4" muted loop playsinline preload="metadata"></video>
+                  </div>
+                  <div class="poster-info">
+                    <h2 class="poster-title">Yo no soy tu paiiii</h2>
+                    <div class="poster-credits">
+                      PROD: KOVA PARKER, DONTKNOWMORGAN<br>
+                      MIX/MASTER: RAFFERTY SANTIAGO, CRISTIAN SOTO, ORLANDO FERRER
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 4 Removed (Merged) -->
+
+      <!-- Panel 5: Bio -->
+      <section class="panel panel-5" id="p5">
+        <div class="panel-content" style="position: relative; width: 100%; height: 100%;">
+          <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 2rem;">
+            <div style="text-align: center;">
+              <img src="/images/kova-parker.jpeg" style="max-height: 65vh" onerror="this.src='https://placehold.co/800x800/EEE/111?text=Kova+Portrait'">
+              <h2 style="color:black; margin-top:20px; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase;">KOVA PARKER</h2>
+            </div>
+            <div style="text-align: center;">
+              <img src="/images/kovastreet.jpeg" style="max-height: 65vh" onerror="this.src='https://placehold.co/800x800/EEE/111?text=Kova+Street'">
+              <h2 style="color:black; margin-top:20px; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase;">UNA CARA MÁS</h2>
+            </div>
+          </div>
+          <p style="position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); color:black; margin: 0; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;">(DISCOVER)</p>
+        </div>
+      </section>
+    </div>
+
+   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 0. HERO ZOOM LOGIC
+      const heroImg = document.getElementById('hero-img') as HTMLImageElement | null;
+      if (heroImg) {
+        const startZoom = () => {
+          const winW = window.innerWidth;
+          const winH = window.innerHeight;
+          const imgW = heroImg.naturalWidth;
+          const imgH = heroImg.naturalHeight;
+
+          if (imgW && imgH) {
+            // Calculate scale to go from 'contain' to 'cover'
+            const scaleX = winW / imgW;
+            const scaleY = winH / imgH;
+            
+            // contain scale is min(scaleX, scaleY)
+            // cover scale is max(scaleX, scaleY)
+            const targetScale = Math.max(scaleX, scaleY) / Math.min(scaleX, scaleY);
+            
+            heroImg.style.setProperty('--target-scale', targetScale.toString());
+            // Force reflow
+            void heroImg.offsetWidth;
+            heroImg.classList.add('zoomed');
+          }
+        };
+
+        heroImg.addEventListener('transitionend', (e) => {
+          if (e.propertyName === 'transform') {
+            heroImg.classList.add('finished');
+          }
+        });
+
+        if (heroImg.complete) startZoom();
+        else heroImg.addEventListener('load', startZoom);
+
+        window.addEventListener('resize', () => {
+          if (!heroImg.classList.contains('finished')) {
+            startZoom();
+          }
+        });
+      }
+
+      const scroller = document.getElementById('snap-container') as HTMLElement | null;
+      // panels array is no longer used for strict loop logic, but kept for element refs if needed
+      // const panels = ... 
+      
+      const cursor = document.getElementById('custom-cursor') as HTMLElement | null;
+      const promoVideo = document.getElementById('promo-video') as HTMLVideoElement | null;
+      const unmuteBtn = document.getElementById('unmute-button') as HTMLButtonElement | null;
+      const fixedUi = document.querySelector('.fixed-ui');
+      const galleryRail = document.getElementById('gallery-rail');
+      
+      const p2 = document.getElementById('p2');
+      const p3 = document.getElementById('p3');
+      const p5 = document.getElementById('p5');
+
+      let mx = 0, my = 0, cx = 0, cy = 0;
+      let lastHoveredMedia: HTMLElement | null = null;
+      let lastScrollTop = -1;
+      let tick = 0;
+
+      // Initialize panel-1-active state
+      fixedUi?.classList.add('panel-1-active');
+
+      // 1. TRACK MOUSE (Optimized: Removed heavy logic)
+      document.addEventListener('mousemove', (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+      });
+
+      function togglePosterVideo(container: HTMLElement, play: boolean) {
+        const v = container.querySelector('.poster-video') as HTMLVideoElement | null;
+        if (!v) return;
+        if (play) {
+          v.style.display = 'block';
+          v.currentTime = 0;
+          v.play().catch(() => {});
+        } else {
+          v.pause();
+          v.style.display = 'none';
+        }
+      }
+
+      // 2. MASTER RENDER LOOP (Handles Scroll & Cursor & Hover)
+      function renderLoop() {
+        requestAnimationFrame(renderLoop);
+
+        // A. CURSOR INTERPOLATION
+        if (cursor) {
+          cx += (mx - cx) * 0.15;
+          cy += (my - cy) * 0.15;
+          cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+        }
+        
+        // B. SCROLL & ANIMATION LOGIC
+        if (scroller) {
+          const scrollTop = scroller.scrollTop;
+          
+          // Only update if scroll changed or first run
+          if (Math.abs(scrollTop - lastScrollTop) > 0.5 || lastScrollTop === -1) {
+            lastScrollTop = scrollTop;
+            const vh = window.innerHeight;
+
+            // --- UI STATES ---
+            if (scrollTop < vh) {
+              if (!fixedUi?.classList.contains('panel-1-active')) fixedUi?.classList.add('panel-1-active');
+            } else {
+              if (fixedUi?.classList.contains('panel-1-active')) fixedUi?.classList.remove('panel-1-active');
+            }
+
+            // --- PANEL ANIMATION LOGIC ---
+            // Range 0 -> 1vh : Panel 2 enters over Panel 1
+            if (p2) {
+              const start = 0; const end = vh;
+              if (scrollTop <= start) p2.style.transform = `translateY(100%)`;
+              else if (scrollTop >= end) p2.style.transform = `translateY(0%)`;
+              else {
+                const p = (scrollTop - start) / vh;
+                p2.style.transform = `translateY(${100 - (p * 100)}%)`;
+              }
+            }
+
+            // Range 1vh -> 2vh : Panel 3 enters over Panel 2
+            if (p3) {
+              const start = vh; const end = 2 * vh;
+              if (scrollTop <= start) p3.style.transform = `translateY(100%)`;
+              else if (scrollTop >= end) p3.style.transform = `translateY(0%)`;
+              else {
+                const p = (scrollTop - start) / vh;
+                p3.style.transform = `translateY(${100 - (p * 100)}%)`;
+              }
+            }
+
+            // Range 2vh -> 3vh : Gallery Rail Slides (P3 stays fixed)
+            if (galleryRail) {
+              const start = 2 * vh; const end = 3 * vh;
+              if (scrollTop <= start) galleryRail.style.transform = `translateX(0%)`;
+              else if (scrollTop >= end) galleryRail.style.transform = `translateX(-50%)`;
+              else {
+                const p = (scrollTop - start) / vh;
+                galleryRail.style.transform = `translateX(-${p * 50}%)`;
+              }
+            }
+
+            // Range 3vh -> 4vh : Panel 5 enters over Panel 3
+            if (p5) {
+              const start = 3 * vh; const end = 4 * vh;
+              if (scrollTop <= start) p5.style.transform = `translateY(100%)`;
+              else if (scrollTop >= end) p5.style.transform = `translateY(0%)`;
+              else {
+                const p = (scrollTop - start) / vh;
+                p5.style.transform = `translateY(${100 - (p * 100)}%)`;
+              }
+            }
+
+            const isPromoVisible = scrollTop >= vh - 100 && scrollTop < vh * 2 - 100;
+            if (isPromoVisible) {
+              if (promoVideo && promoVideo.paused) promoVideo.play().catch(() => {});
+              if (unmuteBtn && document.body.contains(unmuteBtn)) unmuteBtn.classList.add('visible');
+            } else {
+              if (promoVideo && !promoVideo.paused) promoVideo.pause();
+              if (unmuteBtn) unmuteBtn.classList.remove('visible');
+            }
+          }
+        }
+
+        // C. HOVER DETECTION (Throttled)
+        // Check every 6 frames (approx 10 times per second @ 60fps)
+        tick++;
+        if (tick % 6 === 0 && scroller) {
+          // Only check if we are interacting with the gallery (roughly scrolled past 0.5 screen height)
+          if (lastScrollTop > window.innerHeight * 0.5) {
+             scroller.style.pointerEvents = 'none';
+             const hoveredElement = document.elementFromPoint(mx, my);
+             scroller.style.pointerEvents = 'auto'; // This toggle is expensive, hence throttling
+
+             const posterMedia = hoveredElement?.closest('.poster-media') as HTMLElement | null;
+
+             if (posterMedia && posterMedia !== lastHoveredMedia) {
+               if (lastHoveredMedia) togglePosterVideo(lastHoveredMedia, false);
+               lastHoveredMedia = posterMedia;
+               togglePosterVideo(posterMedia, true);
+             } else if (!posterMedia && lastHoveredMedia) {
+               togglePosterVideo(lastHoveredMedia, false);
+               lastHoveredMedia = null;
+             }
+          }
+        }
+      }
+      renderLoop();
+
+      // 4. UNMUTE LOGIC
+      // When user clicks UNMUTE we want the button to disappear and keep the video unmuted.
+      unmuteBtn?.addEventListener('click', () => {
+        if (promoVideo && unmuteBtn) {
+          // Force unmute
+          promoVideo.muted = false;
+
+          // Hide visually (fade) then remove from DOM so it can't reappear on scroll
+          unmuteBtn.classList.remove('visible');
+          unmuteBtn.style.transition = 'opacity 0.3s ease';
+          unmuteBtn.style.opacity = '0';
+          setTimeout(() => {
+            try { unmuteBtn.remove(); } catch (e) { /* ignore */ }
+          }, 300);
+        }
+      });
+
+      // 5. CLOCK & WEATHER UPDATER (PHX)
+      function getWeatherDescription(code: number) {
+        // Map Open-Meteo weather codes to human-friendly text
+        if (code === 0) return 'Clear';
+        if (code === 1 || code === 2 || code === 3) return 'Partly cloudy';
+        if (code === 45 || code === 48) return 'Fog';
+        if (code === 51 || code === 53 || code === 55) return 'Drizzle';
+        if (code === 56 || code === 57) return 'Freezing drizzle';
+        if (code === 61 || code === 63 || code === 65) return 'Rain';
+        if (code === 66 || code === 67) return 'Freezing rain';
+        if (code === 71 || code === 73 || code === 75) return 'Snow';
+        if (code === 77) return 'Snow grains';
+        if (code === 80 || code === 81 || code === 82) return 'Showers';
+        if (code === 85 || code === 86) return 'Snow showers';
+        if (code === 95 || code === 96 || code === 99) return 'Thunderstorm';
+        return 'Unknown';
+      }
+
+      async function fetchPhxWeather() {
+        const phxWeatherEl = document.getElementById('phx-weather');
+        try {
+          // Phoenix, AZ coordinates
+          const lat = 33.4484; const lon = -112.0740;
+          const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&timezone=America/Phoenix`;
+          const res = await fetch(url);
+          if (!res.ok) throw new Error('weather fetch failed');
+          const data = await res.json();
+          const cw = data.current_weather;
+          if (cw && typeof cw.temperature === 'number') {
+            const c = cw.temperature; // Celsius
+            const f = Math.round((c * 9) / 5 + 32);
+            const desc = getWeatherDescription(cw.weathercode);
+            if (phxWeatherEl) phxWeatherEl.innerText = `${f}°F · ${desc}`;
+          } else {
+            if (phxWeatherEl) phxWeatherEl.innerText = `—`;
+          }
+        } catch (e) {
+          if (phxWeatherEl) phxWeatherEl.innerText = `—`;
+        }
+      }
+
+      function updateClock() {
+        const now = new Date();
+        const fmt: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit', hour12: false };
+        const phxTime = document.getElementById('phx-time');
+        const liveClock = document.getElementById('live-clock');
+
+        if (phxTime) {
+          phxTime.innerText = "PHX, AZ " + now.toLocaleTimeString('en-US', { ...fmt, timeZone: 'America/Phoenix' });
+        }
+        if (liveClock) {
+          const months = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+          liveClock.innerText = `${months[now.getMonth()]} ${now.getDate()} ${now.getFullYear()} ${now.getHours()}:${now.getMinutes().toString().padStart(2,'0')}`;
+        }
+      }
+
+      // Refresh clock every second and weather every 10 minutes
+      setInterval(updateClock, 1000); updateClock();
+      fetchPhxWeather();
+      setInterval(fetchPhxWeather, 10 * 60 * 1000);
+    });
+   </script>
   </body>
 </html>
