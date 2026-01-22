@@ -265,6 +265,29 @@
         mix-blend-mode: difference;
         z-index: 10001;
         transform: translate(-50%, -50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: width 0.3s, height 0.3s, border-radius 0.3s;
+      }
+
+      #custom-cursor span {
+        font-family: Impact, sans-serif;
+        font-size: 8px;
+        color: black;
+        opacity: 0;
+        transition: opacity 0.2s;
+        text-transform: uppercase;
+      }
+
+      #custom-cursor.active {
+        width: 60px;
+        height: 60px;
+        background: white;
+      }
+
+      #custom-cursor.active span {
+        opacity: 1;
       }
 
       @media (max-width: 900px) {
@@ -285,7 +308,7 @@
       <div class="fixed-right" id="live-clock">-- -- --</div>
     </div>
 
-    <div id="custom-cursor"></div>
+    <div id="custom-cursor"><span id="cursor-label"></span></div>
 
     <button class="unmute-button" id="unmute-button">UNMUTE</button>
 
@@ -452,8 +475,13 @@
               <img src="/images/kova-parker.jpeg" style="max-height: 65vh" onerror="this.src='https://placehold.co/800x800/EEE/111?text=Kova+Portrait'">
               <h2 style="color:black; margin-top:20px; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase;">KOVA PARKER</h2>
             </div>
-            <div style="text-align: center;">
-              <img src="/images/kovastreet.jpeg" style="max-height: 65vh" onerror="this.src='https://placehold.co/800x800/EEE/111?text=Kova+Street'">
+            <div style="text-align: center;" id="documentary-image">
+              <div style="position: relative; display: inline-block;">
+                <img src="/images/kovastreet.jpeg" style="max-height: 65vh" onerror="this.src='https://placehold.co/800x800/EEE/111?text=Kova+Street'">
+                <div class="documentary-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;">
+                  <p style="color: white; font-size: 1.2rem; font-weight: 400; letter-spacing: 0.05em; text-transform: uppercase; text-align: center; margin: 0; padding: 1rem;">DOCUMENTARY BEING RELEASED<br>MARCH 22, 2026</p>
+                </div>
+              </div>
               <h2 style="color:black; margin-top:20px; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase;">UNA CARA MÁS</h2>
             </div>
           </div>
@@ -640,6 +668,28 @@
              scroller.style.pointerEvents = 'auto'; // This toggle is expensive, hence throttling
 
              const posterMedia = hoveredElement?.closest('.poster-media') as HTMLElement | null;
+             const overDocImg = hoveredElement?.closest('#documentary-image') as HTMLElement | null;
+             const cursorLabel = document.getElementById('cursor-label');
+
+             if (cursor) {
+               if (overDocImg || posterMedia) {
+                 cursor.classList.add('active');
+                 if (cursorLabel) {
+                   cursorLabel.innerText = overDocImg ? 'INFO' : 'PLAY';
+                 }
+               } else {
+                 cursor.classList.remove('active');
+               }
+             }
+
+             // Visual feedback for the documentary image itself
+             if (overDocImg) {
+               overDocImg.style.transform = 'scale(1.02)';
+               overDocImg.style.transition = 'transform 0.3s ease';
+             } else {
+               const allDocImgs = document.querySelectorAll('#documentary-image');
+               allDocImgs.forEach(el => (el as HTMLElement).style.transform = 'scale(1)');
+             }
 
              if (posterMedia && posterMedia !== lastHoveredMedia) {
                if (lastHoveredMedia) togglePosterVideo(lastHoveredMedia, false);
@@ -731,6 +781,24 @@
       setInterval(updateClock, 1000); updateClock();
       fetchPhxWeather();
       setInterval(fetchPhxWeather, 10 * 60 * 1000);
+
+      // 6. DOCUMENTARY IMAGE CLICK HANDLER
+      const documentaryImage = document.getElementById('documentary-image');
+      const documentaryOverlay = documentaryImage?.querySelector('.documentary-overlay') as HTMLElement | null;
+      
+      scroller?.addEventListener('click', () => {
+        if (!scroller || !documentaryImage || !documentaryOverlay) return;
+        
+        // Use the same trick as hover detection to see what's under the scroller
+        scroller.style.pointerEvents = 'none';
+        const hit = document.elementFromPoint(mx, my);
+        scroller.style.pointerEvents = 'auto';
+        
+        if (hit && documentaryImage.contains(hit)) {
+          const isVisible = documentaryOverlay.style.opacity === '1';
+          documentaryOverlay.style.opacity = isVisible ? '0' : '1';
+        }
+      });
     });
    </script>
   </body>
