@@ -89,11 +89,11 @@ export function initStarfield(canvasId: string, scrollerId: string) {
     draw() {
       ctx!.beginPath();
       ctx!.arc(this.x, this.y, this.size * 2.5, 0, Math.PI * 2);
-      ctx!.fillStyle = `rgba(255, 255, 255, ${this.currentBrightness * 0.15})`;
+      ctx!.fillStyle = `rgba(255, 250, 220, ${this.currentBrightness * 0.15})`;
       ctx!.fill();
       ctx!.beginPath();
       ctx!.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx!.fillStyle = `rgba(255, 255, 255, ${this.currentBrightness})`;
+      ctx!.fillStyle = `rgba(255, 250, 220, ${this.currentBrightness})`;
       ctx!.fill();
     }
   }
@@ -174,15 +174,15 @@ export function initStarfield(canvasId: string, scrollerId: string) {
       if (!this.born || this.size <= 0) return;
       ctx!.beginPath();
       ctx!.arc(this.x, this.y, this.displaySize * 3, 0, Math.PI * 2);
-      ctx!.fillStyle = `rgba(200, 220, 255, ${this.currentBrightness * 0.1})`;
+      ctx!.fillStyle = `rgba(255, 250, 220, ${this.currentBrightness * 0.1})`;
       ctx!.fill();
       ctx!.beginPath();
       ctx!.arc(this.x, this.y, this.displaySize * 1.8, 0, Math.PI * 2);
-      ctx!.fillStyle = `rgba(220, 240, 255, ${this.currentBrightness * 0.25})`;
+      ctx!.fillStyle = `rgba(255, 250, 220, ${this.currentBrightness * 0.25})`;
       ctx!.fill();
       ctx!.beginPath();
       ctx!.arc(this.x, this.y, this.displaySize, 0, Math.PI * 2);
-      ctx!.fillStyle = `rgba(255, 255, 255, ${this.currentBrightness})`;
+      ctx!.fillStyle = `rgba(255, 250, 220, ${this.currentBrightness})`;
       ctx!.fill();
     }
   }
@@ -215,8 +215,8 @@ export function initStarfield(canvasId: string, scrollerId: string) {
       const tailX = this.x - Math.cos(this.angle) * this.length;
       const tailY = this.y - Math.sin(this.angle) * this.length;
       const gradient = ctx!.createLinearGradient(this.x, this.y, tailX, tailY);
-      gradient.addColorStop(0, `rgba(255, 255, 255, ${this.opacity})`);
-      gradient.addColorStop(0.3, `rgba(200, 220, 255, ${this.opacity * 0.6})`);
+      gradient.addColorStop(0, `rgba(255, 250, 220, ${this.opacity})`);
+      gradient.addColorStop(0.3, `rgba(255, 250, 220, ${this.opacity * 0.6})`);
       gradient.addColorStop(1, 'transparent');
       ctx!.beginPath();
       ctx!.moveTo(this.x, this.y);
@@ -227,7 +227,7 @@ export function initStarfield(canvasId: string, scrollerId: string) {
       ctx!.stroke();
       ctx!.beginPath();
       ctx!.arc(this.x, this.y, this.thickness, 0, Math.PI * 2);
-      ctx!.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+      ctx!.fillStyle = `rgba(255, 250, 220, ${this.opacity})`;
       ctx!.fill();
     }
   }
@@ -291,7 +291,7 @@ export function initStarfield(canvasId: string, scrollerId: string) {
     const elapsed = timestamp - starStartTime;
     ctx!.fillStyle = '#000008';
     ctx!.fillRect(0, 0, starCanvas!.width, starCanvas!.height);
-    if (timestamp - lastShootingStarTime > 800 + Math.random() * 2000) {
+    if (timestamp - lastShootingStarTime > 8000 + Math.random() * 4000) {
       const inactive = shootingStars.find(s => !s.active);
       if (inactive) {
         inactive.activate();
