@@ -116,28 +116,14 @@ import Analytics from '@vercel/analytics/astro'
       .panel-1 .panel-bg img {
         object-fit: contain;
         transform: scale(1);
-        transform-origin: center center;
       }
       .panel-1 .panel-bg img.zoomed {
-        animation: heroZoom 4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-        opacity: 0;
+        animation: heroZoom 20s ease-in-out infinite;
       }
 
       @keyframes heroZoom {
-        0% { 
-          transform: scale(0.4) translate(var(--start-tx, 0%), var(--start-ty, 0%)); 
-          opacity: 0;
-        }
-        2% {
-          opacity: 1;
-        }
-        98% {
-          opacity: 1;
-        }
-        100% { 
-          transform: scale(var(--target-scale, 1.5)) translate(0, 0); 
-          opacity: 0;
-        }
+        from { transform: scale(1); }
+        to { transform: scale(var(--target-scale, 1.5)); }
       }
 
       .panel-bg video {
@@ -321,8 +307,8 @@ import Analytics from '@vercel/analytics/astro'
       }
 
       #custom-cursor.active {
-        width: 12px;
-        height: 12px;
+        width: 15px;
+        height: 15px;
       }
 
       @media (max-width: 900px) {
@@ -544,44 +530,20 @@ import Analytics from '@vercel/analytics/astro'
           const imgH = heroImg.naturalHeight;
 
           if (imgW && imgH) {
+            // Calculate scale to go from 'contain' to 'cover'
             const scaleX = winW / imgW;
             const scaleY = winH / imgH;
             
-            // Current State: Contain = min(scaleX, scaleY)
-            // Target State: Cover = max(scaleX, scaleY)
-            // We need to scale UP by the ratio of Cover/Contain
-            const sMin = Math.min(scaleX, scaleY);
-            const sMax = Math.max(scaleX, scaleY);
-            const targetScale = sMax / sMin;
+            // contain scale is min(scaleX, scaleY)
+            // cover scale is max(scaleX, scaleY)
+            const targetScale = Math.max(scaleX, scaleY) / Math.min(scaleX, scaleY);
             
             heroImg.style.setProperty('--target-scale', targetScale.toString());
-            
-            // Randomize start translation (panning effect)
-            // Percentage relative to the element's size
-            const tx = (Math.random() - 0.5) * 120; 
-            const ty = (Math.random() - 0.5) * 120;
-            heroImg.style.setProperty('--start-tx', `${tx}%`);
-            heroImg.style.setProperty('--start-ty', `${ty}%`);
-
             // Force reflow
             void heroImg.offsetWidth;
             heroImg.classList.add('zoomed');
           }
         };
-
-        heroImg.addEventListener('animationiteration', () => {
-          // Hide briefly during property update to prevent jump flicker
-          heroImg.style.opacity = '0';
-          
-          const tx = (Math.random() - 0.5) * 120;
-          const ty = (Math.random() - 0.5) * 120;
-          heroImg.style.setProperty('--start-tx', `${tx}%`);
-          heroImg.style.setProperty('--start-ty', `${ty}%`);
-          
-          // Re-trigger flow if needed, though the next animation frame should pick it up
-          void heroImg.offsetWidth;
-          heroImg.style.opacity = '';
-        });
 
         if (heroImg.complete) startZoom();
         else heroImg.addEventListener('load', startZoom);
