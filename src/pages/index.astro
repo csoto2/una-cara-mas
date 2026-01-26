@@ -75,7 +75,7 @@ import Analytics from '@vercel/analytics/astro'
       /* STACKING ORDER & THEMES */
       .panel-1 { z-index: 1; background: #000; transform: translateY(0%); }
       .panel-2 { z-index: 2; background: #000; }
-      .panel-3 { z-index: 3; background: #fff; } 
+      .panel-3 { z-index: 3; background: #0a0a0a; color: white; } 
       /* panel-4 removed */
       .panel-5 { z-index: 5; background: #fff; }
       .panel-6 { z-index: 6; background: #000; }
@@ -145,33 +145,115 @@ import Analytics from '@vercel/analytics/astro'
         pointer-events: auto; /* Content needs to be interactive */
       }
 
-      /* --- POSTER GRID (SMALLER COMPACT LOOK) --- */
-      .poster-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1.2rem;
-        width: 85%;
-        max-width: 1100px;
-        pointer-events: auto; /* Grid items need to be hit-testable */
-      }
-
-      .poster-item { 
-        background: #e9e9e9; 
-        padding: 6px;
-        padding-bottom: 18px;
-        color: #000;
+      /* --- CAROUSEL --- */
+      .carousel-container {
+        width: 100%;
+        height: 100%;
         display: flex;
         flex-direction: column;
-        /* box-shadow: 0 8px 30px rgba(0,0,0,0.12); */
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        touch-action: pan-y; /* Allow vertical scroll, block horizontal browser gestures */
+      }
+
+      .carousel-header {
+        font-family: system-ui, -apple-system, sans-serif;
+        font-weight: 700;
+        font-size: 1.2rem; /* Smaller header */
+        text-transform: none; /* Sentence case or title case */
+        margin-bottom: 2rem;
+        text-align: center;
+        z-index: 10;
+        letter-spacing: 0.02em;
+        color: white;
+      }
+
+      .carousel-stage {
+        position: relative;
+        width: 100%;
+        height: 60vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        perspective: 1000px;
+      }
+
+      .nav-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 2rem; /* Smaller arrows */
+        color: white;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        z-index: 20;
+        padding: 1rem;
+        opacity: 1; /* Fully visible */
+        transition: opacity 0.3s;
+        font-family: sans-serif;
+        user-select: none;
         pointer-events: auto;
       }
+      .nav-arrow:hover { opacity: 0.7; }
+      .nav-prev { left: 28%; } /* Position closer to center */
+      .nav-next { right: 28%; }
+
+      .carousel-item {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); /* Default center */
+        width: 45vh; /* Increase size slightly */
+        transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        pointer-events: auto;
+      }
+
+      /* Modifier classes applied by JS */
+      .carousel-item.active {
+        z-index: 10;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 1;
+      }
+
+      .carousel-item.prev {
+        z-index: 5;
+        left: 15%; /* Push to the left edge */
+        transform: translate(-50%, -50%) scale(0.9);
+        opacity: 0.6;
+        filter: grayscale(0%); /* Keep color but dim if needed, reference suggests full color */
+      }
+
+      .carousel-item.next {
+        z-index: 5;
+        left: 85%; /* Push to the right edge */
+        transform: translate(-50%, -50%) scale(0.9);
+        opacity: 0.6;
+        filter: grayscale(0%);
+      }
+
+      .carousel-item.hidden {
+        opacity: 0;
+        pointer-events: none;
+        transform: translate(-50%, -50%) scale(0.5);
+      }
+       /* We can calculate specific hidden positions in JS or use generic hidden */
 
       .poster-media { 
         position: relative; 
         aspect-ratio: 1 / 1; 
+        width: 100%;
         overflow: hidden; 
         background: #111;
         pointer-events: auto;
+        border: none;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.8); /* Darker shadow */
       }
 
       .poster-media img { 
@@ -193,19 +275,23 @@ import Analytics from '@vercel/analytics/astro'
         pointer-events: none;
       }
 
-      .poster-info {
-        padding: 10px 2px 0 2px;
-        pointer-events: none;
+      .poster-title {
+        margin-top: 2rem;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 0.8rem;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.3s;
+        color: white;
+        text-transform: none; /* Keep natural case for title or minimal caps */
+        letter-spacing: 0.02em;
+        font-weight: 400;
       }
 
-      .poster-title {
-        font-size: 1.2rem;
-        font-family: 'Oswald', sans-serif;
-        font-weight: 700;
-        letter-spacing: -0.01em;
-        margin: 0;
-        line-height: 1.1;
+      .carousel-item.active .poster-title {
+        opacity: 1;
       }
+
 
       .impact {
         font-family: Impact, sans-serif;
@@ -225,16 +311,6 @@ import Analytics from '@vercel/analytics/astro'
         text-transform: none;
       }
 
-      .poster-credits {
-        margin-top: 8px;
-        font-size: 0.48rem;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        opacity: 0.7;
-        border-top: 1px solid #eee;
-        padding-top: 6px;
-        line-height: 1.3;
-      }
 
       /* UI ELEMENTS */
       .fixed-ui {
@@ -364,125 +440,79 @@ import Analytics from '@vercel/analytics/astro'
         </div>
       </section>
 
-      <!-- Panel 3: Track Gallery Combined -->
+      <!-- Panel 3: Track Carousel -->
       <section class="panel panel-3" id="p3">
-        <div class="panel-content" style="padding: 0; align-items: flex-start; justify-content: flex-start;">
-          <div class="gallery-rail" id="gallery-rail">
-            
-            <!-- Section 1 (Previously Panel 3) -->
-            <div class="gallery-section">
-              <div class="poster-grid">
-                <div class="poster-item">
-                  <div class="poster-media">
-                    <img src="/images/goboy.png" loading="lazy" decoding="async">
-                    <video class="poster-video" src="/videos/goboy.mp4" muted loop playsinline preload="metadata"></video>
-                  </div>
-                  <div class="poster-info">
-                    <h2 class="poster-title impact" style="color: #333;">GO BOY!!!</h2>
-                    <div class="poster-credits">
-                      PROD: KOVA PARKER, DONTKNOWMORGAN<br>
-                      MIX/MASTER: CRISTIAN SOTO, RAFFERTY SANTIAGO, ORLANDO FERRER
-                    </div>
-                  </div>
-                </div>
-                <div class="poster-item">
-                  <div class="poster-media">
-                    <img src="/images/manana.png" loading="lazy" decoding="async">
-                    <video class="poster-video" src="/videos/manana.mp4" muted loop playsinline preload="metadata"></video>
-                  </div>
-                  <div class="poster-info">
-                    <h2 class="poster-title" style="color: #000;">Mañana se Acaba el 🌎</h2>
-                    <div class="poster-credits">
-                      PROD: KOVA PARKER, DONTKNOWMORGAN<br>
-                      MIX/MASTER: CRISTIAN SOTO, RAFFERTY SANTIAGO, ORLANDO FERRER
-                    </div>
-                  </div>
-                </div>
-                <div class="poster-item">
-                  <div class="poster-media">
-                    <img src="/images/undia.png" loading="lazy" decoding="async">
-                    <video class="poster-video" src="/videos/undia.mp4" muted loop playsinline preload="metadata"></video>
-                  </div>
-                  <div class="poster-info">
-                    <h2 class="poster-title zalando" style="color: #000;">Un Día Normalllll</h2>
-                    <div class="poster-credits">
-                      PROD: KOVA PARKER, DONTKNOWMORGAN<br>
-                      MIX/MASTER: CRISTIAN SOTO, RAFFERTY SANTIAGO, ORLANDO FERRER
-                    </div>
-                  </div>
-                </div>
-                <div class="poster-item">
-                  <div class="poster-media">
-                    <img src="/images/gioia.png" loading="lazy" decoding="async">
-                    <video class="poster-video" src="/videos/gioia.mp4" muted loop playsinline preload="metadata"></video>
-                  </div>
-                  <div class="poster-info">
-                    <h2 class="poster-title impact" style="color: #222;">GIOIAAAA</h2>
-                    <div class="poster-credits">
-                      PROD: KOVA PARKER, DONTKNOWMORGAN<br>
-                      MIX/MASTER: RAFFERTY SANTIAGO, CRISTIAN SOTO, ORLANDO FERRER
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div class="carousel-container">
+          <div class="carousel-header">Una Cara Más Official Tracklist</div>
+          
+          <div class="carousel-stage" id="carousel-stage">
+            <button class="nav-arrow nav-prev" id="prev-btn">&lt;</button>
+            <button class="nav-arrow nav-next" id="next-btn">&gt;</button>
 
-            <!-- Section 2 (Previously Panel 4) -->
-            <div class="gallery-section">
-              <div class="poster-grid">
-                <div class="poster-item">
-                  <div class="poster-media">
-                    <img src="/images/togya.png" loading="lazy" decoding="async">
-                    <video class="poster-video" src="/videos/togya.mp4" muted loop playsinline preload="metadata"></video>
-                  </div>
-                  <div class="poster-info">
-                    <h2 class="poster-title impact" style="color: #222;">TOGYAAAA</h2>
-                    <div class="poster-credits">
-                      PROD: KOVA PARKER, SAPJER, DONTKNOWMORGAN<br>
-                      MIX/MASTER: RAFFERTY SANTIAGO, CRISTIAN SOTO, ORLANDO FERRER
-                    </div>
-                  </div>
-                </div>
-                <div class="poster-item">
-                  <div class="poster-media">
-                    <img src="/images/redrocks.png" loading="lazy" decoding="async">
-                    <video class="poster-video" src="/videos/redrocks.mp4" muted loop playsinline preload="metadata"></video>
-                  </div>
-                  <div class="poster-info">
-                    <h2 class="poster-title garamond" style="color: #222;">Kova at Red Rockssss</h2>
-                    <div class="poster-credits">
-                      PROD: KOVA PARKER, DONTKNOWMORGAN<br>
-                      MIX/MASTER: CRISTIAN SOTO, ORLANDO FERRER
-                    </div>
-                  </div>
-                </div>
-                <div class="poster-item">
-                  <div class="poster-media">
-                    <img src="/images/obsesivo.png" loading="lazy" decoding="async">
-                    <video class="poster-video" src="/videos/obsesivo.mp4" muted loop playsinline preload="metadata"></video>
-                  </div>
-                  <div class="poster-info">
-                    <h2 class="poster-title" style="color: #000;">OBSESIVO COMPULSIVO.</h2>
-                    <div class="poster-credits">
-                      PROD: KOVA PARKER, DONTKNOWMORGAN, MO BHUIYAN<br>
-                      MIX/MASTER: RAFFERTY SANTIAGO, CRISTIAN SOTO, ORLANDO FERRER
-                    </div>
-                  </div>
-                </div>
-                <div class="poster-item">
-                  <div class="poster-media">
-                    <img src="/images/yono.png" loading="lazy" decoding="async">
-                    <video class="poster-video" src="/videos/yono.mp4" muted loop playsinline preload="metadata"></video>
-                  </div>
-                  <div class="poster-info">
-                    <h2 class="poster-title" style="color: #333;">yo no soy tu paiiii</h2>
-                    <div class="poster-credits">
-                      PROD: KOVA PARKER, DONTKNOWMORGAN<br>
-                      MIX/MASTER: RAFFERTY SANTIAGO, CRISTIAN SOTO, ORLANDO FERRER
-                    </div>
-                  </div>
-                </div>
+            <!-- Items -->
+            <!-- 1 -->
+            <div class="carousel-item active">
+              <div class="poster-media">
+                <img src="/images/goboy.png" loading="lazy" decoding="async">
+                <video class="poster-video" src="/videos/goboy.mp4" muted loop playsinline preload="metadata"></video>
               </div>
+              <div class="poster-title">GO BOY!!!</div>
+            </div>
+            <!-- 2 -->
+            <div class="carousel-item next">
+               <div class="poster-media">
+                <img src="/images/manana.png" loading="lazy" decoding="async">
+                <video class="poster-video" src="/videos/manana.mp4" muted loop playsinline preload="metadata"></video>
+              </div>
+              <div class="poster-title">Mañana se Acaba el 🌎</div>
+            </div>
+            <!-- 3 -->
+            <div class="carousel-item">
+               <div class="poster-media">
+                <img src="/images/undia.png" loading="lazy" decoding="async">
+                <video class="poster-video" src="/videos/undia.mp4" muted loop playsinline preload="metadata"></video>
+              </div>
+              <div class="poster-title">Un Día Normalllll</div>
+            </div>
+            <!-- 4 -->
+            <div class="carousel-item">
+               <div class="poster-media">
+                <img src="/images/gioia.png" loading="lazy" decoding="async">
+                <video class="poster-video" src="/videos/gioia.mp4" muted loop playsinline preload="metadata"></video>
+              </div>
+              <div class="poster-title">GIOIAAAA</div>
+            </div>
+            <!-- 5 -->
+            <div class="carousel-item">
+               <div class="poster-media">
+                <img src="/images/togya.png" loading="lazy" decoding="async">
+                <video class="poster-video" src="/videos/togya.mp4" muted loop playsinline preload="metadata"></video>
+              </div>
+              <div class="poster-title">TOGYAAAA</div>
+            </div>
+            <!-- 6 -->
+            <div class="carousel-item">
+               <div class="poster-media">
+                <img src="/images/redrocks.png" loading="lazy" decoding="async">
+                <video class="poster-video" src="/videos/redrocks.mp4" muted loop playsinline preload="metadata"></video>
+              </div>
+              <div class="poster-title">Kova at Red Rockssss</div>
+            </div>
+            <!-- 7 -->
+            <div class="carousel-item">
+               <div class="poster-media">
+                <img src="/images/obsesivo.png" loading="lazy" decoding="async">
+                <video class="poster-video" src="/videos/obsesivo.mp4" muted loop playsinline preload="metadata"></video>
+              </div>
+              <div class="poster-title">OBSESIVO COMPULSIVO.</div>
+            </div>
+            <!-- 8 -->
+            <div class="carousel-item">
+               <div class="poster-media">
+                <img src="/images/yono.png" loading="lazy" decoding="async">
+                <video class="poster-video" src="/videos/yono.mp4" muted loop playsinline preload="metadata"></video>
+              </div>
+              <div class="poster-title">yo no soy tu paiiii</div>
             </div>
           </div>
         </div>
@@ -566,6 +596,135 @@ import Analytics from '@vercel/analytics/astro'
       const p5 = document.getElementById('p5');
       const p6 = document.getElementById('p6');
 
+      // --- CAROUSEL LOGIC ---
+      const carouselItems = document.querySelectorAll('.carousel-item');
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      let currentIndex = 0;
+
+      function updateCarousel() {
+        const total = carouselItems.length;
+        carouselItems.forEach((item, index) => {
+          item.className = 'carousel-item'; // Reset
+          
+          if (index === currentIndex) {
+            item.classList.add('active');
+            togglePosterVideo(item as HTMLElement, true);
+          } else if (index === currentIndex - 1) {
+            item.classList.add('prev');
+            togglePosterVideo(item as HTMLElement, false);
+          } else if (index === currentIndex + 1) {
+            item.classList.add('next');
+            togglePosterVideo(item as HTMLElement, false);
+          } else {
+            item.classList.add('hidden');
+            togglePosterVideo(item as HTMLElement, false);
+          }
+        });
+
+        // Hide buttons at ends
+        if (prevBtn) prevBtn.style.opacity = currentIndex === 0 ? '0' : '1';
+        if (prevBtn) (prevBtn as HTMLElement).style.pointerEvents = currentIndex === 0 ? 'none' : 'auto';
+        if (nextBtn) nextBtn.style.opacity = currentIndex === total - 1 ? '0' : '1';
+        if (nextBtn) (nextBtn as HTMLElement).style.pointerEvents = currentIndex === total - 1 ? 'none' : 'auto';
+      }
+
+      if (carouselItems.length > 0) {
+        updateCarousel();
+        
+        const showNext = () => {
+          if (currentIndex < carouselItems.length - 1) {
+            currentIndex++;
+            updateCarousel();
+          }
+        };
+
+        const showPrev = () => {
+          if (currentIndex > 0) {
+            currentIndex--;
+            updateCarousel();
+          }
+        };
+
+        if (nextBtn) nextBtn.addEventListener('click', showNext);
+        if (prevBtn) prevBtn.addEventListener('click', showPrev);
+
+        document.addEventListener('keydown', (e) => {
+          // Only navigate if we are looking at the carousel (Panel 3 visible-ish)
+          if (!scroller) return;
+          const st = scroller.scrollTop;
+          const vh = window.innerHeight;
+          // Rough check if Panel 3 is on screen (starts at 1vh, covers up to 3vh)
+          if (st > vh * 0.5 && st < vh * 3.5) {
+            if (e.key === 'ArrowRight') showNext();
+            if (e.key === 'ArrowLeft') showPrev();
+          }
+        });
+
+        // Add manual click handling for carousel buttons through the scroller overlay
+        scroller?.addEventListener('click', (e) => {
+             const x = e.clientX; 
+             const y = e.clientY;
+             scroller.style.pointerEvents = 'none';
+             const hit = document.elementFromPoint(x, y);
+             scroller.style.pointerEvents = 'auto';
+             
+             if (hit) {
+               if (hit.closest('#prev-btn')) showPrev();
+               if (hit.closest('#next-btn')) showNext();
+             }
+        });
+
+        // --- SWIPE / DRAG / WHEEL LOGIC ---
+        let startX = 0;
+        let startY = 0;
+        let startTime = 0;
+
+        scroller?.addEventListener('pointerdown', (e) => {
+          startX = e.clientX;
+          startY = e.clientY;
+          startTime = Date.now();
+        }, { passive: true });
+
+        scroller?.addEventListener('pointerup', (e) => {
+          const dx = e.clientX - startX;
+          const dy = e.clientY - startY;
+          const dt = Date.now() - startTime;
+          const threshold = 30; // Slightly lower threshold
+          const timeThreshold = 500;
+
+          if (dt < timeThreshold && Math.abs(dx) > threshold && Math.abs(dx) > Math.abs(dy)) {
+            const st = scroller.scrollTop;
+            const vh = window.innerHeight;
+            // Broader check for Panel 3
+            if (st > vh * 0.5 && st < vh * 3.5) {
+              if (dx < 0) showNext();
+              else showPrev();
+            }
+          }
+        }, { passive: true });
+
+        // Wheel support (Trackpad horizontal swipe)
+        let lastWheelTime = 0;
+        scroller?.addEventListener('wheel', (e) => {
+          // If moving horizontally more than vertically
+          if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+            const st = scroller.scrollTop;
+            const vh = window.innerHeight;
+            if (st > vh * 0.5 && st < vh * 3.5) {
+              const now = Date.now();
+              if (now - lastWheelTime < 400) return; // Debounce
+
+              if (Math.abs(e.deltaX) > 10) {
+                if (e.deltaX > 0) showNext();
+                else showPrev();
+                lastWheelTime = now;
+              }
+            }
+          }
+        }, { passive: true });
+      }
+      
       let mx = 0, my = 0, cx = 0, cy = 0;
       let lastHoveredMedia: HTMLElement | null = null;
       let lastScrollTop = -1;
@@ -643,16 +802,7 @@ import Analytics from '@vercel/analytics/astro'
               }
             }
 
-            // Range 2vh -> 3vh : Gallery Rail Slides (P3 stays fixed)
-            if (galleryRail) {
-              const start = 2 * vh; const end = 3 * vh;
-              if (scrollTop <= start) galleryRail.style.transform = `translateX(0%)`;
-              else if (scrollTop >= end) galleryRail.style.transform = `translateX(-50%)`;
-              else {
-                const p = (scrollTop - start) / vh;
-                galleryRail.style.transform = `translateX(-${p * 50}%)`;
-              }
-            }
+
 
             // Range 3vh -> 4vh : Panel 5 enters over Panel 3
             if (p5) {
@@ -716,15 +866,6 @@ import Analytics from '@vercel/analytics/astro'
              } else {
                const allDocImgs = document.querySelectorAll('#documentary-image');
                allDocImgs.forEach(el => (el as HTMLElement).style.transform = 'scale(1)');
-             }
-
-             if (posterMedia && posterMedia !== lastHoveredMedia) {
-               if (lastHoveredMedia) togglePosterVideo(lastHoveredMedia, false);
-               lastHoveredMedia = posterMedia;
-               togglePosterVideo(posterMedia, true);
-             } else if (!posterMedia && lastHoveredMedia) {
-               togglePosterVideo(lastHoveredMedia, false);
-               lastHoveredMedia = null;
              }
           }
         }
