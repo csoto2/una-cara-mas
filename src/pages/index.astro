@@ -371,21 +371,19 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: width 0.3s, height 0.3s, border-radius 0.3s;
-      }
-
-      #custom-cursor span {
-        font-family: Impact, sans-serif;
-        font-size: 8px;
-        color: black;
-        opacity: 0;
-        transition: opacity 0.2s;
-        text-transform: uppercase;
       }
 
       #custom-cursor.active {
         width: 15px;
         height: 15px;
+      }
+
+      #custom-cursor.hand-mode {
+        width: 25px;
+        height: 25px;
+        background: url('/images/white hand vector.svg') no-repeat center;
+        background-size: contain;
+        border-radius: 0;
       }
 
       @media (max-width: 900px) {
@@ -413,7 +411,6 @@ import SpeedInsights from '@vercel/speed-insights/astro'
     <button class="unmute-button" id="unmute-button">UNMUTE</button>
 
     <div id="snap-container">
-      <div class="snap-trigger"></div>
       <div class="snap-trigger"></div>
       <div class="snap-trigger"></div>
       <div class="snap-trigger"></div>
@@ -656,8 +653,8 @@ import SpeedInsights from '@vercel/speed-insights/astro'
           if (!scroller) return;
           const st = scroller.scrollTop;
           const vh = window.innerHeight;
-          // Rough check if Panel 3 is on screen (starts at 1vh, covers up to 3vh)
-          if (st > vh * 0.5 && st < vh * 3.5) {
+          // Tightened check for Panel 3 (center at 2vh)
+          if (st > vh * 1.5 && st < vh * 2.5) {
             if (e.key === 'ArrowRight') showNext();
             if (e.key === 'ArrowLeft') showPrev();
           }
@@ -698,8 +695,8 @@ import SpeedInsights from '@vercel/speed-insights/astro'
           if (dt < timeThreshold && Math.abs(dx) > threshold && Math.abs(dx) > Math.abs(dy)) {
             const st = scroller.scrollTop;
             const vh = window.innerHeight;
-            // Broader check for Panel 3
-            if (st > vh * 0.5 && st < vh * 3.5) {
+            // Tightened check for Panel 3 (center at 2vh)
+            if (st > vh * 1.5 && st < vh * 2.5) {
               if (dx < 0) showNext();
               else showPrev();
             }
@@ -713,7 +710,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
           if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
             const st = scroller.scrollTop;
             const vh = window.innerHeight;
-            if (st > vh * 0.5 && st < vh * 3.5) {
+            if (st > vh * 1.5 && st < vh * 2.5) {
               const now = Date.now();
               if (now - lastWheelTime < 400) return; // Debounce
 
@@ -806,9 +803,9 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 
 
 
-            // Range 3vh -> 4vh : Panel 5 enters over Panel 3
+            // Range 2vh -> 3vh : Panel 5 enters over Panel 3
             if (p5) {
-              const start = 3 * vh; const end = 4 * vh;
+              const start = 2 * vh; const end = 3 * vh;
               if (scrollTop <= start) p5.style.transform = `translateY(100%)`;
               else if (scrollTop >= end) p5.style.transform = `translateY(0%)`;
               else {
@@ -817,9 +814,9 @@ import SpeedInsights from '@vercel/speed-insights/astro'
               }
             }
 
-            // Range 4vh -> 5vh : Panel 6 enters over Panel 5
+            // Range 3vh -> 4vh : Panel 6 enters over Panel 5
             if (p6) {
-              const start = 4 * vh; const end = 5 * vh;
+              const start = 3 * vh; const end = 4 * vh;
               if (scrollTop <= start) p6.style.transform = `translateY(100%)`;
               else if (scrollTop >= end) p6.style.transform = `translateY(0%)`;
               else {
@@ -852,12 +849,18 @@ import SpeedInsights from '@vercel/speed-insights/astro'
              const posterMedia = hoveredElement?.closest('.poster-media') as HTMLElement | null;
              const overDocImg = hoveredElement?.closest('#documentary-image') as HTMLElement | null;
              const overStarfield = hoveredElement?.closest('#starfield') as HTMLElement | null;
+             const overArrow = hoveredElement?.closest('.nav-arrow') as HTMLElement | null;
 
              if (cursor) {
-               if (overDocImg || posterMedia || overStarfield) {
+               if (overArrow || overDocImg) {
+                 cursor.classList.add('hand-mode');
+                 cursor.classList.remove('active');
+               } else if (posterMedia || overStarfield) {
                  cursor.classList.add('active');
+                 cursor.classList.remove('hand-mode');
                } else {
                  cursor.classList.remove('active');
+                 cursor.classList.remove('hand-mode');
                }
              }
 

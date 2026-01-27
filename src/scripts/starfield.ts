@@ -283,7 +283,7 @@ export function initStarfield(canvasId: string, scrollerId: string) {
   let lastShootingStarTime = 0;
 
   function animateStars(timestamp: number) {
-    if (scroller && scroller.scrollTop < 4.8 * window.innerHeight) {
+    if (scroller && scroller.scrollTop < 3.8 * window.innerHeight) {
        requestAnimationFrame(animateStars);
        return; 
     }
