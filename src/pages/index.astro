@@ -79,7 +79,41 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       .panel-3 { z-index: 3; background: #0a0a0a; color: white; } 
       /* panel-4 removed */
       .panel-5 { z-index: 5; background: #fff; }
-      .panel-6 { z-index: 6; background: #000; }
+      .panel-vinyl { z-index: 6; background: #f5f5f5; }
+      .panel-6 { z-index: 7; background: #000; }
+
+      .vinyl-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 0;
+        aspect-ratio: 1 / 1;
+        overflow: hidden;
+        width: 83.33%;
+        transition: transform 0.4s ease-out;
+      }
+      .vinyl-container:hover {
+        transform: translate(-50%, -50%) scale(1.05);
+      }
+      @media (min-width: 1024px) {
+        .vinyl-container {
+          width: 80vh;
+        }
+      }
+      .vinyl-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        pointer-events: none;
+        animation: spin 5s linear infinite;
+        will-change: transform; /* Optimize animation */
+      }
+      /* Removed .vinyl-img.playing faster spin */
+      @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
 
       .gallery-rail {
         display: flex;
@@ -173,7 +207,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       .carousel-stage {
         position: relative;
         width: 100%;
-        height: 60vh;
+        height: 68vh;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -198,16 +232,16 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         pointer-events: auto;
       }
       .nav-arrow:hover { opacity: 0.7; }
-      .nav-prev { left: 28%; } /* Position closer to center */
-      .nav-next { right: 28%; }
+      .nav-prev { left: 20%; }
+      .nav-next { right: 20%; }
 
       .carousel-item {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%); /* Default center */
-        width: 45vh; /* Increase size slightly */
-        transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        width: 44vw; /* Middle ground size */
+        transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -218,37 +252,29 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       /* Modifier classes applied by JS */
       .carousel-item.active {
         z-index: 10;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(1.2);
         opacity: 1;
       }
 
       .carousel-item.prev {
         z-index: 5;
-        left: 15%; /* Push to the left edge */
-        transform: translate(-50%, -50%) scale(0.9);
         opacity: 0.6;
-        filter: grayscale(0%); /* Keep color but dim if needed, reference suggests full color */
       }
 
       .carousel-item.next {
         z-index: 5;
-        left: 85%; /* Push to the right edge */
-        transform: translate(-50%, -50%) scale(0.9);
         opacity: 0.6;
-        filter: grayscale(0%);
       }
 
       .carousel-item.hidden {
         opacity: 0;
         pointer-events: none;
-        transform: translate(-50%, -50%) scale(0.5);
+        z-index: 1;
       }
        /* We can calculate specific hidden positions in JS or use generic hidden */
 
       .poster-media { 
         position: relative; 
-        aspect-ratio: 1 / 1; 
+        aspect-ratio: 16 / 9; 
         width: 100%;
         overflow: hidden; 
         background: #111;
@@ -386,6 +412,26 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         border-radius: 0;
       }
 
+      .vinyl-info {
+        position: absolute;
+        top: 50%;
+        right: 18%; /* Closer to vinyl (approx middle of right 1/3) */
+        transform: translateY(-50%);
+        font-family: 'Courier New', Courier, monospace;
+        color: black; /* Assuming vinyl section has light background based on context (white/grey) */
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s ease;
+        z-index: 10;
+      }
+      .vinyl-info.visible { opacity: 1; }
+      .vinyl-info .album-title { font-weight: bold; text-transform: uppercase; font-size: 0.9rem; }
+      .vinyl-info .time-display { font-size: 0.8rem; }
+
       @media (max-width: 900px) {
         .poster-grid { grid-template-columns: repeat(2, 1fr); width: 90%; }
       }
@@ -411,6 +457,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
     <button class="unmute-button" id="unmute-button">UNMUTE</button>
 
     <div id="snap-container">
+      <div class="snap-trigger"></div>
       <div class="snap-trigger"></div>
       <div class="snap-trigger"></div>
       <div class="snap-trigger"></div>
@@ -500,18 +547,34 @@ import SpeedInsights from '@vercel/speed-insights/astro'
             <!-- 7 -->
             <div class="carousel-item">
                <div class="poster-media">
+                <img src="/images/weliveintime.png" loading="eager" decoding="sync">
+                <video class="poster-video" src="/videos/weliveintime.mp4" muted loop playsinline preload="auto"></video>
+              </div>
+              <div class="poster-title">we live in timeeee</div>
+            </div>
+            <!-- 8 -->
+            <div class="carousel-item">
+               <div class="poster-media">
                 <img src="/images/obsesivo.png" loading="eager" decoding="sync">
                 <video class="poster-video" src="/videos/obsesivo.mp4" muted loop playsinline preload="auto"></video>
               </div>
               <div class="poster-title">OBSESIVO COMPULSIVO.</div>
             </div>
-            <!-- 8 -->
+            <!-- 9 -->
             <div class="carousel-item">
                <div class="poster-media">
                 <img src="/images/yono.png" loading="eager" decoding="sync">
                 <video class="poster-video" src="/videos/yono.mp4" muted loop playsinline preload="auto"></video>
               </div>
               <div class="poster-title">yo no soy tu paiiii</div>
+            </div>
+            <!-- 10 -->
+            <div class="carousel-item">
+               <div class="poster-media">
+                <img src="/images/theend.png" loading="eager" decoding="sync">
+                <video class="poster-video" src="/videos/theend.mp4" muted loop playsinline preload="auto"></video>
+              </div>
+              <div class="poster-title">El Arte de Dejar. __</div>
             </div>
           </div>
         </div>
@@ -538,6 +601,20 @@ import SpeedInsights from '@vercel/speed-insights/astro'
             </div>
           </div>
           <p style="position: absolute; bottom: 3.5rem; left: 50%; transform: translateX(-50%); color:black; margin: 0; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.0em; text-transform: uppercase;">(DISCOVER)</p>
+        </div>
+      </section>
+
+      <!-- Panel Vinyl -->
+      <section class="panel panel-vinyl" id="p-vinyl">
+        <div class="vinyl-container" id="vinyl-container">
+          <img src="/images/vinyl_kova.png" class="vinyl-img" alt="Vinyl Kova">
+          <audio id="vinyl-audio" preload="none">
+            <source src="/audio/Debut Album New.wav" type="audio/wav">
+          </audio>
+        </div>
+        <div class="vinyl-info" id="vinyl-info">
+          <div class="album-title">Debut Album.</div>
+          <div class="time-display" id="time-display">0:00 / 0:00</div>
         </div>
       </section>
 
@@ -593,7 +670,18 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       const p2 = document.getElementById('p2');
       const p3 = document.getElementById('p3');
       const p5 = document.getElementById('p5');
+      const pVinyl = document.getElementById('p-vinyl');
       const p6 = document.getElementById('p6');
+
+      // Moved from bottom to be available in renderLoop
+      const documentaryImage = document.getElementById('documentary-image');
+      const documentaryOverlay = documentaryImage?.querySelector('.documentary-overlay') as HTMLElement | null;
+
+      const vinylContainer = document.getElementById('vinyl-container');
+      const vinylAudio = document.getElementById('vinyl-audio') as HTMLAudioElement | null;
+      const vinylImg = vinylContainer?.querySelector('.vinyl-img') as HTMLElement | null;
+      const vinylInfo = document.getElementById('vinyl-info');
+      const timeDisplay = document.getElementById('time-display');
 
       // --- CAROUSEL LOGIC ---
       const carouselItems = document.querySelectorAll('.carousel-item');
@@ -604,6 +692,11 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       function updateCarousel() {
         const total = carouselItems.length;
         carouselItems.forEach((item, index) => {
+          const offset = index - currentIndex;
+          const scale = index === currentIndex ? 1.1 : 0.85;
+          // Simple movement: straight forward slide with scale for active item
+          (item as HTMLElement).style.transform = `translate(calc(-50% + ${offset * 55}vw), -50%) scale(${scale})`;
+          
           item.className = 'carousel-item'; // Reset
           
           if (index === currentIndex) {
@@ -814,9 +907,20 @@ import SpeedInsights from '@vercel/speed-insights/astro'
               }
             }
 
-            // Range 3vh -> 4vh : Panel 6 enters over Panel 5
-            if (p6) {
+            // Range 3vh -> 4vh : Panel Vinyl enters over Panel 5
+            if (pVinyl) {
               const start = 3 * vh; const end = 4 * vh;
+              if (scrollTop <= start) pVinyl.style.transform = `translateY(100%)`;
+              else if (scrollTop >= end) pVinyl.style.transform = `translateY(0%)`;
+              else {
+                const p = (scrollTop - start) / vh;
+                pVinyl.style.transform = `translateY(${100 - (p * 100)}%)`;
+              }
+            }
+
+            // Range 4vh -> 5vh : Panel 6 enters over Panel Vinyl
+            if (p6) {
+              const start = 4 * vh; const end = 5 * vh;
               if (scrollTop <= start) p6.style.transform = `translateY(100%)`;
               else if (scrollTop >= end) p6.style.transform = `translateY(0%)`;
               else {
@@ -829,9 +933,26 @@ import SpeedInsights from '@vercel/speed-insights/astro'
             if (isPromoVisible) {
               if (promoVideo && promoVideo.paused) promoVideo.play().catch(() => {});
               if (unmuteBtn && document.body.contains(unmuteBtn)) unmuteBtn.classList.add('visible');
+
+               // NEW: Auto-pause vinyl if promo video is playing and not muted
+              if (promoVideo && !promoVideo.muted && vinylAudio && !vinylAudio.paused) {
+                vinylAudio.pause();
+                if (vinylImg) vinylImg.classList.remove('playing');
+                // We'll set a flag so we can resume it if needed, or user can resume manually.
+                (vinylAudio as any)._autoPaused = true;
+              }
             } else {
               if (promoVideo && !promoVideo.paused) promoVideo.pause();
               if (unmuteBtn) unmuteBtn.classList.remove('visible');
+
+              // NEW: Auto-resume vinyl if we paused it automatically
+              if (vinylAudio && (vinylAudio as any)._autoPaused) {
+                 vinylAudio.play().then(() => {
+                   if (vinylImg) vinylImg.classList.add('playing');
+                   // Note: vinylInfo should have stayed visible so that's fine.
+                 }).catch(() => {});
+                 (vinylAudio as any)._autoPaused = false;
+              }
             }
           }
         }
@@ -850,12 +971,13 @@ import SpeedInsights from '@vercel/speed-insights/astro'
              const overDocImg = hoveredElement?.closest('#documentary-image') as HTMLElement | null;
              const overStarfield = hoveredElement?.closest('#starfield') as HTMLElement | null;
              const overArrow = hoveredElement?.closest('.nav-arrow') as HTMLElement | null;
+             const overVinyl = hoveredElement?.closest('.vinyl-container') as HTMLElement | null;
 
              if (cursor) {
-               if (overArrow || overDocImg) {
+               if (overArrow || overDocImg || overVinyl) {
                  cursor.classList.add('hand-mode');
                  cursor.classList.remove('active');
-               } else if (posterMedia || overStarfield) {
+               } else if (overStarfield) {
                  cursor.classList.add('active');
                  cursor.classList.remove('hand-mode');
                } else {
@@ -883,6 +1005,15 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         if (promoVideo && unmuteBtn) {
           // Force unmute
           promoVideo.muted = false;
+
+          // NEW: If we just unmuted the promo video, and vinyl is playing, pause vinyl
+          // This covers the case where the user is already on Panel 2 watching muted video
+          // while listening to vinyl, then clicks unmute.
+          if (vinylAudio && !vinylAudio.paused) {
+             vinylAudio.pause();
+             if (vinylImg) vinylImg.classList.remove('playing');
+             (vinylAudio as any)._autoPaused = true;
+          }
 
           // Hide visually (fade) then remove from DOM so it can't reappear on scroll
           unmuteBtn.classList.remove('visible');
@@ -955,21 +1086,63 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       fetchPhxWeather();
       setInterval(fetchPhxWeather, 10 * 60 * 1000);
 
-      // 6. DOCUMENTARY IMAGE CLICK HANDLER
-      const documentaryImage = document.getElementById('documentary-image');
-      const documentaryOverlay = documentaryImage?.querySelector('.documentary-overlay') as HTMLElement | null;
+      // 6. DOCUMENTARY IMAGE & VINYL CLICK HANDLERS
+      // Variables moved to top scope...
+
+      function formatTime(s: number) {
+        if (!s || isNaN(s)) return '0:00';
+        const m = Math.floor(s / 60);
+        const sec = Math.floor(s % 60);
+        return `${m}:${sec.toString().padStart(2, '0')}`;
+      }
       
-      scroller?.addEventListener('click', () => {
-        if (!scroller || !documentaryImage || !documentaryOverlay) return;
-        
+      // Handle Vinyl Click directly (if possible, though scroller usually blocks it)
+      if (vinylContainer && vinylAudio && vinylImg) {
+        vinylContainer.addEventListener('click', () => {
+          if (vinylAudio.paused) {
+            vinylAudio.play().then(() => {
+              vinylImg.classList.add('playing');
+              vinylInfo?.classList.add('visible'); // Show info on play
+            }).catch(e => console.error("Audio playback failed", e));
+          } else {
+            vinylAudio.pause();
+            vinylImg.classList.remove('playing');
+            // Info stays visible on pause
+          }
+        });
+
+        vinylAudio.addEventListener('timeupdate', () => {
+           if (timeDisplay) {
+             const cur = vinylAudio.currentTime;
+             const dur = vinylAudio.duration;
+             timeDisplay.innerText = `${formatTime(cur)} / ${formatTime(dur)}`;
+           }
+        });
+
+        vinylAudio.addEventListener('ended', () => {
+          vinylImg.classList.remove('playing');
+          vinylAudio.currentTime = 0; 
+          vinylInfo?.classList.remove('visible'); // Hide on end
+        });
+      }
+
+      // Handle Clicks via Scroller Overlay
+      scroller?.addEventListener('click', (e) => {
         // Use the same trick as hover detection to see what's under the scroller
         scroller.style.pointerEvents = 'none';
         const hit = document.elementFromPoint(mx, my);
         scroller.style.pointerEvents = 'auto';
         
-        if (hit && documentaryImage.contains(hit)) {
+        // A. Documentary Logic
+        if (hit && documentaryImage && documentaryOverlay && documentaryImage.contains(hit)) {
           const isVisible = documentaryOverlay.style.opacity === '1';
           documentaryOverlay.style.opacity = isVisible ? '0' : '1';
+        }
+
+        // B. Vinyl Logic (Pass-through click)
+        if (hit && hit.closest('.vinyl-container')) {
+           const vc = hit.closest('.vinyl-container') as HTMLElement;
+           vc.click();
         }
       });
 
