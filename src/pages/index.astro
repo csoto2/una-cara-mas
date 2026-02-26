@@ -10,6 +10,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Una Cara Más</title>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=EB+Garamond:wght@700&family=Zalando+Sans+Expanded:wght@800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script>
       import { initStarfield } from '../scripts/starfield';
       (window as any).initStarfield = initStarfield;
@@ -441,14 +442,14 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 
       .bio-container {
         position: absolute; 
-        top: 50%; 
+        top: 55%;
         left: 50%; 
         transform: translate(-50%, -50%); 
         display: flex; 
         flex-direction: row; 
         justify-content: center; 
         align-items: center; 
-        gap: 2rem;
+        gap: 5vw;
         width: 100%;
       }
 
@@ -456,10 +457,36 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         text-align: center;
       }
 
+      .bio-img-wrapper {
+        aspect-ratio: 4 / 5;
+        width: min(35vw, 60vh);
+        overflow: hidden;
+      }
+
       .bio-img {
-        max-height: 70vh;
-        max-width: 45vw;
+        width: 100%;
+        height: 100%;
         object-fit: cover;
+        display: block;
+      }
+
+      .bio-label {
+        color: black;
+        margin-top: 0.6rem;
+        margin-bottom: 0;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.0em;
+        text-transform: uppercase;
+      }
+
+      .bio-action {
+        color: black;
+        margin-top: 0.15rem;
+        font-size: 0.7rem;
+        font-weight: 400;
+        letter-spacing: 0.0em;
+        text-transform: uppercase;
       }
 
       @media (max-width: 768px) {
@@ -515,9 +542,8 @@ import SpeedInsights from '@vercel/speed-insights/astro'
           justify-content: center;
           align-items: center;
         }
-        .bio-img {
-          max-height: 50vh !important;
-          max-width: 80vw !important;
+        .bio-img-wrapper {
+          width: 70vw !important;
         }
 
         .mobile-only-trigger {
@@ -599,7 +625,6 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       <section class="panel panel-2" id="p2">
         <div class="panel-bg">
           <video id="promo-video" playsinline loop muted preload="metadata">
-            <source src="https://files.catbox.moe/kkgy0w.mov" type="video/mp4">
           </video>
         </div>
       </section>
@@ -618,7 +643,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
             <div class="carousel-item active">
               <div class="poster-media">
                 <img src="/images/goboy.png" loading="eager" decoding="sync">
-                <video class="poster-video" src="/videos/goboy.mp4" muted loop playsinline preload="auto"></video>
+                <video class="poster-video" src="https://d2a01uidrlfe3n.cloudfront.net/videos/goboy.mp4" muted loop playsinline preload="none"></video>
               </div>
               <div class="poster-title">GO BOY!!!</div>
             </div>
@@ -626,7 +651,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
             <div class="carousel-item next">
                <div class="poster-media">
                 <img src="/images/manana.png" loading="eager" decoding="sync">
-                <video class="poster-video" src="/videos/manana.mp4" muted loop playsinline preload="auto"></video>
+                <video class="poster-video" src="https://d2a01uidrlfe3n.cloudfront.net/videos/manana.mp4" muted loop playsinline preload="none"></video>
               </div>
               <div class="poster-title">Mañana se Acaba el 🌎</div>
             </div>
@@ -634,7 +659,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
             <div class="carousel-item">
                <div class="poster-media">
                 <img src="/images/undia.png" loading="eager" decoding="sync">
-                <video class="poster-video" src="/videos/undia.mp4" muted loop playsinline preload="auto"></video>
+                <video class="poster-video" src="https://d2a01uidrlfe3n.cloudfront.net/videos/undia.mp4" muted loop playsinline preload="none"></video>
               </div>
               <div class="poster-title">Un Día Normalllll</div>
             </div>
@@ -642,7 +667,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
             <div class="carousel-item">
                <div class="poster-media">
                 <img src="/images/gioia.png" loading="eager" decoding="sync">
-                <video class="poster-video" src="/videos/gioia.mp4" muted loop playsinline preload="auto"></video>
+                <video class="poster-video" src="https://d2a01uidrlfe3n.cloudfront.net/videos/gioia.mp4" muted loop playsinline preload="none"></video>
               </div>
               <div class="poster-title">GIOIAAAA</div>
             </div>
@@ -650,7 +675,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
             <div class="carousel-item">
                <div class="poster-media">
                 <img src="/images/togya.png" loading="eager" decoding="sync">
-                <video class="poster-video" src="/videos/togya.mp4" muted loop playsinline preload="auto"></video>
+                <video class="poster-video" src="https://d2a01uidrlfe3n.cloudfront.net/videos/togya.mp4" muted loop playsinline preload="none"></video>
               </div>
               <div class="poster-title">TOGYAAAA</div>
             </div>
@@ -658,7 +683,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
             <div class="carousel-item">
                <div class="poster-media">
                 <img src="/images/redrocks.png" loading="eager" decoding="sync">
-                <video class="poster-video" src="/videos/redrocks.mp4" muted loop playsinline preload="auto"></video>
+                <video class="poster-video" src="https://d2a01uidrlfe3n.cloudfront.net/videos/redrocks.mp4" muted loop playsinline preload="none"></video>
               </div>
               <div class="poster-title">Kova at Red Rockssss</div>
             </div>
@@ -666,7 +691,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
             <div class="carousel-item">
                <div class="poster-media">
                 <img src="/images/weliveintime.png" loading="eager" decoding="sync">
-                <video class="poster-video" src="/videos/weliveintime.mp4" muted loop playsinline preload="auto"></video>
+                <video class="poster-video" src="https://d2a01uidrlfe3n.cloudfront.net/videos/weliveintime.mp4" muted loop playsinline preload="none"></video>
               </div>
               <div class="poster-title">we live in timeeee</div>
             </div>
@@ -674,7 +699,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
             <div class="carousel-item">
                <div class="poster-media">
                 <img src="/images/obsesivo.png" loading="eager" decoding="sync">
-                <video class="poster-video" src="/videos/obsesivo.mp4" muted loop playsinline preload="auto"></video>
+                <video class="poster-video" src="https://d2a01uidrlfe3n.cloudfront.net/videos/obsesivo.mp4" muted loop playsinline preload="none"></video>
               </div>
               <div class="poster-title">OBSESIVO COMPULSIVO.</div>
             </div>
@@ -682,7 +707,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
             <div class="carousel-item">
                <div class="poster-media">
                 <img src="/images/yono.png" loading="eager" decoding="sync">
-                <video class="poster-video" src="/videos/yono.mp4" muted loop playsinline preload="auto"></video>
+                <video class="poster-video" src="https://d2a01uidrlfe3n.cloudfront.net/videos/yono.mp4" muted loop playsinline preload="none"></video>
               </div>
               <div class="poster-title">yo no soy tu paiiii</div>
             </div>
@@ -690,7 +715,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
             <div class="carousel-item">
                <div class="poster-media">
                 <img src="/images/theend.png" loading="eager" decoding="sync">
-                <video class="poster-video" src="/videos/theend.mp4" muted loop playsinline preload="auto"></video>
+                <video class="poster-video" src="https://d2a01uidrlfe3n.cloudfront.net/videos/theend.mp4" muted loop playsinline preload="none"></video>
               </div>
               <div class="poster-title">El Arte de Dejar. __</div>
             </div>
@@ -704,21 +729,26 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       <section class="panel panel-5" id="p5">
         <div class="panel-content" style="position: relative; width: 100%; height: 100%;">
           <div class="bio-container">
-            <div class="bio-item">
-              <img class="bio-img" src="/images/kova-parker.jpeg" onerror="this.src='https://placehold.co/800x800/EEE/111?text=Kova+Portrait'">
-              <h2 style="color:black; margin-top:20px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.0em; text-transform: uppercase;">KOVA PARKER</h2>
+            <div class="bio-item" id="promo-image">
+              <div class="bio-img-wrapper" style="position: relative;">
+                <img class="bio-img" src="/images/kova-parker.jpeg" onerror="this.src='https://placehold.co/800x1000/EEE/111?text=Kova+Portrait'">
+                <video id="kova-webpromo" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: none; z-index: 10;" playsinline preload="none">
+                </video>
+              </div>
+              <h2 class="bio-label">KOVA PARKER</h2>
+              <p class="bio-action">(EXPLORE)</p>
             </div>
             <div class="bio-item" id="documentary-image">
-              <div style="position: relative; display: inline-block;">
-                <img class="bio-img" src="/images/kovastreet.jpeg" onerror="this.src='https://placehold.co/800x800/EEE/111?text=Kova+Street'">
+              <div class="bio-img-wrapper" style="position: relative;">
+                <img class="bio-img" src="/images/kovastreet.jpeg" onerror="this.src='https://placehold.co/800x1000/EEE/111?text=Kova+Street'">
                 <div class="documentary-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;">
                   <p style="color: white; font-size: 0.8rem; font-weight: 400; letter-spacing: 0.00em; text-transform: uppercase; text-align: center; margin: 0; padding: 1rem;">DOCUMENTARY BEING RELEASED<br>MARCH 22, 2026</p>
                 </div>
               </div>
-              <h2 style="color:black; margin-top:20px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.0em; text-transform: uppercase;">UNA CARA MÁS</h2>
+              <h2 class="bio-label">UNA CARA MÁS</h2>
+              <p class="bio-action">(DISCOVER)</p>
             </div>
           </div>
-          <p style="position: absolute; bottom: 3.5rem; left: 50%; transform: translateX(-50%); color:black; margin: 0; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.0em; text-transform: uppercase;">(DISCOVER)</p>
         </div>
       </section>
 
@@ -727,7 +757,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         <div class="vinyl-container" id="vinyl-container">
           <img src="/images/vinyl_kova.png" class="vinyl-img" alt="Vinyl Kova">
           <audio id="vinyl-audio" preload="none">
-            <source src="/audio/Debut Album New.wav" type="audio/wav">
+            <source src="/audio/Debut Album New.m4a" type="audio/mp4">
           </audio>
         </div>
         <div class="vinyl-info" id="vinyl-info">
@@ -784,6 +814,20 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       const unmuteBtn = document.getElementById('unmute-button') as HTMLButtonElement | null;
       const fixedUi = document.querySelector('.fixed-ui');
       const galleryRail = document.getElementById('gallery-rail');
+
+      // --- HLS SETUP for promo video ---
+      const promoHlsSrc = 'https://d2a01uidrlfe3n.cloudfront.net/videos/hls/promo/promo.m3u8';
+      if (promoVideo) {
+        if ((window as any).Hls && (window as any).Hls.isSupported()) {
+          const hls = new (window as any).Hls();
+          hls.loadSource(promoHlsSrc);
+          hls.attachMedia(promoVideo);
+        } else if (promoVideo.canPlayType('application/vnd.apple.mpegurl')) {
+          promoVideo.src = promoHlsSrc;
+        } else {
+          promoVideo.src = 'https://d2a01uidrlfe3n.cloudfront.net/videos/promo.mp4';
+        }
+      }
       
       const p2 = document.getElementById('p2');
       const p3 = document.getElementById('p3');
@@ -794,6 +838,32 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       // Moved from bottom to be available in renderLoop
       const documentaryImage = document.getElementById('documentary-image');
       const documentaryOverlay = documentaryImage?.querySelector('.documentary-overlay') as HTMLElement | null;
+
+      const promoImage = document.getElementById('promo-image');
+      const kovaWebpromo = document.getElementById('kova-webpromo') as HTMLVideoElement | null;
+
+      // --- HLS SETUP for webpromo video ---
+      const webpromoHlsSrc = 'https://d2a01uidrlfe3n.cloudfront.net/videos/hls/webpromo/webpromo.m3u8';
+      let webpromoHls: any = null;
+      function initWebpromoHls() {
+        if (!kovaWebpromo) return;
+        if ((window as any).Hls && (window as any).Hls.isSupported()) {
+          if (webpromoHls) { webpromoHls.destroy(); }
+          webpromoHls = new (window as any).Hls();
+          webpromoHls.loadSource(webpromoHlsSrc);
+          webpromoHls.attachMedia(kovaWebpromo);
+        } else if (kovaWebpromo.canPlayType('application/vnd.apple.mpegurl')) {
+          kovaWebpromo.src = webpromoHlsSrc;
+        } else {
+          kovaWebpromo.src = 'https://d2a01uidrlfe3n.cloudfront.net/videos/kova_webpromo.mp4';
+        }
+      }
+
+      if (kovaWebpromo) {
+        kovaWebpromo.addEventListener('ended', () => {
+          kovaWebpromo.style.display = 'none';
+        });
+      }
 
       const vinylContainer = document.getElementById('vinyl-container');
       const vinylAudio = document.getElementById('vinyl-audio') as HTMLAudioElement | null;
@@ -1113,12 +1183,13 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 
              const posterMedia = hoveredElement?.closest('.poster-media') as HTMLElement | null;
              const overDocImg = hoveredElement?.closest('#documentary-image') as HTMLElement | null;
+             const overPromoImg = hoveredElement?.closest('#promo-image') as HTMLElement | null;
              const overStarfield = hoveredElement?.closest('#starfield') as HTMLElement | null;
              const overArrow = hoveredElement?.closest('.nav-arrow') as HTMLElement | null;
              const overVinyl = hoveredElement?.closest('.vinyl-container') as HTMLElement | null;
 
              if (cursor) {
-               if (overArrow || overDocImg || overVinyl) {
+               if (overArrow || overDocImg || overVinyl || overPromoImg) {
                  cursor.classList.add('hand-mode');
                  cursor.classList.remove('active');
                } else if (overStarfield) {
@@ -1137,6 +1208,15 @@ import SpeedInsights from '@vercel/speed-insights/astro'
              } else {
                const allDocImgs = document.querySelectorAll('#documentary-image');
                allDocImgs.forEach(el => (el as HTMLElement).style.transform = 'scale(1)');
+             }
+
+             // Visual feedback for the promo image
+             if (overPromoImg) {
+               overPromoImg.style.transform = 'scale(1.02)';
+               overPromoImg.style.transition = 'transform 0.3s ease';
+             } else {
+               const allPromoImgs = document.querySelectorAll('#promo-image');
+               allPromoImgs.forEach(el => (el as HTMLElement).style.transform = 'scale(1)');
              }
           }
         }
@@ -1281,6 +1361,20 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         if (hit && documentaryImage && documentaryOverlay && documentaryImage.contains(hit)) {
           const isVisible = documentaryOverlay.style.opacity === '1';
           documentaryOverlay.style.opacity = isVisible ? '0' : '1';
+        }
+
+        // A2. Promo Image Video Logic
+        if (hit && promoImage && kovaWebpromo && promoImage.contains(hit)) {
+          if (kovaWebpromo.style.display === 'none' || !kovaWebpromo.style.display) {
+            initWebpromoHls();
+            kovaWebpromo.style.display = 'block';
+            kovaWebpromo.currentTime = 0;
+            kovaWebpromo.play().catch(() => {});
+          } else if (kovaWebpromo.paused) {
+            kovaWebpromo.play().catch(() => {});
+          } else {
+            kovaWebpromo.pause();
+          }
         }
 
         // B. Vinyl Logic (Pass-through click)
