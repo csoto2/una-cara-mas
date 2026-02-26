@@ -432,6 +432,123 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       .vinyl-info .album-title { font-weight: bold; text-transform: uppercase; font-size: 0.9rem; }
       .vinyl-info .time-display { font-size: 0.8rem; }
 
+      .hero-title {
+        font-size: 1vw;
+      }
+      .hero-subtitle {
+        font-size: 0.75vw;
+      }
+
+      .bio-container {
+        position: absolute; 
+        top: 50%; 
+        left: 50%; 
+        transform: translate(-50%, -50%); 
+        display: flex; 
+        flex-direction: row; 
+        justify-content: center; 
+        align-items: center; 
+        gap: 2rem;
+        width: 100%;
+      }
+
+      .bio-item {
+        text-align: center;
+      }
+
+      .bio-img {
+        max-height: 70vh;
+        max-width: 45vw;
+        object-fit: cover;
+      }
+
+      @media (max-width: 768px) {
+        .fixed-ui {
+          padding: 1rem;
+          font-size: 0.6rem;
+        }
+        .fixed-center {
+          font-size: 1rem;
+          text-align: center;
+          width: 100%;
+          position: static;
+          transform: none;
+          margin-bottom: 0.5rem;
+        }
+        .fixed-ui {
+          flex-direction: column;
+          align-items: center;
+        }
+        .fixed-left, .fixed-right {
+          display: none !important;
+        }
+        #phx-block {
+          text-align: center !important;
+        }
+
+        .hero-title {
+          font-size: 4vw !important;
+        }
+        .hero-subtitle {
+          font-size: 2vw !important;
+        }
+
+        .carousel-item {
+          width: 75vw;
+        }
+
+        .bio-container {
+          flex-direction: column !important;
+          gap: 0 !important;
+          top: 0 !important;
+          left: 0 !important;
+          transform: translateY(0);
+          height: 200vh;
+          justify-content: flex-start;
+          padding-top: 0;
+        }
+        .bio-item {
+          height: 100vh;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+        .bio-img {
+          max-height: 50vh !important;
+          max-width: 80vw !important;
+        }
+
+        .mobile-only-trigger {
+          display: block !important;
+        }
+
+        .vinyl-info {
+          top: auto;
+          bottom: 15%;
+          right: 50%;
+          transform: translateX(50%);
+          text-align: center;
+          width: 100%;
+        }
+        
+        .vinyl-container {
+          width: 90vw;
+          max-width: 400px;
+        }
+
+        .nav-prev { left: 1%; }
+        .nav-next { right: 1%; }
+
+        #custom-cursor {
+          display: none !important;
+        }
+        html, body {
+          cursor: auto;
+        }
+      }
+
       @media (max-width: 900px) {
         .poster-grid { grid-template-columns: repeat(2, 1fr); width: 90%; }
       }
@@ -463,6 +580,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       <div class="snap-trigger"></div>
       <div class="snap-trigger"></div>
       <div class="snap-trigger"></div>
+      <div class="snap-trigger mobile-only-trigger" style="display: none;"></div>
     </div>
 
     <div id="visual-stack">
@@ -471,8 +589,8 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         <div class="panel-bg"><img id="hero-img" src="/images/gemini.png" onerror="this.src='https://placehold.co/1920x1080/000/fff?text=UNA+CARA+MAS'"></div>
         <div class="panel-content" style="justify-content: flex-end; padding-bottom: 2rem;">
           <div style="text-align: center;">
-            <h1 style="color:white; font-size: 1vw; letter-spacing: 0em; text-transform: uppercase; mix-blend-mode: difference; margin: 0;">Una Cara Más</h1>
-            <p style="color:white; font-size: 0.8vw; letter-spacing: 0em; text-transform: uppercase; mix-blend-mode: difference; margin: 10px 0 0 0;">DROPPED ON FEBRUARY 28, 2026</p>
+            <h1 class="hero-title" style="color:white; letter-spacing: 0em; text-transform: uppercase; mix-blend-mode: difference; margin: 0;">Una Cara Más</h1>
+            <p class="hero-subtitle" style="color:white; letter-spacing: 0em; text-transform: uppercase; mix-blend-mode: difference; margin: 10px 0 0 0;">DROPPED ON FEBRUARY 28, 2026</p>
           </div>
         </div>
       </section>
@@ -585,14 +703,14 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       <!-- Panel 5: Bio -->
       <section class="panel panel-5" id="p5">
         <div class="panel-content" style="position: relative; width: 100%; height: 100%;">
-          <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 2rem;">
-            <div style="text-align: center;">
-              <img src="/images/kova-parker.jpeg" style="max-height: 70vh" onerror="this.src='https://placehold.co/800x800/EEE/111?text=Kova+Portrait'">
+          <div class="bio-container">
+            <div class="bio-item">
+              <img class="bio-img" src="/images/kova-parker.jpeg" onerror="this.src='https://placehold.co/800x800/EEE/111?text=Kova+Portrait'">
               <h2 style="color:black; margin-top:20px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.0em; text-transform: uppercase;">KOVA PARKER</h2>
             </div>
-            <div style="text-align: center;" id="documentary-image">
+            <div class="bio-item" id="documentary-image">
               <div style="position: relative; display: inline-block;">
-                <img src="/images/kovastreet.jpeg" style="max-height: 70vh" onerror="this.src='https://placehold.co/800x800/EEE/111?text=Kova+Street'">
+                <img class="bio-img" src="/images/kovastreet.jpeg" onerror="this.src='https://placehold.co/800x800/EEE/111?text=Kova+Street'">
                 <div class="documentary-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;">
                   <p style="color: white; font-size: 0.8rem; font-weight: 400; letter-spacing: 0.00em; text-transform: uppercase; text-align: center; margin: 0; padding: 1rem;">DOCUMENTARY BEING RELEASED<br>MARCH 22, 2026</p>
                 </div>
@@ -691,11 +809,12 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 
       function updateCarousel() {
         const total = carouselItems.length;
+        const offsetVw = window.innerWidth < 768 ? 85 : 55;
         carouselItems.forEach((item, index) => {
           const offset = index - currentIndex;
           const scale = index === currentIndex ? 1.1 : 0.85;
           // Simple movement: straight forward slide with scale for active item
-          (item as HTMLElement).style.transform = `translate(calc(-50% + ${offset * 55}vw), -50%) scale(${scale})`;
+          (item as HTMLElement).style.transform = `translate(calc(-50% + ${offset * offsetVw}vw), -50%) scale(${scale})`;
           
           item.className = 'carousel-item'; // Reset
           
@@ -723,6 +842,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 
       if (carouselItems.length > 0) {
         updateCarousel();
+        window.addEventListener('resize', updateCarousel);
         
         const showNext = () => {
           if (currentIndex < carouselItems.length - 1) {
@@ -907,24 +1027,48 @@ import SpeedInsights from '@vercel/speed-insights/astro'
               }
             }
 
-            // Range 3vh -> 4vh : Panel Vinyl enters over Panel 5
+            // Range 3vh -> 4vh (or 4vh -> 5vh on mobile) : Panel Vinyl enters over Panel 5
+            const isMobile = window.innerWidth <= 768;
+            const vinylStart = isMobile ? 4 * vh : 3 * vh;
+            const vinylEnd = isMobile ? 5 * vh : 4 * vh;
+            
+            if (isMobile && p5) {
+              // On mobile, Panel 5 scrolls internally for 1vh
+              const bioContainer = p5.querySelector('.bio-container') as HTMLElement;
+              if (bioContainer) {
+                if (scrollTop > 3 * vh && scrollTop < 4 * vh) {
+                  const p = (scrollTop - 3 * vh) / vh;
+                  bioContainer.style.transform = `translateY(-${p * 100}vh)`;
+                } else if (scrollTop <= 3 * vh) {
+                  bioContainer.style.transform = `translateY(0)`;
+                } else {
+                  bioContainer.style.transform = `translateY(-100vh)`;
+                }
+              }
+            } else if (p5) {
+              const bioContainer = p5.querySelector('.bio-container') as HTMLElement;
+              if (bioContainer) {
+                 bioContainer.style.transform = `translate(-50%, -50%)`;
+              }
+            }
+
             if (pVinyl) {
-              const start = 3 * vh; const end = 4 * vh;
-              if (scrollTop <= start) pVinyl.style.transform = `translateY(100%)`;
-              else if (scrollTop >= end) pVinyl.style.transform = `translateY(0%)`;
+              if (scrollTop <= vinylStart) pVinyl.style.transform = `translateY(100%)`;
+              else if (scrollTop >= vinylEnd) pVinyl.style.transform = `translateY(0%)`;
               else {
-                const p = (scrollTop - start) / vh;
+                const p = (scrollTop - vinylStart) / vh;
                 pVinyl.style.transform = `translateY(${100 - (p * 100)}%)`;
               }
             }
 
-            // Range 4vh -> 5vh : Panel 6 enters over Panel Vinyl
+            // Range 4vh -> 5vh (or 5vh -> 6vh on mobile) : Panel 6 enters over Panel Vinyl
+            const p6Start = isMobile ? 5 * vh : 4 * vh;
+            const p6End = isMobile ? 6 * vh : 5 * vh;
             if (p6) {
-              const start = 4 * vh; const end = 5 * vh;
-              if (scrollTop <= start) p6.style.transform = `translateY(100%)`;
-              else if (scrollTop >= end) p6.style.transform = `translateY(0%)`;
+              if (scrollTop <= p6Start) p6.style.transform = `translateY(100%)`;
+              else if (scrollTop >= p6End) p6.style.transform = `translateY(0%)`;
               else {
-                const p = (scrollTop - start) / vh;
+                const p = (scrollTop - p6Start) / vh;
                 p6.style.transform = `translateY(${100 - (p * 100)}%)`;
               }
             }

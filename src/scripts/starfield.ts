@@ -264,7 +264,7 @@ export function initStarfield(canvasId: string, scrollerId: string) {
 
   function initStarScene() {
     backgroundStars = [];
-    for (let i = 0; i < NUM_BACKGROUND_STARS; i++) backgroundStars.push(new BackgroundStar());
+    // Removed background stars
     textStars = [];
     const textPoints = getStarTextPoints(STAR_TEXT);
     textPoints.sort((a, b) => (a.x * 0.3 + Math.random() * starCanvas!.width * 0.7) - (b.x * 0.3 + Math.random() * starCanvas!.width * 0.7));
@@ -283,7 +283,13 @@ export function initStarfield(canvasId: string, scrollerId: string) {
   let lastShootingStarTime = 0;
 
   function animateStars(timestamp: number) {
-    if (scroller && scroller.scrollTop < 3.8 * window.innerHeight) {
+    // Determine the threshold based on mobile or desktop
+    const isMobile = window.innerWidth <= 768;
+    const threshold = isMobile ? 4.8 * window.innerHeight : 3.8 * window.innerHeight;
+
+    if (scroller && scroller.scrollTop < threshold) {
+       // Reset start time so animation doesn't progress while hidden
+       starStartTime = null;
        requestAnimationFrame(animateStars);
        return; 
     }
