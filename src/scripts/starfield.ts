@@ -16,8 +16,8 @@ export function initStarfield(canvasId: string, scrollerId: string) {
 
   const NUM_BACKGROUND_STARS = 200;
   const STAR_TEXT = "KOVA PARKER";
-  const TEXT_REVEAL_DURATION = 4000;
-  const TEXT_REVEAL_START = 2000;
+  const TEXT_REVEAL_DURATION = 8000;
+  const TEXT_REVEAL_START = 1000;
 
   let mouseX = -1000;
   let mouseY = -1000;
@@ -106,6 +106,7 @@ export function initStarfield(canvasId: string, scrollerId: string) {
     baseX: number; baseY: number;
     x: number; y: number;
     vx: number = 0; vy: number = 0;
+    deviationPhase: number; // tiny individual offset
 
     constructor(x: number, y: number, delay: number) {
       this.baseX = x; this.baseY = y;
@@ -115,7 +116,8 @@ export function initStarfield(canvasId: string, scrollerId: string) {
       this.twinkleSpeed = Math.random() * 0.004 + 0.002;
       this.twinkleOffset = Math.random() * Math.PI * 2;
       this.targetBrightness = Math.random() * 0.3 + 0.7;
-      this.popDuration = 300 + Math.random() * 200;
+      this.popDuration = 800 + Math.random() * 600;
+      this.deviationPhase = Math.random() * Math.PI * 2;
     }
     update(time: number, elapsed: number) {
       if (!this.born && elapsed >= this.delay) {
@@ -126,9 +128,10 @@ export function initStarfield(canvasId: string, scrollerId: string) {
       const age = elapsed - (this.birthTime || 0);
       if (age < this.popDuration) {
         const progress = age / this.popDuration;
-        const elastic = 1 - Math.pow(2, -10 * progress) * Math.cos(progress * Math.PI * 2);
-        this.size = this.targetSize * Math.min(elastic, 1);
-        this.brightness = this.targetBrightness * Math.min(progress * 1.5, 1);
+        // Smooth ease-out: starts fast, settles gently
+        const ease = 1 - Math.pow(1 - progress, 3);
+        this.size = this.targetSize * ease;
+        this.brightness = this.targetBrightness * ease;
       } else {
         this.size = this.targetSize;
         this.brightness = this.targetBrightness;
@@ -153,11 +156,19 @@ export function initStarfield(canvasId: string, scrollerId: string) {
         this.vy += forceDirectionY * force * pushStrength;
       }
 
-      // Spring back
-      // Very weak spring for slow return
-      const springStrength = 0.003; 
-      const returnX = this.baseX - this.x;
-      const returnY = this.baseY - this.y;
+      // Uniform float — all stars move together, with super slight per-star deviation
+      const floatTime = time * 0.0003;
+      // Main uniform drift (all stars get the same offset)
+      const floatX = Math.sin(floatTime * 0.7) * 15 + Math.sin(floatTime * 0.4) * 10;
+      const floatY = Math.cos(floatTime * 0.5) * 10 + Math.cos(floatTime * 0.25) * 8;
+      // Tiny per-star deviation (barely noticeable)
+      const devX = Math.sin(floatTime * 0.6 + this.deviationPhase) * 0.8;
+      const devY = Math.cos(floatTime * 0.5 + this.deviationPhase) * 0.6;
+
+      // Spring back to base + float offset
+      const springStrength = 0.008; 
+      const returnX = (this.baseX + floatX + devX) - this.x;
+      const returnY = (this.baseY + floatY + devY) - this.y;
       
       this.vx += returnX * springStrength;
       this.vy += returnY * springStrength;
@@ -183,51 +194,6 @@ export function initStarfield(canvasId: string, scrollerId: string) {
       ctx!.beginPath();
       ctx!.arc(this.x, this.y, this.displaySize, 0, Math.PI * 2);
       ctx!.fillStyle = `rgba(255, 250, 220, ${this.currentBrightness})`;
-      ctx!.fill();
-    }
-  }
-
-  class ShootingStar {
-    active: boolean = false; x: number = 0; y: number = 0; length: number = 0;
-    speed: number = 0; angle: number = 0; opacity: number = 0; thickness: number = 0;
-
-    activate() {
-      this.x = Math.random() * starCanvas!.width * 0.8;
-      this.y = Math.random() * starCanvas!.height * 0.4;
-      this.length = Math.random() * 100 + 50;
-      this.speed = Math.random() * 15 + 10;
-      this.angle = Math.PI / 4 + (Math.random() - 0.5) * 0.3;
-      this.opacity = 1;
-      this.thickness = Math.random() * 2 + 1;
-      this.active = true;
-    }
-    update() {
-      if (!this.active) return;
-      this.x += Math.cos(this.angle) * this.speed;
-      this.y += Math.sin(this.angle) * this.speed;
-      this.opacity -= 0.015;
-      if (this.opacity <= 0 || this.x > starCanvas!.width + 100 || this.y > starCanvas!.height + 100) {
-        this.active = false;
-      }
-    }
-    draw() {
-      if (!this.active) return;
-      const tailX = this.x - Math.cos(this.angle) * this.length;
-      const tailY = this.y - Math.sin(this.angle) * this.length;
-      const gradient = ctx!.createLinearGradient(this.x, this.y, tailX, tailY);
-      gradient.addColorStop(0, `rgba(255, 250, 220, ${this.opacity})`);
-      gradient.addColorStop(0.3, `rgba(255, 250, 220, ${this.opacity * 0.6})`);
-      gradient.addColorStop(1, 'transparent');
-      ctx!.beginPath();
-      ctx!.moveTo(this.x, this.y);
-      ctx!.lineTo(tailX, tailY);
-      ctx!.strokeStyle = gradient;
-      ctx!.lineWidth = this.thickness;
-      ctx!.lineCap = 'round';
-      ctx!.stroke();
-      ctx!.beginPath();
-      ctx!.arc(this.x, this.y, this.thickness, 0, Math.PI * 2);
-      ctx!.fillStyle = `rgba(255, 250, 220, ${this.opacity})`;
       ctx!.fill();
     }
   }
@@ -260,27 +226,22 @@ export function initStarfield(canvasId: string, scrollerId: string) {
 
   let backgroundStars: BackgroundStar[] = [];
   let textStars: TextStar[] = [];
-  let shootingStars: ShootingStar[] = [];
 
   function initStarScene() {
     backgroundStars = [];
     // Removed background stars
     textStars = [];
     const textPoints = getStarTextPoints(STAR_TEXT);
-    textPoints.sort((a, b) => (a.x * 0.3 + Math.random() * starCanvas!.width * 0.7) - (b.x * 0.3 + Math.random() * starCanvas!.width * 0.7));
     for (let i = 0; i < textPoints.length; i++) {
-      const delay = TEXT_REVEAL_START + (i / textPoints.length) * TEXT_REVEAL_DURATION;
-      const randomDelay = delay + (Math.random() - 0.5) * 500;
-      textStars.push(new TextStar(textPoints[i].x, textPoints[i].y, randomDelay));
+      // Each star gets a fully random delay — no index-based ordering
+      const delay = TEXT_REVEAL_START + Math.random() * TEXT_REVEAL_DURATION;
+      textStars.push(new TextStar(textPoints[i].x, textPoints[i].y, delay));
     }
-    shootingStars = [];
-    for (let i = 0; i < 5; i++) shootingStars.push(new ShootingStar());
   }
 
   initStarScene();
 
   let starStartTime: number | null = null;
-  let lastShootingStarTime = 0;
 
   function animateStars(timestamp: number) {
     // Determine the threshold based on mobile or desktop
@@ -295,16 +256,7 @@ export function initStarfield(canvasId: string, scrollerId: string) {
     }
     if (!starStartTime) starStartTime = timestamp;
     const elapsed = timestamp - starStartTime;
-    ctx!.fillStyle = '#000008';
-    ctx!.fillRect(0, 0, starCanvas!.width, starCanvas!.height);
-    if (timestamp - lastShootingStarTime > 8000 + Math.random() * 4000) {
-      const inactive = shootingStars.find(s => !s.active);
-      if (inactive) {
-        inactive.activate();
-        lastShootingStarTime = timestamp;
-      }
-    }
-    for (const star of shootingStars) { star.update(); star.draw(); }
+    ctx!.clearRect(0, 0, starCanvas!.width, starCanvas!.height);
     for (const star of backgroundStars) { star.update(timestamp); star.draw(); }
     for (const star of textStars) { star.update(timestamp, elapsed); star.draw(); }
     requestAnimationFrame(animateStars);

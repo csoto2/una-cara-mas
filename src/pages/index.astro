@@ -81,7 +81,18 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       /* panel-4 removed */
       .panel-5 { z-index: 5; background: #fff; }
       .panel-vinyl { z-index: 6; background: #f5f5f5; }
-      .panel-6 { z-index: 7; background: #000; }
+      .panel-6 { z-index: 7; background: #000; position: relative; }
+      .panel-7 { z-index: 8; background: #fff; color: #000; }
+      .dust-overlay {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        object-fit: cover;
+        opacity: 0.2;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .panel-6 canvas { position: relative; z-index: 1; background: transparent; }
 
       .vinyl-container {
         position: absolute;
@@ -575,6 +586,133 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         }
       }
 
+      /* --- FOOTER PANEL --- */
+      .footer-inner {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 6rem 6vw 4vh;
+      }
+
+      .footer-columns {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        width: 100%;
+        gap: 2rem;
+        margin-bottom: 4rem;
+      }
+
+      .footer-col {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+      }
+
+      .footer-heading {
+        font-family: system-ui, -apple-system, sans-serif;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin: 0 0 0.6rem 0;
+        color: #000;
+      }
+
+      .footer-link {
+        font-family: system-ui, -apple-system, sans-serif;
+        font-size: 0.7rem;
+        font-weight: 400;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #000;
+        text-decoration: none;
+        transition: opacity 0.2s ease;
+        cursor: pointer;
+      }
+      .footer-link:hover { opacity: 0.5; }
+
+      .footer-divider {
+        width: 100%;
+        height: 1px;
+        background: #d0d0d0;
+        margin-top: auto;
+        margin-bottom: 2rem;
+      }
+
+      .footer-bottom {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        width: 100%;
+      }
+
+      .footer-socials {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        gap: 1.6rem;
+        align-items: center;
+      }
+
+      .social-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #000;
+        transition: opacity 0.2s ease;
+      }
+      .social-icon:hover { opacity: 0.5; }
+      .social-icon svg {
+        width: 18px;
+        height: 18px;
+        fill: currentColor;
+      }
+
+      .footer-copyright {
+        font-family: system-ui, -apple-system, sans-serif;
+        font-size: 0.65rem;
+        font-weight: 400;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #666;
+        text-align: center;
+        width: 100%;
+      }
+
+      .footer-logo {
+        width: 80px;
+        height: auto;
+        display: block;
+        margin: 0 auto 0.8rem;
+        opacity: 0.85;
+      }
+
+      @media (max-width: 768px) {
+        .footer-inner {
+          padding: 5rem 5vw 3vh;
+        }
+        .footer-columns {
+          flex-direction: column;
+          gap: 2rem;
+          margin-bottom: 2.5rem;
+        }
+        .footer-bottom {
+          flex-direction: column;
+          gap: 1.2rem;
+          align-items: center;
+        }
+        .footer-socials {
+          position: static;
+          transform: none;
+        }
+      }
+
       @media (max-width: 900px) {
         .poster-grid { grid-template-columns: repeat(2, 1fr); width: 90%; }
       }
@@ -607,6 +745,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       <div class="snap-trigger"></div>
       <div class="snap-trigger"></div>
       <div class="snap-trigger mobile-only-trigger" style="display: none;"></div>
+      <div class="snap-trigger"></div>
     </div>
 
     <div id="visual-stack">
@@ -731,8 +870,9 @@ import SpeedInsights from '@vercel/speed-insights/astro'
           <div class="bio-container">
             <div class="bio-item" id="promo-image">
               <div class="bio-img-wrapper" style="position: relative;">
-                <img class="bio-img" src="/images/kova-parker.jpeg" onerror="this.src='https://placehold.co/800x1000/EEE/111?text=Kova+Portrait'">
-                <video id="kova-webpromo" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: none; z-index: 10;" playsinline preload="none">
+                <img class="bio-img" src="/images/kova_wall.jpeg" onerror="this.src='https://placehold.co/800x1000/EEE/111?text=Kova+Portrait'">
+                <div id="webpromo-bg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: none; z-index: 5;"></div>
+                <video id="kova-webpromo" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; display: none; z-index: 10;" playsinline preload="none">
                 </video>
               </div>
               <h2 class="bio-label">KOVA PARKER</h2>
@@ -768,7 +908,49 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 
       <!-- Panel 6: Starfield Animation -->
       <section class="panel panel-6" id="p6">
+        <video class="dust-overlay" autoplay muted loop playsinline preload="none" src="https://d2a01uidrlfe3n.cloudfront.net/videos/dust_scratches.mp4"></video>
         <canvas id="starfield" style="display: block; width: 100%; height: 100%;"></canvas>
+      </section>
+
+      <!-- Panel 7: Footer -->
+      <section class="panel panel-7" id="p7">
+        <div class="footer-inner">
+          <div class="footer-columns">
+            <div class="footer-col">
+              <h4 class="footer-heading">CONTACT</h4>
+              <a href="mailto:social@noiskey.com" class="footer-link">social@noiskey.com</a>
+            </div>
+            <div class="footer-col">
+              <h4 class="footer-heading">LEGAL</h4>
+              <a href="#" class="footer-link">Privacy Policy</a>
+              <a href="#" class="footer-link">Terms of Service</a>
+              <a href="#" class="footer-link">Cookie Policy</a>
+            </div>
+            <div class="footer-col">
+              <h4 class="footer-heading">SUBSCRIBE</h4>
+              <a href="#" class="footer-link">Newsletter &rsaquo;</a>
+            </div>
+          </div>
+          <div class="footer-divider"></div>
+          <div class="footer-bottom">
+            <div class="footer-socials">
+              <a href="https://www.instagram.com" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram">
+                <svg viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5Zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5Zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5Zm5.5-.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/></svg>
+              </a>
+              <a href="https://www.tiktok.com" target="_blank" rel="noopener" class="social-icon" aria-label="TikTok">
+                <svg viewBox="0 0 24 24"><path d="M16.6 5.82A4.278 4.278 0 0 1 13.64 3h-3.015v12.418a2.592 2.592 0 0 1-2.584 2.477 2.59 2.59 0 0 1-2.59-2.59 2.59 2.59 0 0 1 2.59-2.59c.267 0 .525.04.77.112V9.78a5.625 5.625 0 0 0-.77-.053 5.627 5.627 0 0 0-5.625 5.625A5.627 5.627 0 0 0 8.04 21a5.627 5.627 0 0 0 5.625-5.625V9.34a7.31 7.31 0 0 0 4.275 1.374V7.7a4.293 4.293 0 0 1-1.34-1.88Z"/></svg>
+              </a>
+              <a href="https://www.youtube.com" target="_blank" rel="noopener" class="social-icon" aria-label="YouTube">
+                <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814ZM9.545 15.568V8.432L15.818 12l-6.273 3.568Z"/></svg>
+              </a>
+              <a href="https://www.x.com" target="_blank" rel="noopener" class="social-icon" aria-label="X">
+                <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              </a>
+            </div>
+            <img src="/images/noiskey_logo.png" alt="Noiskey" class="footer-logo">
+            <div class="footer-copyright">&copy; 2026 NOISKEY. ALL RIGHTS RESERVED.</div>
+          </div>
+        </div>
       </section>
     </div>
 
@@ -834,6 +1016,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       const p5 = document.getElementById('p5');
       const pVinyl = document.getElementById('p-vinyl');
       const p6 = document.getElementById('p6');
+      const p7 = document.getElementById('p7');
 
       // Moved from bottom to be available in renderLoop
       const documentaryImage = document.getElementById('documentary-image');
@@ -862,6 +1045,8 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       if (kovaWebpromo) {
         kovaWebpromo.addEventListener('ended', () => {
           kovaWebpromo.style.display = 'none';
+          const webpromoBg = document.getElementById('webpromo-bg');
+          if (webpromoBg) webpromoBg.style.display = 'none';
         });
       }
 
@@ -1143,6 +1328,18 @@ import SpeedInsights from '@vercel/speed-insights/astro'
               }
             }
 
+            // Range 5vh -> 6vh (or 6vh -> 7vh on mobile) : Panel 7 (Footer) enters over Panel 6
+            const p7Start = isMobile ? 6 * vh : 5 * vh;
+            const p7End = isMobile ? 7 * vh : 6 * vh;
+            if (p7) {
+              if (scrollTop <= p7Start) p7.style.transform = `translateY(100%)`;
+              else if (scrollTop >= p7End) p7.style.transform = `translateY(0%)`;
+              else {
+                const p = (scrollTop - p7Start) / vh;
+                p7.style.transform = `translateY(${100 - (p * 100)}%)`;
+              }
+            }
+
             const isPromoVisible = scrollTop >= vh - 100 && scrollTop < vh * 2 - 100;
             if (isPromoVisible) {
               if (promoVideo && promoVideo.paused) promoVideo.play().catch(() => {});
@@ -1167,6 +1364,12 @@ import SpeedInsights from '@vercel/speed-insights/astro'
                  }).catch(() => {});
                  (vinylAudio as any)._autoPaused = false;
               }
+            }
+
+            // Pause webpromo video when panel 5 is not visible
+            const isBioVisible = scrollTop >= 2 * vh - 100 && scrollTop < vinylEnd - 100;
+            if (kovaWebpromo && !kovaWebpromo.paused && !isBioVisible) {
+              kovaWebpromo.pause();
             }
           }
         }
@@ -1365,8 +1568,10 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 
         // A2. Promo Image Video Logic
         if (hit && promoImage && kovaWebpromo && promoImage.contains(hit)) {
+          const webpromoBg = document.getElementById('webpromo-bg');
           if (kovaWebpromo.style.display === 'none' || !kovaWebpromo.style.display) {
             initWebpromoHls();
+            if (webpromoBg) webpromoBg.style.display = 'block';
             kovaWebpromo.style.display = 'block';
             kovaWebpromo.currentTime = 0;
             kovaWebpromo.play().catch(() => {});
