@@ -87,14 +87,18 @@ export function initStarfield(canvasId: string, scrollerId: string) {
       this.y += this.vy;
     }
     draw() {
-      ctx!.beginPath();
-      ctx!.arc(this.x, this.y, this.size * 2.5, 0, Math.PI * 2);
-      ctx!.fillStyle = `rgba(255, 250, 220, ${this.currentBrightness * 0.15})`;
-      ctx!.fill();
-      ctx!.beginPath();
-      ctx!.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      const px = Math.round(this.x);
+      const py = Math.round(this.y);
+      const s = Math.max(1, Math.round(this.size));
+      // Dim glow — scattered pixels around core
+      ctx!.fillStyle = `rgba(255, 250, 220, ${this.currentBrightness * 0.12})`;
+      ctx!.fillRect(px - s, py, s, s);
+      ctx!.fillRect(px + s, py, s, s);
+      ctx!.fillRect(px, py - s, s, s);
+      ctx!.fillRect(px, py + s, s, s);
+      // Bright core pixel
       ctx!.fillStyle = `rgba(255, 250, 220, ${this.currentBrightness})`;
-      ctx!.fill();
+      ctx!.fillRect(px, py, s, s);
     }
   }
 
@@ -159,11 +163,11 @@ export function initStarfield(canvasId: string, scrollerId: string) {
       // Uniform float — all stars move together, with super slight per-star deviation
       const floatTime = time * 0.0003;
       // Main uniform drift (all stars get the same offset)
-      const floatX = Math.sin(floatTime * 0.7) * 15 + Math.sin(floatTime * 0.4) * 10;
-      const floatY = Math.cos(floatTime * 0.5) * 10 + Math.cos(floatTime * 0.25) * 8;
+      const floatX = Math.sin(floatTime * 0.7) * 30 + Math.sin(floatTime * 0.4) * 20;
+      const floatY = Math.cos(floatTime * 0.5) * 22 + Math.cos(floatTime * 0.25) * 16;
       // Tiny per-star deviation (barely noticeable)
-      const devX = Math.sin(floatTime * 0.6 + this.deviationPhase) * 0.8;
-      const devY = Math.cos(floatTime * 0.5 + this.deviationPhase) * 0.6;
+      const devX = Math.sin(floatTime * 0.6 + this.deviationPhase) * 1.5;
+      const devY = Math.cos(floatTime * 0.5 + this.deviationPhase) * 1.2;
 
       // Spring back to base + float offset
       const springStrength = 0.008; 
@@ -183,18 +187,24 @@ export function initStarfield(canvasId: string, scrollerId: string) {
     }
     draw() {
       if (!this.born || this.size <= 0) return;
-      ctx!.beginPath();
-      ctx!.arc(this.x, this.y, this.displaySize * 3, 0, Math.PI * 2);
-      ctx!.fillStyle = `rgba(255, 250, 220, ${this.currentBrightness * 0.1})`;
-      ctx!.fill();
-      ctx!.beginPath();
-      ctx!.arc(this.x, this.y, this.displaySize * 1.8, 0, Math.PI * 2);
-      ctx!.fillStyle = `rgba(255, 250, 220, ${this.currentBrightness * 0.25})`;
-      ctx!.fill();
-      ctx!.beginPath();
-      ctx!.arc(this.x, this.y, this.displaySize, 0, Math.PI * 2);
+      const px = Math.round(this.x);
+      const py = Math.round(this.y);
+      const s = Math.max(1, Math.round(this.displaySize));
+      // Outer artifact haze — offset pixel chunks
+      ctx!.fillStyle = `rgba(255, 250, 220, ${this.currentBrightness * 0.06})`;
+      ctx!.fillRect(px - s * 2, py - s, s, s);
+      ctx!.fillRect(px + s * 2, py, s, s);
+      ctx!.fillRect(px, py - s * 2, s, s);
+      ctx!.fillRect(px - s, py + s * 2, s, s);
+      // Mid glow — cross pattern
+      ctx!.fillStyle = `rgba(255, 250, 220, ${this.currentBrightness * 0.18})`;
+      ctx!.fillRect(px - s, py, s, s);
+      ctx!.fillRect(px + s, py, s, s);
+      ctx!.fillRect(px, py - s, s, s);
+      ctx!.fillRect(px, py + s, s, s);
+      // Bright core pixel block
       ctx!.fillStyle = `rgba(255, 250, 220, ${this.currentBrightness})`;
-      ctx!.fill();
+      ctx!.fillRect(px, py, s, s);
     }
   }
 
