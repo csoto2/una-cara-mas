@@ -514,6 +514,13 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       }
 
       @media (max-width: 768px) {
+        #snap-container {
+          scroll-snap-type: y proximity;
+        }
+        .snap-trigger {
+          scroll-snap-stop: normal;
+        }
+
         .fixed-ui {
           padding: 1rem;
           font-size: 0.6rem;
