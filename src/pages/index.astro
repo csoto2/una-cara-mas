@@ -1195,6 +1195,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         let startY = 0;
         let startTime = 0;
         let swipeLocked: 'none' | 'horizontal' | 'vertical' = 'none';
+        let wasOnCarousel = false;
 
         function isOnCarouselPanel(): boolean {
           if (!scroller) return false;
@@ -1203,39 +1204,43 @@ import SpeedInsights from '@vercel/speed-insights/astro'
           return st > vh * 1.5 && st < vh * 2.5;
         }
 
+        function restoreSnap() {
+          if (!scroller) return;
+          scroller.style.scrollSnapType = 'y mandatory';
+          (scroller.style as any).webkitOverflowScrolling = 'touch';
+        }
+
         scroller?.addEventListener('touchstart', (e) => {
           const t = e.touches[0];
           startX = t.clientX;
           startY = t.clientY;
           startTime = Date.now();
           swipeLocked = 'none';
-
-          // On Panel 3, temporarily disable snap so vertical scroll doesn't
-          // fight with horizontal carousel swipes
-          if (isOnCarouselPanel()) {
-            scroller.style.scrollSnapType = 'none';
-            (scroller.style as any).webkitOverflowScrolling = 'auto';
-          }
+          wasOnCarousel = isOnCarouselPanel();
+          // Don't disable snap yet — wait until we know direction
         }, { passive: true });
 
         scroller?.addEventListener('touchmove', (e) => {
-          if (!isOnCarouselPanel()) return;
+          if (!wasOnCarousel) return;
           const t = e.touches[0];
           const dx = t.clientX - startX;
           const dy = t.clientY - startY;
 
           // Lock direction after 8px of movement
           if (swipeLocked === 'none' && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
-            // Bias toward horizontal: if horizontal component is at least 60% of
-            // total movement, treat as horizontal swipe
             swipeLocked = Math.abs(dx) >= Math.abs(dy) * 0.6 ? 'horizontal' : 'vertical';
+
+            if (swipeLocked === 'horizontal') {
+              // Only NOW disable snap — we know user is swiping horizontally
+              scroller.style.scrollSnapType = 'none';
+            }
+            // If vertical, leave snap enabled so it works normally
           }
 
-          // If locked horizontal, prevent the scroll container from scrolling vertically
+          // If locked horizontal, clamp vertical scroll to prevent drift
           if (swipeLocked === 'horizontal') {
-            // We can't preventDefault on a passive listener, so we clamp scrollTop instead
             const vh = window.innerHeight;
-            scroller.scrollTop = Math.round(scroller.scrollTop / vh) * vh;
+            scroller.scrollTop = 2 * vh;
           }
         }, { passive: true });
 
@@ -1245,22 +1250,34 @@ import SpeedInsights from '@vercel/speed-insights/astro'
           const dy = t.clientY - startY;
           const dt = Date.now() - startTime;
 
-          // Restore scroll snapping
-          scroller.style.scrollSnapType = 'y mandatory';
-          (scroller.style as any).webkitOverflowScrolling = 'touch';
+          if (wasOnCarousel && swipeLocked === 'horizontal') {
+            // Restore snap first
+            restoreSnap();
 
-          if (isOnCarouselPanel() && swipeLocked === 'horizontal' && dt < 800) {
-            const threshold = 15; // Much lower for mobile touch
-            if (Math.abs(dx) > threshold) {
-              if (dx < 0) showNext();
-              else showPrev();
+            if (dt < 800) {
+              const threshold = 15;
+              if (Math.abs(dx) > threshold) {
+                if (dx < 0) showNext();
+                else showPrev();
+              }
             }
-            // Re-snap to Panel 3 position so we don't drift
+            // Re-snap to Panel 3 position
             const vh = window.innerHeight;
             scroller.scrollTop = 2 * vh;
+          } else if (wasOnCarousel && swipeLocked === 'vertical') {
+            // Snap was never disabled for vertical, so it should work naturally.
+            // But nudge to nearest panel to ensure snap engages after the finger lifts.
+            const vh = window.innerHeight;
+            const st = scroller.scrollTop;
+            const nearest = Math.round(st / vh) * vh;
+            // Use a tiny delay so the browser's momentum settles first
+            requestAnimationFrame(() => {
+              scroller.scrollTo({ top: nearest, behavior: 'smooth' });
+            });
           }
 
           swipeLocked = 'none';
+          wasOnCarousel = false;
         }, { passive: true });
 
         // Desktop pointer fallback (mouse drag)
