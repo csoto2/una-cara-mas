@@ -514,13 +514,6 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       }
 
       @media (max-width: 768px) {
-        #snap-container {
-          scroll-snap-type: y proximity;
-        }
-        .snap-trigger {
-          scroll-snap-stop: normal;
-        }
-
         .fixed-ui {
           padding: 1rem;
           font-size: 0.6rem;
@@ -1198,9 +1191,17 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         });
 
         // --- SWIPE / DRAG / WHEEL LOGIC ---
+        // Direction-locking touch handler for carousel panel.
+        // When on Panel 3 and the user starts a horizontal gesture,
+        // we preventDefault on touchmove to kill the vertical scroll entirely.
+        // This keeps scroll-snap-type: y mandatory working perfectly on all panels
+        // while preventing accidental panel changes during horizontal swipes.
+
         let startX = 0;
         let startY = 0;
         let startTime = 0;
+        let lockedAxis: 'none' | 'horizontal' | 'vertical' = 'none';
+        const LOCK_THRESHOLD = 8; // px before we decide direction
 
         function isOnCarouselPanel(): boolean {
           if (!scroller) return false;
@@ -1209,14 +1210,37 @@ import SpeedInsights from '@vercel/speed-insights/astro'
           return st > vh * 1.5 && st < vh * 2.5;
         }
 
-        // Touch: just track start position, detect horizontal swipe on end.
-        // Never disable scroll-snap — let the browser handle vertical freely.
         scroller?.addEventListener('touchstart', (e) => {
           const t = e.touches[0];
           startX = t.clientX;
           startY = t.clientY;
           startTime = Date.now();
+          lockedAxis = 'none';
         }, { passive: true });
+
+        // NON-PASSIVE so we can preventDefault to block vertical scroll
+        // when a horizontal swipe is detected on the carousel panel.
+        scroller?.addEventListener('touchmove', (e) => {
+          // Only intervene on the carousel panel
+          if (!isOnCarouselPanel()) return;
+
+          const t = e.touches[0];
+          const dx = Math.abs(t.clientX - startX);
+          const dy = Math.abs(t.clientY - startY);
+
+          // Wait until we've moved past the threshold to decide
+          if (lockedAxis === 'none') {
+            if (dx < LOCK_THRESHOLD && dy < LOCK_THRESHOLD) return;
+            // Decide: if horizontal component wins, lock horizontal
+            lockedAxis = dx > dy ? 'horizontal' : 'vertical';
+          }
+
+          // If locked horizontal, eat the vertical scroll entirely
+          if (lockedAxis === 'horizontal') {
+            e.preventDefault();
+          }
+          // If locked vertical, do nothing — browser scrolls normally
+        }, { passive: false });
 
         scroller?.addEventListener('touchend', (e) => {
           const t = e.changedTouches[0];
@@ -1224,13 +1248,13 @@ import SpeedInsights from '@vercel/speed-insights/astro'
           const dy = t.clientY - startY;
           const dt = Date.now() - startTime;
 
-          // Only act on quick, clearly horizontal swipes while on carousel panel
-          if (dt < 600 && Math.abs(dx) > 20 && Math.abs(dx) > Math.abs(dy) * 1.2) {
-            if (isOnCarouselPanel()) {
-              if (dx < 0) showNext();
-              else showPrev();
-            }
+          // Advance carousel if we were locked horizontal and the swipe is meaningful
+          if (lockedAxis === 'horizontal' && isOnCarouselPanel() &&
+              dt < 800 && Math.abs(dx) > 25) {
+            if (dx < 0) showNext();
+            else showPrev();
           }
+          lockedAxis = 'none';
         }, { passive: true });
 
         // Desktop pointer fallback (mouse drag)
