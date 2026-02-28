@@ -1194,8 +1194,6 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         let startX = 0;
         let startY = 0;
         let startTime = 0;
-        let swipeLocked: 'none' | 'horizontal' | 'vertical' = 'none';
-        let wasOnCarousel = false;
 
         function isOnCarouselPanel(): boolean {
           if (!scroller) return false;
@@ -1204,44 +1202,13 @@ import SpeedInsights from '@vercel/speed-insights/astro'
           return st > vh * 1.5 && st < vh * 2.5;
         }
 
-        function restoreSnap() {
-          if (!scroller) return;
-          scroller.style.scrollSnapType = 'y mandatory';
-          (scroller.style as any).webkitOverflowScrolling = 'touch';
-        }
-
+        // Touch: just track start position, detect horizontal swipe on end.
+        // Never disable scroll-snap — let the browser handle vertical freely.
         scroller?.addEventListener('touchstart', (e) => {
           const t = e.touches[0];
           startX = t.clientX;
           startY = t.clientY;
           startTime = Date.now();
-          swipeLocked = 'none';
-          wasOnCarousel = isOnCarouselPanel();
-          // Don't disable snap yet — wait until we know direction
-        }, { passive: true });
-
-        scroller?.addEventListener('touchmove', (e) => {
-          if (!wasOnCarousel) return;
-          const t = e.touches[0];
-          const dx = t.clientX - startX;
-          const dy = t.clientY - startY;
-
-          // Lock direction after 8px of movement
-          if (swipeLocked === 'none' && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
-            swipeLocked = Math.abs(dx) >= Math.abs(dy) * 0.6 ? 'horizontal' : 'vertical';
-
-            if (swipeLocked === 'horizontal') {
-              // Only NOW disable snap — we know user is swiping horizontally
-              scroller.style.scrollSnapType = 'none';
-            }
-            // If vertical, leave snap enabled so it works normally
-          }
-
-          // If locked horizontal, clamp vertical scroll to prevent drift
-          if (swipeLocked === 'horizontal') {
-            const vh = window.innerHeight;
-            scroller.scrollTop = 2 * vh;
-          }
         }, { passive: true });
 
         scroller?.addEventListener('touchend', (e) => {
@@ -1250,53 +1217,30 @@ import SpeedInsights from '@vercel/speed-insights/astro'
           const dy = t.clientY - startY;
           const dt = Date.now() - startTime;
 
-          if (wasOnCarousel && swipeLocked === 'horizontal') {
-            // Restore snap first
-            restoreSnap();
-
-            if (dt < 800) {
-              const threshold = 15;
-              if (Math.abs(dx) > threshold) {
-                if (dx < 0) showNext();
-                else showPrev();
-              }
+          // Only act on quick, clearly horizontal swipes while on carousel panel
+          if (dt < 600 && Math.abs(dx) > 20 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+            if (isOnCarouselPanel()) {
+              if (dx < 0) showNext();
+              else showPrev();
             }
-            // Re-snap to Panel 3 position
-            const vh = window.innerHeight;
-            scroller.scrollTop = 2 * vh;
-          } else if (wasOnCarousel && swipeLocked === 'vertical') {
-            // Snap was never disabled for vertical, so it should work naturally.
-            // But nudge to nearest panel to ensure snap engages after the finger lifts.
-            const vh = window.innerHeight;
-            const st = scroller.scrollTop;
-            const nearest = Math.round(st / vh) * vh;
-            // Use a tiny delay so the browser's momentum settles first
-            requestAnimationFrame(() => {
-              scroller.scrollTo({ top: nearest, behavior: 'smooth' });
-            });
           }
-
-          swipeLocked = 'none';
-          wasOnCarousel = false;
         }, { passive: true });
 
         // Desktop pointer fallback (mouse drag)
         scroller?.addEventListener('pointerdown', (e) => {
-          if (e.pointerType === 'touch') return; // handled by touch events above
+          if (e.pointerType === 'touch') return;
           startX = e.clientX;
           startY = e.clientY;
           startTime = Date.now();
         }, { passive: true });
 
         scroller?.addEventListener('pointerup', (e) => {
-          if (e.pointerType === 'touch') return; // handled by touch events above
+          if (e.pointerType === 'touch') return;
           const dx = e.clientX - startX;
           const dy = e.clientY - startY;
           const dt = Date.now() - startTime;
-          const threshold = 30;
-          const timeThreshold = 500;
 
-          if (dt < timeThreshold && Math.abs(dx) > threshold && Math.abs(dx) > Math.abs(dy)) {
+          if (dt < 500 && Math.abs(dx) > 30 && Math.abs(dx) > Math.abs(dy)) {
             if (isOnCarouselPanel()) {
               if (dx < 0) showNext();
               else showPrev();
