@@ -8,7 +8,9 @@ import SpeedInsights from '@vercel/speed-insights/astro'
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Una Cara Más</title>
+    <title>Una Cara Más — Kova Parker</title>
+    <meta name="description" content="Una Cara Más — the debut album by Kova Parker. Out February 28, 2026.">
+    <meta name="theme-color" content="#000000">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=EB+Garamond:wght@700&family=Zalando+Sans+Expanded:wght@800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script>
@@ -18,6 +20,15 @@ import SpeedInsights from '@vercel/speed-insights/astro'
     <style>
       /* --- CORE RESET --- */
       * { box-sizing: border-box; }
+
+      /* Keyboard focus ring — only shows for keyboard nav, not mouse clicks */
+      :focus-visible {
+        outline: 2px solid rgba(255, 255, 255, 0.7);
+        outline-offset: 2px;
+      }
+      .panel-7 :focus-visible {
+        outline-color: rgba(0, 0, 0, 0.7);
+      }
       
       html, body {
         margin: 0;
@@ -534,7 +545,25 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         }
 
         .carousel-item {
-          width: 75vw;
+          width: 55vw;
+        }
+
+        .carousel-stage {
+          height: 80vh;
+        }
+
+        .carousel-header {
+          font-size: 0.9rem;
+          margin-bottom: 1rem;
+        }
+
+        .poster-media {
+          aspect-ratio: 9 / 16;
+        }
+
+        .poster-title {
+          margin-top: 1rem;
+          font-size: 0.7rem;
         }
 
         .bio-container {
@@ -750,7 +779,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       <div class="snap-trigger"></div>
     </div>
 
-    <div id="visual-stack">
+    <div id="visual-stack" role="main">
       <!-- Panel 1: Hero -->
       <section class="panel panel-1" id="p1">
         <div class="panel-bg"><img id="hero-img" src="/images/gemini.png" onerror="this.src='https://placehold.co/1920x1080/000/fff?text=UNA+CARA+MAS'"></div>
@@ -915,7 +944,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       </section>
 
       <!-- Panel 7: Footer -->
-      <section class="panel panel-7" id="p7">
+      <section class="panel panel-7" id="p7" role="contentinfo">
         <div class="footer-inner">
           <div class="footer-columns">
             <div class="footer-col">
@@ -934,8 +963,8 @@ import SpeedInsights from '@vercel/speed-insights/astro'
             </div>
           </div>
           <div class="footer-bottom">
-            <div class="footer-socials">
-              <a href="https://www.instagram.com" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram">
+            <nav class="footer-socials" aria-label="Social media">
+              <a href="https://www.instagram.com/parkerkovaa" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram">
                 <svg viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5Zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5Zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5Zm5.5-.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/></svg>
               </a>
               <a href="https://www.tiktok.com" target="_blank" rel="noopener" class="social-icon" aria-label="TikTok">
@@ -947,7 +976,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
               <a href="https://www.x.com" target="_blank" rel="noopener" class="social-icon" aria-label="X">
                 <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
               </a>
-            </div>
+            </nav>
           </div>
           <img src="/images/noiskey_logo.png" alt="Noiskey" class="footer-logo">
         </div>
@@ -1064,7 +1093,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 
       function updateCarousel() {
         const total = carouselItems.length;
-        const offsetVw = window.innerWidth < 768 ? 85 : 55;
+        const offsetVw = window.innerWidth < 768 ? 65 : 55;
         carouselItems.forEach((item, index) => {
           const offset = index - currentIndex;
           const scale = index === currentIndex ? 1.1 : 0.85;
@@ -1117,14 +1146,33 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         if (prevBtn) prevBtn.addEventListener('click', showPrev);
 
         document.addEventListener('keydown', (e) => {
-          // Only navigate if we are looking at the carousel (Panel 3 visible-ish)
           if (!scroller) return;
           const st = scroller.scrollTop;
           const vh = window.innerHeight;
-          // Tightened check for Panel 3 (center at 2vh)
+
+          // Left/Right: carousel navigation when on Panel 3
           if (st > vh * 1.5 && st < vh * 2.5) {
-            if (e.key === 'ArrowRight') showNext();
-            if (e.key === 'ArrowLeft') showPrev();
+            if (e.key === 'ArrowRight') { showNext(); return; }
+            if (e.key === 'ArrowLeft') { showPrev(); return; }
+          }
+
+          // Up/Down: panel-to-panel navigation
+          if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            const triggers = scroller.querySelectorAll('.snap-trigger');
+            const totalPanels = Array.from(triggers).filter(
+              t => getComputedStyle(t).display !== 'none'
+            ).length;
+            const currentPanel = Math.round(st / vh);
+            let targetPanel = currentPanel;
+            if (e.key === 'ArrowDown' && currentPanel < totalPanels - 1) {
+              targetPanel = currentPanel + 1;
+            } else if (e.key === 'ArrowUp' && currentPanel > 0) {
+              targetPanel = currentPanel - 1;
+            }
+            if (targetPanel !== currentPanel) {
+              scroller.scrollTo({ top: targetPanel * vh, behavior: 'smooth' });
+            }
           }
         });
 
@@ -1146,25 +1194,93 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         let startX = 0;
         let startY = 0;
         let startTime = 0;
+        let swipeLocked: 'none' | 'horizontal' | 'vertical' = 'none';
 
+        function isOnCarouselPanel(): boolean {
+          if (!scroller) return false;
+          const st = scroller.scrollTop;
+          const vh = window.innerHeight;
+          return st > vh * 1.5 && st < vh * 2.5;
+        }
+
+        scroller?.addEventListener('touchstart', (e) => {
+          const t = e.touches[0];
+          startX = t.clientX;
+          startY = t.clientY;
+          startTime = Date.now();
+          swipeLocked = 'none';
+
+          // On Panel 3, temporarily disable snap so vertical scroll doesn't
+          // fight with horizontal carousel swipes
+          if (isOnCarouselPanel()) {
+            scroller.style.scrollSnapType = 'none';
+            (scroller.style as any).webkitOverflowScrolling = 'auto';
+          }
+        }, { passive: true });
+
+        scroller?.addEventListener('touchmove', (e) => {
+          if (!isOnCarouselPanel()) return;
+          const t = e.touches[0];
+          const dx = t.clientX - startX;
+          const dy = t.clientY - startY;
+
+          // Lock direction after 8px of movement
+          if (swipeLocked === 'none' && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
+            // Bias toward horizontal: if horizontal component is at least 60% of
+            // total movement, treat as horizontal swipe
+            swipeLocked = Math.abs(dx) >= Math.abs(dy) * 0.6 ? 'horizontal' : 'vertical';
+          }
+
+          // If locked horizontal, prevent the scroll container from scrolling vertically
+          if (swipeLocked === 'horizontal') {
+            // We can't preventDefault on a passive listener, so we clamp scrollTop instead
+            const vh = window.innerHeight;
+            scroller.scrollTop = Math.round(scroller.scrollTop / vh) * vh;
+          }
+        }, { passive: true });
+
+        scroller?.addEventListener('touchend', (e) => {
+          const t = e.changedTouches[0];
+          const dx = t.clientX - startX;
+          const dy = t.clientY - startY;
+          const dt = Date.now() - startTime;
+
+          // Restore scroll snapping
+          scroller.style.scrollSnapType = 'y mandatory';
+          (scroller.style as any).webkitOverflowScrolling = 'touch';
+
+          if (isOnCarouselPanel() && swipeLocked === 'horizontal' && dt < 800) {
+            const threshold = 15; // Much lower for mobile touch
+            if (Math.abs(dx) > threshold) {
+              if (dx < 0) showNext();
+              else showPrev();
+            }
+            // Re-snap to Panel 3 position so we don't drift
+            const vh = window.innerHeight;
+            scroller.scrollTop = 2 * vh;
+          }
+
+          swipeLocked = 'none';
+        }, { passive: true });
+
+        // Desktop pointer fallback (mouse drag)
         scroller?.addEventListener('pointerdown', (e) => {
+          if (e.pointerType === 'touch') return; // handled by touch events above
           startX = e.clientX;
           startY = e.clientY;
           startTime = Date.now();
         }, { passive: true });
 
         scroller?.addEventListener('pointerup', (e) => {
+          if (e.pointerType === 'touch') return; // handled by touch events above
           const dx = e.clientX - startX;
           const dy = e.clientY - startY;
           const dt = Date.now() - startTime;
-          const threshold = 30; // Slightly lower threshold
+          const threshold = 30;
           const timeThreshold = 500;
 
           if (dt < timeThreshold && Math.abs(dx) > threshold && Math.abs(dx) > Math.abs(dy)) {
-            const st = scroller.scrollTop;
-            const vh = window.innerHeight;
-            // Tightened check for Panel 3 (center at 2vh)
-            if (st > vh * 1.5 && st < vh * 2.5) {
+            if (isOnCarouselPanel()) {
               if (dx < 0) showNext();
               else showPrev();
             }
@@ -1390,9 +1506,11 @@ import SpeedInsights from '@vercel/speed-insights/astro'
              const overStarfield = hoveredElement?.closest('#starfield') as HTMLElement | null;
              const overArrow = hoveredElement?.closest('.nav-arrow') as HTMLElement | null;
              const overVinyl = hoveredElement?.closest('.vinyl-container') as HTMLElement | null;
+             const overFooterLink = hoveredElement?.closest('.footer-link') as HTMLElement | null;
+             const overSocialIcon = hoveredElement?.closest('.social-icon') as HTMLElement | null;
 
              if (cursor) {
-               if (overArrow || overDocImg || overVinyl || overPromoImg) {
+               if (overArrow || overDocImg || overVinyl || overPromoImg || overFooterLink || overSocialIcon) {
                  cursor.classList.add('hand-mode');
                  cursor.classList.remove('active');
                } else if (overStarfield) {
@@ -1586,6 +1704,20 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         if (hit && hit.closest('.vinyl-container')) {
            const vc = hit.closest('.vinyl-container') as HTMLElement;
            vc.click();
+        }
+
+        // C. Footer Links (Pass-through click)
+        if (hit) {
+          const footerLink = hit.closest('.footer-link') as HTMLAnchorElement | null;
+          const socialIcon = hit.closest('.social-icon') as HTMLAnchorElement | null;
+          const link = footerLink || socialIcon;
+          if (link && link.href) {
+            if (link.target === '_blank') {
+              window.open(link.href, '_blank', 'noopener');
+            } else {
+              window.location.href = link.href;
+            }
+          }
         }
       });
 

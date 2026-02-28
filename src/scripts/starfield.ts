@@ -14,6 +14,120 @@ export function initStarfield(canvasId: string, scrollerId: string) {
   }
   resizeStarCanvas();
 
+  // --- CRT-ish post processing -------------------------------------------------
+  // We render the scene (stars) to an offscreen buffer, then composite it to the
+  // visible canvas with scanlines/vignette/noise + a tiny chromatic shift.
+  // This avoids WebGL complexity but still sells the vibe.
+  const CRT = {
+    enabled: true,
+    // 0..1
+    scanlineOpacity: 0.12,
+    vignetteStrength: 0.22,
+    chromaOffsetPx: 1.6,
+  } as const;
+
+  const sceneCanvas = document.createElement('canvas');
+  const sceneCtx = sceneCanvas.getContext('2d');
+
+  // Channel buffers for stronger chromatic separation
+  const rCanvas = document.createElement('canvas');
+  const rCtx = rCanvas.getContext('2d');
+  const bCanvas = document.createElement('canvas');
+  const bCtx = bCanvas.getContext('2d');
+
+  function resizePostFXCanvases() {
+    sceneCanvas.width = starCanvas!.width;
+    sceneCanvas.height = starCanvas!.height;
+    rCanvas.width = starCanvas!.width;
+    rCanvas.height = starCanvas!.height;
+    bCanvas.width = starCanvas!.width;
+    bCanvas.height = starCanvas!.height;
+  }
+  resizePostFXCanvases();
+
+  function drawScanlines(targetCtx: CanvasRenderingContext2D, w: number, h: number, t: number) {
+    const lineH = 2;
+    const yOffset = Math.floor((t * 0.02) % lineH);
+    targetCtx.save();
+    targetCtx.globalCompositeOperation = 'multiply';
+    targetCtx.globalAlpha = CRT.scanlineOpacity;
+    targetCtx.fillStyle = '#000';
+    for (let y = yOffset; y < h; y += lineH) {
+      targetCtx.fillRect(0, y, w, 1);
+    }
+    targetCtx.restore();
+  }
+
+  function drawVignette(targetCtx: CanvasRenderingContext2D, w: number, h: number) {
+    const g = targetCtx.createRadialGradient(
+      w * 0.5,
+      h * 0.5,
+      Math.min(w, h) * 0.4,
+      w * 0.5,
+      h * 0.5,
+      Math.max(w, h) * 0.65,
+    );
+    g.addColorStop(0, 'rgba(0,0,0,0)');
+    g.addColorStop(1, `rgba(0,0,0,${CRT.vignetteStrength})`);
+    targetCtx.save();
+    targetCtx.globalCompositeOperation = 'source-over';
+    targetCtx.fillStyle = g;
+    targetCtx.fillRect(0, 0, w, h);
+    targetCtx.restore();
+  }
+
+  function compositeCRT(targetCtx: CanvasRenderingContext2D, t: number) {
+    const w = starCanvas!.width;
+    const h = starCanvas!.height;
+    if (!sceneCtx) return;
+
+    targetCtx.clearRect(0, 0, w, h);
+    targetCtx.imageSmoothingEnabled = false;
+
+  // Chromatic offset: build two channel-separated layers (R and B)
+  // and shift them slightly. This is more visible than tinted overlays.
+  const jx = Math.sin(t * 0.0017) * 0.6;
+  const jy = Math.cos(t * 0.0013) * 0.6;
+    const o = CRT.chromaOffsetPx;
+
+    // Base
+    targetCtx.globalCompositeOperation = 'source-over';
+    targetCtx.globalAlpha = 1;
+    targetCtx.drawImage(sceneCanvas, 0, 0);
+
+    // Build R-only and B-only layers
+    if (rCtx && bCtx) {
+      // R
+      rCtx.clearRect(0, 0, w, h);
+      rCtx.globalCompositeOperation = 'source-over';
+      rCtx.drawImage(sceneCanvas, 0, 0);
+      rCtx.globalCompositeOperation = 'source-in';
+      rCtx.fillStyle = 'rgb(255,0,0)';
+      rCtx.fillRect(0, 0, w, h);
+
+      // B
+      bCtx.clearRect(0, 0, w, h);
+      bCtx.globalCompositeOperation = 'source-over';
+      bCtx.drawImage(sceneCanvas, 0, 0);
+      bCtx.globalCompositeOperation = 'source-in';
+      bCtx.fillStyle = 'rgb(0,160,255)';
+      bCtx.fillRect(0, 0, w, h);
+
+      // Additive blend on top of base with offsets
+      targetCtx.globalCompositeOperation = 'lighter';
+      targetCtx.globalAlpha = 0.55;
+      targetCtx.drawImage(rCanvas, o + jx, 0.3 + jy);
+      targetCtx.globalAlpha = 0.45;
+      targetCtx.drawImage(bCanvas, -o + jx, -0.3 - jy);
+
+      targetCtx.globalCompositeOperation = 'source-over';
+      targetCtx.globalAlpha = 1;
+    }
+
+    drawScanlines(targetCtx, w, h, t);
+    drawVignette(targetCtx, w, h);
+  }
+
   const NUM_BACKGROUND_STARS = 200;
   const STAR_TEXT = "KOVA PARKER";
   const TEXT_REVEAL_DURATION = 8000;
@@ -86,19 +200,19 @@ export function initStarfield(canvasId: string, scrollerId: string) {
       this.x += this.vx;
       this.y += this.vy;
     }
-    draw() {
+    draw(drawCtx: CanvasRenderingContext2D) {
       const px = Math.round(this.x);
       const py = Math.round(this.y);
       const s = Math.max(1, Math.round(this.size));
       // Dim glow — scattered pixels around core
-      ctx!.fillStyle = `rgba(255, 250, 220, ${this.currentBrightness * 0.12})`;
-      ctx!.fillRect(px - s, py, s, s);
-      ctx!.fillRect(px + s, py, s, s);
-      ctx!.fillRect(px, py - s, s, s);
-      ctx!.fillRect(px, py + s, s, s);
+      drawCtx.fillStyle = `rgba(255, 250, 220, ${this.currentBrightness * 0.12})`;
+      drawCtx.fillRect(px - s, py, s, s);
+      drawCtx.fillRect(px + s, py, s, s);
+      drawCtx.fillRect(px, py - s, s, s);
+      drawCtx.fillRect(px, py + s, s, s);
       // Bright core pixel
-      ctx!.fillStyle = `rgba(255, 250, 220, ${this.currentBrightness})`;
-      ctx!.fillRect(px, py, s, s);
+      drawCtx.fillStyle = `rgba(255, 250, 220, ${this.currentBrightness})`;
+      drawCtx.fillRect(px, py, s, s);
     }
   }
 
@@ -185,26 +299,26 @@ export function initStarfield(canvasId: string, scrollerId: string) {
       this.x += this.vx;
       this.y += this.vy;
     }
-    draw() {
+    draw(drawCtx: CanvasRenderingContext2D) {
       if (!this.born || this.size <= 0) return;
       const px = Math.round(this.x);
       const py = Math.round(this.y);
       const s = Math.max(1, Math.round(this.displaySize));
       // Outer artifact haze — offset pixel chunks
-      ctx!.fillStyle = `rgba(255, 250, 220, ${this.currentBrightness * 0.06})`;
-      ctx!.fillRect(px - s * 2, py - s, s, s);
-      ctx!.fillRect(px + s * 2, py, s, s);
-      ctx!.fillRect(px, py - s * 2, s, s);
-      ctx!.fillRect(px - s, py + s * 2, s, s);
+      drawCtx.fillStyle = `rgba(255, 250, 220, ${this.currentBrightness * 0.06})`;
+      drawCtx.fillRect(px - s * 2, py - s, s, s);
+      drawCtx.fillRect(px + s * 2, py, s, s);
+      drawCtx.fillRect(px, py - s * 2, s, s);
+      drawCtx.fillRect(px - s, py + s * 2, s, s);
       // Mid glow — cross pattern
-      ctx!.fillStyle = `rgba(255, 250, 220, ${this.currentBrightness * 0.18})`;
-      ctx!.fillRect(px - s, py, s, s);
-      ctx!.fillRect(px + s, py, s, s);
-      ctx!.fillRect(px, py - s, s, s);
-      ctx!.fillRect(px, py + s, s, s);
+      drawCtx.fillStyle = `rgba(255, 250, 220, ${this.currentBrightness * 0.18})`;
+      drawCtx.fillRect(px - s, py, s, s);
+      drawCtx.fillRect(px + s, py, s, s);
+      drawCtx.fillRect(px, py - s, s, s);
+      drawCtx.fillRect(px, py + s, s, s);
       // Bright core pixel block
-      ctx!.fillStyle = `rgba(255, 250, 220, ${this.currentBrightness})`;
-      ctx!.fillRect(px, py, s, s);
+      drawCtx.fillStyle = `rgba(255, 250, 220, ${this.currentBrightness})`;
+      drawCtx.fillRect(px, py, s, s);
     }
   }
 
@@ -266,14 +380,28 @@ export function initStarfield(canvasId: string, scrollerId: string) {
     }
     if (!starStartTime) starStartTime = timestamp;
     const elapsed = timestamp - starStartTime;
-    ctx!.clearRect(0, 0, starCanvas!.width, starCanvas!.height);
-    for (const star of backgroundStars) { star.update(timestamp); star.draw(); }
-    for (const star of textStars) { star.update(timestamp, elapsed); star.draw(); }
+
+    // 1) Render stars into the scene buffer (or directly to visible ctx if CRT is off)
+    const renderCtx = (CRT.enabled && sceneCtx) ? sceneCtx : ctx!;
+    renderCtx.save();
+    renderCtx.imageSmoothingEnabled = false;
+    renderCtx.clearRect(0, 0, starCanvas!.width, starCanvas!.height);
+
+    for (const star of backgroundStars) { star.update(timestamp); star.draw(renderCtx); }
+    for (const star of textStars) { star.update(timestamp, elapsed); star.draw(renderCtx); }
+
+    renderCtx.restore();
+
+    // 2) Composite from scene buffer to visible canvas with CRT FX
+    if (CRT.enabled && sceneCtx) {
+      compositeCRT(ctx!, timestamp);
+    }
     requestAnimationFrame(animateStars);
   }
 
   window.addEventListener('resize', () => {
     resizeStarCanvas();
+    resizePostFXCanvases();
     initStarScene();
     starStartTime = null;
   });
