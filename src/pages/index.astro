@@ -504,6 +504,58 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         text-transform: uppercase;
       }
 
+      /* Theatre expand button — shown only when webpromo is playing */
+      #webpromo-theatre-btn {
+        display: none;
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        z-index: 20;
+        background: rgba(0,0,0,0.55);
+        border: 1px solid rgba(255,255,255,0.25);
+        border-radius: 4px;
+        padding: 6px 7px;
+        cursor: pointer;
+        color: white;
+        line-height: 0;
+        transition: background 0.2s;
+      }
+      #webpromo-theatre-btn:hover { background: rgba(0,0,0,0.85); }
+      #webpromo-theatre-btn svg { width: 16px; height: 16px; }
+
+      /* Theatre lightbox */
+      #webpromo-theatre {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: #000;
+        z-index: 10000;
+        align-items: center;
+        justify-content: center;
+      }
+      #webpromo-theatre.active { display: flex; }
+      #kova-webpromo-theatre {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      #webpromo-theatre-close {
+        position: absolute;
+        top: 18px;
+        right: 22px;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.25);
+        border-radius: 4px;
+        color: white;
+        font-size: 1rem;
+        width: 36px;
+        height: 36px;
+        cursor: pointer;
+        z-index: 10001;
+        transition: background 0.2s;
+      }
+      #webpromo-theatre-close:hover { background: rgba(255,255,255,0.25); }
+
       .bio-action {
         color: black;
         margin-top: 0.15rem;
@@ -905,6 +957,11 @@ import SpeedInsights from '@vercel/speed-insights/astro'
                 <div id="webpromo-bg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: none; z-index: 5;"></div>
                 <video id="kova-webpromo" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; display: none; z-index: 10;" playsinline preload="none">
                 </video>
+                <button id="webpromo-theatre-btn" title="Theatre mode" aria-label="Expand to theatre mode">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 8V5h3M21 8V5h-3M3 16v3h3M21 16v3h-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
               </div>
               <h2 class="bio-label">KOVA PARKER</h2>
               <p class="bio-action">(EXPLORE)</p>
@@ -923,8 +980,13 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         </div>
       </section>
 
-      <!-- Panel Vinyl -->
-      <section class="panel panel-vinyl" id="p-vinyl">
+      <!-- Theatre Lightbox -->
+      <div id="webpromo-theatre" aria-modal="true" role="dialog" aria-label="Theatre mode">
+        <button id="webpromo-theatre-close" aria-label="Close theatre mode">&#x2715;</button>
+        <video id="kova-webpromo-theatre" playsinline preload="none"></video>
+      </div>
+
+      <!-- Panel Vinyl -->      <section class="panel panel-vinyl" id="p-vinyl">
         <div class="vinyl-container" id="vinyl-container">
           <img src="/images/vinyl_kova.png" class="vinyl-img" alt="Vinyl Kova">
           <audio id="vinyl-audio" preload="none">
@@ -1076,8 +1138,71 @@ import SpeedInsights from '@vercel/speed-insights/astro'
           kovaWebpromo.style.display = 'none';
           const webpromoBg = document.getElementById('webpromo-bg');
           if (webpromoBg) webpromoBg.style.display = 'none';
+          const theatreBtn = document.getElementById('webpromo-theatre-btn');
+          if (theatreBtn) theatreBtn.style.display = 'none';
         });
       }
+
+      // --- THEATRE MODE ---
+      const theatreBtn = document.getElementById('webpromo-theatre-btn');
+      const theatreOverlay = document.getElementById('webpromo-theatre');
+      const theatreVideo = document.getElementById('kova-webpromo-theatre') as HTMLVideoElement | null;
+      const theatreClose = document.getElementById('webpromo-theatre-close');
+      let theatreHls: any = null;
+
+      function openTheatre() {
+        if (!theatreOverlay || !theatreVideo || !kovaWebpromo) return;
+        const currentTime = kovaWebpromo.currentTime;
+
+        // Init HLS on the theatre video
+        if ((window as any).Hls && (window as any).Hls.isSupported()) {
+          if (theatreHls) theatreHls.destroy();
+          theatreHls = new (window as any).Hls();
+          theatreHls.loadSource(webpromoHlsSrc);
+          theatreHls.attachMedia(theatreVideo);
+          theatreHls.on((window as any).Hls.Events.MANIFEST_PARSED, () => {
+            theatreVideo.currentTime = currentTime;
+            theatreVideo.play();
+          });
+        } else {
+          theatreVideo.src = webpromoHlsSrc;
+          theatreVideo.currentTime = currentTime;
+          theatreVideo.play();
+        }
+
+        // Pause the small player
+        kovaWebpromo.pause();
+        theatreOverlay.classList.add('active');
+
+        // Block snap scroll while theatre is open
+        const snapContainer = document.getElementById('snap-container');
+        if (snapContainer) snapContainer.style.overflow = 'hidden';
+      }
+
+      function closeTheatre() {
+        if (!theatreOverlay || !theatreVideo || !kovaWebpromo) return;
+        // Sync time back to small player
+        kovaWebpromo.currentTime = theatreVideo.currentTime;
+        kovaWebpromo.play();
+        theatreVideo.pause();
+        if (theatreHls) { theatreHls.destroy(); theatreHls = null; }
+        theatreVideo.src = '';
+        theatreOverlay.classList.remove('active');
+
+        const snapContainer = document.getElementById('snap-container');
+        if (snapContainer) snapContainer.style.overflow = '';
+      }
+
+      theatreBtn?.addEventListener('click', (e) => { e.stopPropagation(); openTheatre(); });
+      theatreClose?.addEventListener('click', closeTheatre);
+      // ESC to close
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && theatreOverlay?.classList.contains('active')) closeTheatre();
+      });
+      // Click backdrop to close
+      theatreOverlay?.addEventListener('click', (e) => {
+        if (e.target === theatreOverlay) closeTheatre();
+      });
 
       const vinylContainer = document.getElementById('vinyl-container');
       const vinylAudio = document.getElementById('vinyl-audio') as HTMLAudioElement | null;
@@ -1679,10 +1804,12 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         // A2. Promo Image Video Logic
         if (hit && promoImage && kovaWebpromo && promoImage.contains(hit)) {
           const webpromoBg = document.getElementById('webpromo-bg');
+          const tBtn = document.getElementById('webpromo-theatre-btn');
           if (kovaWebpromo.style.display === 'none' || !kovaWebpromo.style.display) {
             initWebpromoHls();
             if (webpromoBg) webpromoBg.style.display = 'block';
             kovaWebpromo.style.display = 'block';
+            if (tBtn) tBtn.style.display = 'flex';
             kovaWebpromo.currentTime = 0;
             kovaWebpromo.play().catch(() => {});
           } else if (kovaWebpromo.paused) {
