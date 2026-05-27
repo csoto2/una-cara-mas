@@ -1174,11 +1174,9 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         if (snapContainer) snapContainer.style.overflow = 'hidden';
       }
 
-      function closeTheatre() {
+      function closeTheatre(returnToSmall = true) {
         if (!theatreOverlay || !theatreVideo || !kovaWebpromo) return;
-        // Sync time back to small player
-        kovaWebpromo.currentTime = theatreVideo.currentTime;
-        kovaWebpromo.play();
+        const syncTime = theatreVideo.currentTime;
         theatreVideo.pause();
         if (theatreHls) { theatreHls.destroy(); theatreHls = null; }
         theatreVideo.src = '';
@@ -1186,15 +1184,42 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 
         const snapContainer = document.getElementById('snap-container');
         if (snapContainer) snapContainer.style.overflow = '';
+
+        if (returnToSmall) {
+          // Sync time back to small player but don't autoplay
+          kovaWebpromo.currentTime = syncTime;
+          // Leave small player paused — user can click to resume
+        }
       }
 
-      theatreBtn?.addEventListener('click', (e) => { e.stopPropagation(); openTheatre(); });
-      theatreClose?.addEventListener('click', closeTheatre);
+      // Click video to play/pause in theatre
+      theatreVideo?.addEventListener('click', () => {
+        if (!theatreVideo) return;
+        if (theatreVideo.paused) theatreVideo.play();
+        else theatreVideo.pause();
+      });
+
+      // When theatre video ends — close theatre, don't autoplay small player
+      theatreVideo?.addEventListener('ended', () => {
+        closeTheatre(false);
+        // Reset small player to beginning, hidden
+        if (kovaWebpromo) {
+          kovaWebpromo.currentTime = 0;
+          kovaWebpromo.pause();
+          kovaWebpromo.style.display = 'none';
+          const webpromoBg = document.getElementById('webpromo-bg');
+          if (webpromoBg) webpromoBg.style.display = 'none';
+          const tBtn = document.getElementById('webpromo-theatre-btn');
+          if (tBtn) tBtn.style.display = 'none';
+        }
+      });
+
+      theatreClose?.addEventListener('click', () => closeTheatre());
       // ESC to close
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && theatreOverlay?.classList.contains('active')) closeTheatre();
       });
-      // Click backdrop to close
+      // Click backdrop (not video) to close
       theatreOverlay?.addEventListener('click', (e) => {
         if (e.target === theatreOverlay) closeTheatre();
       });
@@ -1800,7 +1825,11 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         if (hit && promoImage && kovaWebpromo && promoImage.contains(hit)) {
           const webpromoBg = document.getElementById('webpromo-bg');
           const tBtn = document.getElementById('webpromo-theatre-btn');
-          if (kovaWebpromo.style.display === 'none' || !kovaWebpromo.style.display) {
+
+          // If the theatre expand button was clicked, open theatre — don't toggle play
+          if (hit.closest('#webpromo-theatre-btn')) {
+            openTheatre();
+          } else if (kovaWebpromo.style.display === 'none' || !kovaWebpromo.style.display) {
             initWebpromoHls();
             if (webpromoBg) webpromoBg.style.display = 'block';
             kovaWebpromo.style.display = 'block';
