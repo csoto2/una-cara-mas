@@ -1645,9 +1645,10 @@ import SpeedInsights from '@vercel/speed-insights/astro'
              const overVinyl = hoveredElement?.closest('.vinyl-container') as HTMLElement | null;
              const overFooterLink = hoveredElement?.closest('.footer-link') as HTMLElement | null;
              const overSocialIcon = hoveredElement?.closest('.social-icon') as HTMLElement | null;
+             const overTheatreBtn = hoveredElement?.closest('#webpromo-theatre-btn') as HTMLElement | null;
 
              if (cursor) {
-               if (overArrow || overDocImg || overVinyl || overPromoImg || overFooterLink || overSocialIcon) {
+               if (overArrow || overDocImg || overVinyl || overPromoImg || overFooterLink || overSocialIcon || overTheatreBtn) {
                  cursor.classList.add('hand-mode');
                  cursor.classList.remove('active');
                } else if (overStarfield) {
