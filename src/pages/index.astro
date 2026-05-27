@@ -980,13 +980,8 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         </div>
       </section>
 
-      <!-- Theatre Lightbox -->
-      <div id="webpromo-theatre" aria-modal="true" role="dialog" aria-label="Theatre mode">
-        <button id="webpromo-theatre-close" aria-label="Close theatre mode">&#x2715;</button>
-        <video id="kova-webpromo-theatre" playsinline preload="none"></video>
-      </div>
-
-      <!-- Panel Vinyl -->      <section class="panel panel-vinyl" id="p-vinyl">
+      <!-- Panel Vinyl -->
+      <section class="panel panel-vinyl" id="p-vinyl">
         <div class="vinyl-container" id="vinyl-container">
           <img src="/images/vinyl_kova.png" class="vinyl-img" alt="Vinyl Kova">
           <audio id="vinyl-audio" preload="none">
@@ -1846,5 +1841,11 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       }
     });
    </script>
+
+  <!-- Theatre Lightbox — outside visual-stack so z-index is unrestricted -->
+  <div id="webpromo-theatre" aria-modal="true" role="dialog" aria-label="Theatre mode">
+    <button id="webpromo-theatre-close" aria-label="Close theatre mode">&#x2715;</button>
+    <video id="kova-webpromo-theatre" playsinline preload="none"></video>
+  </div>
   </body>
 </html>
