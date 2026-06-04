@@ -12,6 +12,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
     <meta name="description" content="Una Cara Más — the debut album by Kova Parker. Out June 4, 2026.">
     <meta name="theme-color" content="#000000">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=EB+Garamond:wght@400;700&family=Zalando+Sans+Expanded:wght@800&display=swap" rel="stylesheet">
+    <link rel="preload" as="image" href="/images/gemini.avif" type="image/avif" fetchpriority="high">
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script>
       import { initStarfield } from '../scripts/starfield';
@@ -381,6 +382,36 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 
       .carousel-item.active .poster-title {
         opacity: 1;
+      }
+
+      /* "Music video coming soon" placeholder inside a poster */
+      .poster-soon {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 1.5rem;
+        background: #111;
+        gap: 0.9rem;
+      }
+      .poster-soon .soon-name {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: clamp(1.1rem, 2.4vw, 1.9rem);
+        font-weight: 700;
+        color: #fff;
+        letter-spacing: 0.01em;
+        line-height: 1.15;
+      }
+      .poster-soon .soon-label {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: clamp(0.6rem, 1vw, 0.75rem);
+        font-weight: 400;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.5);
       }
 
 
@@ -874,7 +905,11 @@ import SpeedInsights from '@vercel/speed-insights/astro'
     <div id="visual-stack" role="main">
       <!-- Panel 1: Hero -->
       <section class="panel panel-1" id="p1">
-        <div class="panel-bg"><img id="hero-img" src="/images/gemini.png" onerror="this.src='https://placehold.co/1920x1080/000/fff?text=UNA+CARA+MAS'"></div>
+        <div class="panel-bg"><picture>
+          <source srcset="/images/gemini.avif" type="image/avif">
+          <source srcset="/images/gemini.webp" type="image/webp">
+          <img id="hero-img" src="/images/gemini.png" alt="Una Cara Más" fetchpriority="high" decoding="async" onerror="this.src='https://placehold.co/1920x1080/000/fff?text=UNA+CARA+MAS'">
+        </picture></div>
         <div class="panel-content" style="justify-content: flex-end; padding-bottom: 2rem;">
           <div style="text-align: center;">
             <h1 class="hero-title" style="color:white; letter-spacing: 0em; text-transform: uppercase; mix-blend-mode: difference; margin: 0;">Una Cara Más</h1>
@@ -904,82 +939,112 @@ import SpeedInsights from '@vercel/speed-insights/astro'
             <!-- 1 -->
             <div class="carousel-item active">
               <div class="poster-media">
-                <img src="/images/goboy.png" loading="eager" decoding="sync">
-                <video class="poster-video" src="https://d2a01uidrlfe3n.cloudfront.net/videos/goboy.mp4" muted loop playsinline preload="none"></video>
+                <div class="poster-soon">
+                  <div class="soon-name">Go Boy</div>
+                  <div class="soon-label">Music Video Coming Soon</div>
+                </div>
               </div>
-              <div class="poster-title">GO BOY!!!</div>
+              <div class="poster-title">Go Boy</div>
             </div>
             <!-- 2 -->
             <div class="carousel-item next">
                <div class="poster-media">
-                <img src="/images/manana.png" loading="eager" decoding="sync">
+                <picture>
+                  <source srcset="/images/manana.avif" type="image/avif">
+                  <source srcset="/images/manana.webp" type="image/webp">
+                  <img src="/images/manana.png" loading="eager" decoding="sync">
+                </picture>
                 <video class="poster-video" src="https://d2a01uidrlfe3n.cloudfront.net/videos/manana.mp4" muted loop playsinline preload="none"></video>
               </div>
-              <div class="poster-title">Mañana se Acaba el 🌎</div>
+              <div class="poster-title">Mañana se Acaba el Mundo</div>
             </div>
             <!-- 3 -->
             <div class="carousel-item">
                <div class="poster-media">
-                <img src="/images/undia.png" loading="eager" decoding="sync">
-                <video class="poster-video" src="https://d2a01uidrlfe3n.cloudfront.net/videos/undia.mp4" muted loop playsinline preload="none"></video>
+                <div class="poster-soon">
+                  <div class="soon-name">Un Día Normal</div>
+                  <div class="soon-label">Music Video Coming Soon</div>
+                </div>
               </div>
-              <div class="poster-title">Un Día Normalllll</div>
+              <div class="poster-title">Un Día Normal</div>
             </div>
             <!-- 4 -->
             <div class="carousel-item">
                <div class="poster-media">
-                <img src="/images/gioia.png" loading="eager" decoding="sync">
+                <picture>
+                  <source srcset="/images/gioia.avif" type="image/avif">
+                  <source srcset="/images/gioia.webp" type="image/webp">
+                  <img src="/images/gioia.png" loading="eager" decoding="sync">
+                </picture>
                 <video class="poster-video" src="https://d2a01uidrlfe3n.cloudfront.net/videos/gioia.mp4" muted loop playsinline preload="none"></video>
               </div>
-              <div class="poster-title">GIOIAAAA</div>
+              <div class="poster-title">Gioia</div>
             </div>
             <!-- 5 -->
             <div class="carousel-item">
                <div class="poster-media">
-                <img src="/images/togya.png" loading="eager" decoding="sync">
+                <picture>
+                  <source srcset="/images/togya.avif" type="image/avif">
+                  <source srcset="/images/togya.webp" type="image/webp">
+                  <img src="/images/togya.png" loading="eager" decoding="sync">
+                </picture>
                 <video class="poster-video" src="https://d2a01uidrlfe3n.cloudfront.net/videos/togya.mp4" muted loop playsinline preload="none"></video>
               </div>
-              <div class="poster-title">TOGYAAAA</div>
+              <div class="poster-title">Togya</div>
             </div>
             <!-- 6 -->
             <div class="carousel-item">
                <div class="poster-media">
-                <img src="/images/redrocks.png" loading="eager" decoding="sync">
+                <picture>
+                  <source srcset="/images/redrocks.avif" type="image/avif">
+                  <source srcset="/images/redrocks.webp" type="image/webp">
+                  <img src="/images/redrocks.png" loading="eager" decoding="sync">
+                </picture>
                 <video class="poster-video" src="https://d2a01uidrlfe3n.cloudfront.net/videos/redrocks.mp4" muted loop playsinline preload="none"></video>
               </div>
-              <div class="poster-title">Kova at Red Rockssss</div>
+              <div class="poster-title">Kova at Red Rocks</div>
             </div>
             <!-- 7 -->
             <div class="carousel-item">
                <div class="poster-media">
-                <img src="/images/weliveintime.png" loading="eager" decoding="sync">
-                <video class="poster-video" src="https://d2a01uidrlfe3n.cloudfront.net/videos/weliveintime.mp4" muted loop playsinline preload="none"></video>
+                <div class="poster-soon">
+                  <div class="soon-name">We Live in Time</div>
+                  <div class="soon-label">Music Video Coming Soon</div>
+                </div>
               </div>
-              <div class="poster-title">we live in timeeee</div>
+              <div class="poster-title">We Live in Time</div>
             </div>
             <!-- 8 -->
             <div class="carousel-item">
                <div class="poster-media">
-                <img src="/images/obsesivo.png" loading="eager" decoding="sync">
-                <video class="poster-video" src="https://d2a01uidrlfe3n.cloudfront.net/videos/obsesivo.mp4" muted loop playsinline preload="none"></video>
+                <div class="poster-soon">
+                  <div class="soon-name">Obsesivo Compulsivo</div>
+                  <div class="soon-label">Music Video Coming Soon</div>
+                </div>
               </div>
-              <div class="poster-title">OBSESIVO COMPULSIVO.</div>
+              <div class="poster-title">Obsesivo Compulsivo</div>
             </div>
             <!-- 9 -->
             <div class="carousel-item">
                <div class="poster-media">
-                <img src="/images/yono.png" loading="eager" decoding="sync">
-                <video class="poster-video" src="https://d2a01uidrlfe3n.cloudfront.net/videos/yono.mp4" muted loop playsinline preload="none"></video>
+                <div class="poster-soon">
+                  <div class="soon-name">Yo No Soy Tu Pai</div>
+                  <div class="soon-label">Music Video Coming Soon</div>
+                </div>
               </div>
-              <div class="poster-title">yo no soy tu paiiii</div>
+              <div class="poster-title">Yo No Soy Tu Pai</div>
             </div>
             <!-- 10 -->
             <div class="carousel-item">
                <div class="poster-media">
-                <img src="/images/theend.png" loading="eager" decoding="sync">
+                <picture>
+                  <source srcset="/images/theend.avif" type="image/avif">
+                  <source srcset="/images/theend.webp" type="image/webp">
+                  <img src="/images/theend.png" loading="eager" decoding="sync">
+                </picture>
                 <video class="poster-video" src="https://d2a01uidrlfe3n.cloudfront.net/videos/theend.mp4" muted loop playsinline preload="none"></video>
               </div>
-              <div class="poster-title">El Arte de Dejar. __</div>
+              <div class="poster-title">El Arte de Dejar</div>
             </div>
           </div>
         </div>
@@ -993,7 +1058,11 @@ import SpeedInsights from '@vercel/speed-insights/astro'
           <div class="bio-container">
             <div class="bio-item" id="promo-image">
               <div class="bio-img-wrapper" style="position: relative;">
-                <img class="bio-img" src="/images/kova_wall.jpeg" onerror="this.src='https://placehold.co/800x1000/EEE/111?text=Kova+Portrait'">
+                <picture>
+                  <source srcset="/images/kova_wall.avif" type="image/avif">
+                  <source srcset="/images/kova_wall.webp" type="image/webp">
+                  <img class="bio-img" src="/images/kova_wall.jpeg" onerror="this.src='https://placehold.co/800x1000/EEE/111?text=Kova+Portrait'">
+                </picture>
                 <div id="webpromo-bg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: none; z-index: 5;"></div>
                 <video id="kova-webpromo" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; display: none; z-index: 10;" playsinline preload="none">
                 </video>
@@ -1008,9 +1077,13 @@ import SpeedInsights from '@vercel/speed-insights/astro'
             </div>
             <div class="bio-item" id="documentary-image">
               <div class="bio-img-wrapper" style="position: relative;">
-                <img class="bio-img" src="/images/kovastreet.jpeg" onerror="this.src='https://placehold.co/800x1000/EEE/111?text=Kova+Street'">
+                <picture>
+                  <source srcset="/images/kovastreet.avif" type="image/avif">
+                  <source srcset="/images/kovastreet.webp" type="image/webp">
+                  <img class="bio-img" src="/images/kovastreet.jpeg" onerror="this.src='https://placehold.co/800x1000/EEE/111?text=Kova+Street'">
+                </picture>
                 <div class="documentary-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;">
-                  <p style="color: white; font-size: 0.8rem; font-weight: 400; letter-spacing: 0.00em; text-transform: uppercase; text-align: center; margin: 0; padding: 1rem;">DOCUMENTARY BEING RELEASED<br>MARCH 22, 2026</p>
+                  <p style="color: white; font-size: 0.8rem; font-weight: 400; letter-spacing: 0.00em; text-transform: uppercase; text-align: center; margin: 0; padding: 1rem;">DOCUMENTARY COMING SOON</p>
                 </div>
               </div>
               <h2 class="bio-label">UNA CARA MÁS</h2>
@@ -1023,7 +1096,10 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       <!-- Panel Vinyl -->
       <section class="panel panel-vinyl" id="p-vinyl">
         <div class="vinyl-container" id="vinyl-container">
-          <img src="/images/vinyl_kova.png" class="vinyl-img" alt="Vinyl Kova">
+          <picture style="display: contents;">
+            <source srcset="/images/vinyl_kova.webp" type="image/webp">
+            <img src="/images/vinyl_kova.png" class="vinyl-img" alt="Vinyl Kova">
+          </picture>
           <audio id="vinyl-audio" preload="none">
             <source src="/audio/Debut Album New.m4a" type="audio/mp4">
           </audio>
@@ -1082,7 +1158,10 @@ import SpeedInsights from '@vercel/speed-insights/astro'
               </a>
             </nav>
           </div>
-          <img src="/images/noiskey_logo.png" alt="Noiskey" class="footer-logo">
+          <picture>
+            <source srcset="/images/noiskey_logo.webp" type="image/webp">
+            <img src="/images/noiskey_logo.png" alt="Noiskey" class="footer-logo">
+          </picture>
         </div>
       </section>
     </div>
