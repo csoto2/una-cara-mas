@@ -113,21 +113,33 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 
       /* --- MANUSCRIPT (typewriter) PANEL --- */
       .panel-manuscript {
+        overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 8vh 6vw;
       }
-      .manuscript-page {
+      .manuscript-box {
+        width: min(620px, 80vw);
+        height: 68vh;
+        overflow: hidden; /* hard clip on all 4 sides */
+        position: relative;
+        flex-shrink: 0;
+      }
+      .manuscript-scroll {
         width: 100%;
-        max-width: 720px;
+        height: 100%;
+        overflow-y: scroll;
+        scrollbar-width: none;
+        padding: 2rem 2.5rem;
+        box-sizing: border-box;
       }
+      .manuscript-scroll::-webkit-scrollbar { display: none; }
       .manuscript-text {
         margin: 0;
         font-family: 'EB Garamond', serif;
-        font-size: clamp(1.15rem, 2vw, 1.6rem);
+        font-size: clamp(1rem, 1.45vw, 1.3rem);
         font-weight: 400;
-        line-height: 1.8;
+        line-height: 1.9;
         color: #111;
         white-space: pre-wrap;
         word-break: break-word;
@@ -1112,8 +1124,10 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 
       <!-- Panel Manuscript: Typewriter -->
       <section class="panel panel-manuscript" id="p-manuscript">
-        <div class="manuscript-page">
-          <p class="manuscript-text"><span id="manuscript-text"></span><span class="manuscript-caret" aria-hidden="true"></span></p>
+        <div class="manuscript-box" id="manuscript-box">
+          <div class="manuscript-scroll" id="manuscript-scroll">
+            <p class="manuscript-text"><span id="manuscript-text"></span><span class="manuscript-caret" aria-hidden="true"></span></p>
+          </div>
         </div>
       </section>
 
@@ -1576,7 +1590,43 @@ import SpeedInsights from '@vercel/speed-insights/astro'
           }
         }, { passive: true });
       }
-      
+
+      // MANUSCRIPT PANEL — intercept wheel + touch only when cursor is inside the box
+      const manuscriptBox = document.getElementById('manuscript-box');
+      const manuscriptScroll = document.getElementById('manuscript-scroll');
+
+      function cursorInManuscriptBox(): boolean {
+        if (!manuscriptBox) return false;
+        const r = manuscriptBox.getBoundingClientRect();
+        return mx >= r.left && mx <= r.right && my >= r.top && my <= r.bottom;
+      }
+
+      scroller?.addEventListener('wheel', (e) => {
+        if (!manuscriptScroll || !cursorInManuscriptBox()) return;
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+        e.preventDefault();
+        manuscriptScroll.scrollTop += e.deltaY;
+      }, { passive: false });
+
+      let msTouchY = 0, msTouchActive = false;
+      scroller?.addEventListener('touchstart', (e) => {
+        if (!manuscriptBox) return;
+        const r = manuscriptBox.getBoundingClientRect();
+        const t = e.touches[0];
+        if (t.clientX >= r.left && t.clientX <= r.right && t.clientY >= r.top && t.clientY <= r.bottom) {
+          msTouchY = t.clientY;
+          msTouchActive = true;
+        }
+      }, { passive: true });
+      scroller?.addEventListener('touchmove', (e) => {
+        if (!msTouchActive || !manuscriptScroll) return;
+        e.preventDefault();
+        const dy = msTouchY - e.touches[0].clientY;
+        manuscriptScroll.scrollTop += dy;
+        msTouchY = e.touches[0].clientY;
+      }, { passive: false });
+      scroller?.addEventListener('touchend', () => { msTouchActive = false; }, { passive: true });
+
       let mx = 0, my = 0, cx = 0, cy = 0;
       let lastHoveredMedia: HTMLElement | null = null;
       let lastScrollTop = -1;
