@@ -15,7 +15,9 @@ import SpeedInsights from '@vercel/speed-insights/astro'
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script>
       import { initStarfield } from '../scripts/starfield';
+      import { initManuscript } from '../scripts/manuscript';
       (window as any).initStarfield = initStarfield;
+      (window as any).initManuscript = initManuscript;
     </script>
     <style>
       /* --- CORE RESET --- */
@@ -92,8 +94,9 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       /* panel-4 removed */
       .panel-5 { z-index: 5; background: #fff; }
       .panel-vinyl { z-index: 6; background: #f5f5f5; }
-      .panel-6 { z-index: 7; background: #000; position: relative; }
-      .panel-7 { z-index: 8; background: #fff; color: #000; }
+      .panel-manuscript { z-index: 7; background: #fff; color: #000; }
+      .panel-6 { z-index: 8; background: #000; position: relative; }
+      .panel-7 { z-index: 9; background: #fff; color: #000; }
       .dust-overlay {
         position: absolute;
         top: 0; left: 0;
@@ -106,6 +109,42 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         transform-origin: center center;
       }
       .panel-6 canvas { position: relative; z-index: 1; background: transparent; }
+
+      /* --- MANUSCRIPT (typewriter) PANEL --- */
+      .panel-manuscript {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8vh 6vw;
+      }
+      .manuscript-page {
+        width: 100%;
+        max-width: 720px;
+      }
+      .manuscript-text {
+        margin: 0;
+        font-family: 'EB Garamond', serif;
+        font-size: clamp(1.15rem, 2vw, 1.6rem);
+        font-weight: 600;
+        line-height: 1.8;
+        color: #111;
+        white-space: pre-wrap;
+        word-break: break-word;
+        text-transform: none;
+      }
+      .manuscript-caret {
+        display: inline-block;
+        width: 0.6ch;
+        height: 1.1em;
+        margin-left: 1px;
+        background: #111;
+        vertical-align: text-bottom;
+        animation: manuscript-blink 1s step-end infinite;
+      }
+      @keyframes manuscript-blink {
+        0%, 50% { opacity: 1; }
+        50.01%, 100% { opacity: 0; }
+      }
 
       .vinyl-container {
         position: absolute;
@@ -829,6 +868,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       <div class="snap-trigger"></div>
       <div class="snap-trigger mobile-only-trigger" style="display: none;"></div>
       <div class="snap-trigger"></div>
+      <div class="snap-trigger"></div>
     </div>
 
     <div id="visual-stack" role="main">
@@ -994,6 +1034,13 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         </div>
       </section>
 
+      <!-- Panel Manuscript: Typewriter -->
+      <section class="panel panel-manuscript" id="p-manuscript">
+        <div class="manuscript-page">
+          <p class="manuscript-text"><span id="manuscript-text"></span><span class="manuscript-caret" aria-hidden="true"></span></p>
+        </div>
+      </section>
+
       <!-- Panel 6: Starfield Animation -->
       <section class="panel panel-6" id="p6">
         <video class="dust-overlay" autoplay muted loop playsinline preload="none" src="https://d2a01uidrlfe3n.cloudfront.net/videos/noise35"></video>
@@ -1101,8 +1148,14 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       const p3 = document.getElementById('p3');
       const p5 = document.getElementById('p5');
       const pVinyl = document.getElementById('p-vinyl');
+      const pManuscript = document.getElementById('p-manuscript');
       const p6 = document.getElementById('p6');
       const p7 = document.getElementById('p7');
+
+      // Manuscript typewriter controller (starts when panel scrolls into view)
+      const manuscriptCtrl = typeof (window as any).initManuscript === 'function'
+        ? (window as any).initManuscript('manuscript-text')
+        : null;
 
       // Moved from bottom to be available in renderLoop
       const documentaryImage = document.getElementById('documentary-image');
@@ -1569,9 +1622,26 @@ import SpeedInsights from '@vercel/speed-insights/astro'
               }
             }
 
-            // Range 4vh -> 5vh (or 5vh -> 6vh on mobile) : Panel 6 enters over Panel Vinyl
-            const p6Start = isMobile ? 5 * vh : 4 * vh;
-            const p6End = isMobile ? 6 * vh : 5 * vh;
+            // Range 4vh -> 5vh (or 5vh -> 6vh on mobile) : Manuscript enters over Panel Vinyl
+            const manuscriptStart = isMobile ? 5 * vh : 4 * vh;
+            const manuscriptEnd = isMobile ? 6 * vh : 5 * vh;
+            if (pManuscript) {
+              if (scrollTop <= manuscriptStart) pManuscript.style.transform = `translateY(100%)`;
+              else if (scrollTop >= manuscriptEnd) pManuscript.style.transform = `translateY(0%)`;
+              else {
+                const p = (scrollTop - manuscriptStart) / vh;
+                pManuscript.style.transform = `translateY(${100 - (p * 100)}%)`;
+              }
+            }
+
+            // Start typing once the manuscript panel is essentially in view
+            if (manuscriptCtrl && scrollTop >= manuscriptStart + vh * 0.4) {
+              manuscriptCtrl.start();
+            }
+
+            // Range 5vh -> 6vh (or 6vh -> 7vh on mobile) : Panel 6 enters over Manuscript
+            const p6Start = isMobile ? 6 * vh : 5 * vh;
+            const p6End = isMobile ? 7 * vh : 6 * vh;
             if (p6) {
               if (scrollTop <= p6Start) p6.style.transform = `translateY(100%)`;
               else if (scrollTop >= p6End) p6.style.transform = `translateY(0%)`;
@@ -1581,9 +1651,9 @@ import SpeedInsights from '@vercel/speed-insights/astro'
               }
             }
 
-            // Range 5vh -> 6vh (or 6vh -> 7vh on mobile) : Panel 7 (Footer) enters over Panel 6
-            const p7Start = isMobile ? 6 * vh : 5 * vh;
-            const p7End = isMobile ? 7 * vh : 6 * vh;
+            // Range 6vh -> 7vh (or 7vh -> 8vh on mobile) : Panel 7 (Footer) enters over Panel 6
+            const p7Start = isMobile ? 7 * vh : 6 * vh;
+            const p7End = isMobile ? 8 * vh : 7 * vh;
             if (p7) {
               if (scrollTop <= p7Start) p7.style.transform = `translateY(100%)`;
               else if (scrollTop >= p7End) p7.style.transform = `translateY(0%)`;
