@@ -17,10 +17,18 @@ export function initManuscript(targetId: string) {
   ].join("");
 
   let started = false;
+  let paused = false;
   let i = 0;
+  let timer: number | null = null;
+
+  function scheduleNext(delay: number) {
+    timer = window.setTimeout(typeChar, delay);
+  }
 
   function typeChar() {
-    if (i >= text.length) return;
+    timer = null;
+    if (paused) return;            // resume() will pick it back up
+    if (i >= text.length) return;  // done
     const ch = text[i];
     el!.textContent = text.slice(0, i + 1);
     i++;
@@ -42,14 +50,28 @@ export function initManuscript(targetId: string) {
     // Occasional "thinking" hesitation mid-sentence
     if (Math.random() < 0.025) delay += 280 + Math.random() * 420;
 
-    setTimeout(typeChar, delay);
+    scheduleNext(delay);
   }
 
   return {
     start() {
       if (started) return;
       started = true;
-      setTimeout(typeChar, 1000);
+      scheduleNext(1000);
+    },
+    pause() {
+      if (paused) return;
+      paused = true;
+      if (timer !== null) {
+        clearTimeout(timer);
+        timer = null;
+      }
+    },
+    resume() {
+      if (!started || !paused) return;
+      paused = false;
+      // Wait a beat before picking the pen back up.
+      if (timer === null && i < text.length) scheduleNext(1000);
     },
   };
 }

@@ -370,7 +370,7 @@ export function initStarfield(canvasId: string, scrollerId: string) {
   function animateStars(timestamp: number) {
     // Determine the threshold based on mobile or desktop
     const isMobile = window.innerWidth <= 768;
-    const threshold = isMobile ? 4.8 * window.innerHeight : 3.8 * window.innerHeight;
+    const threshold = isMobile ? 5.8 * window.innerHeight : 4.8 * window.innerHeight;
 
     if (scroller && scroller.scrollTop < threshold) {
        // Reset start time so animation doesn't progress while hidden
