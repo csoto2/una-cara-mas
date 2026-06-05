@@ -393,17 +393,33 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         align-items: center;
         justify-content: center;
         text-align: center;
-        padding: 1.5rem;
-        background: #111;
-        gap: 0.9rem;
+        padding: 1.2rem;
+        background: linear-gradient(180deg, rgba(17,17,17,0.92), rgba(17,17,17,0.86));
+        gap: 0.5rem;
+        border-radius: 6px;
       }
+      .poster-soon { overflow: hidden; }
+      .poster-soon::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: url('/images/gemini.avif');
+        background-size: cover;
+        background-position: center center;
+        transform: scale(1.06);
+        filter: grayscale(1) blur(8px) contrast(0.9) brightness(0.6);
+        opacity: 0.22;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .poster-soon > * { position: relative; z-index: 2; }
       .poster-soon .soon-name {
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-size: clamp(1.1rem, 2.4vw, 1.9rem);
+        font-family: 'EB Garamond', serif;
+        font-size: clamp(1.2rem, 2.4vw, 2rem);
         font-weight: 700;
         color: #fff;
         letter-spacing: 0.01em;
-        line-height: 1.15;
+        line-height: 1.02;
       }
       .poster-soon .soon-label {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -416,24 +432,35 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 
       /* Listen Now button inside track boxes */
       .poster-soon .listen-now {
-        margin-top: 0.5rem;
-        background: #000;
-        color: #fff;
-        border: 1px solid rgba(255,255,255,0.12);
-        padding: 0.5rem 0.9rem;
-        font-size: 0.85rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
+        margin-top: 0.35rem;
+        background: transparent;
+        color: rgba(255,255,255,0.92);
+        border: 1px solid rgba(255,255,255,0.18);
+        padding: 0.28rem 0.56rem;
+        font-size: 0.78rem;
+        font-weight: 600;
+        text-transform: none;
+        letter-spacing: 0.02em;
         border-radius: 4px;
         cursor: pointer;
         text-decoration: none;
         display: inline-block;
-        transition: transform 0.12s ease, background 0.12s ease;
+        transition: transform 0.12s ease, background 0.12s ease, opacity 0.12s ease;
+        opacity: 0.95;
       }
       .poster-soon .listen-now:hover {
-        transform: translateY(-2px);
-        background: #111;
+        transform: translateY(-1px);
+        background: rgba(255,255,255,0.03);
+        opacity: 1;
+      }
+
+      .poster-soon { position: absolute; }
+      .poster-soon .soon-label {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 0.6rem;
+        margin: 0;
       }
 
 
