@@ -463,6 +463,28 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         color: rgba(255,255,255,0.5);
       }
 
+      /* Listen Now button inside track boxes */
+      .poster-soon .listen-now {
+        margin-top: 0.5rem;
+        background: #000;
+        color: #fff;
+        border: 1px solid rgba(255,255,255,0.12);
+        padding: 0.5rem 0.9rem;
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: transform 0.12s ease, background 0.12s ease;
+      }
+      .poster-soon .listen-now:hover {
+        transform: translateY(-2px);
+        background: #111;
+      }
+
 
       .impact {
         font-family: Impact, sans-serif;
@@ -1006,6 +1028,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
                 <div class="poster-soon">
                   <div class="soon-name">Go Boy</div>
                   <div class="soon-label">Music Video Coming Soon</div>
+                  <a class="listen-now" href="https://www.noiskey.com/kova/unacaramas" target="_blank" rel="noopener noreferrer">Listen Now</a>
                 </div>
               </div>
               <div class="poster-title">Go Boy</div>
@@ -1028,6 +1051,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
                 <div class="poster-soon">
                   <div class="soon-name">Un Día Normal</div>
                   <div class="soon-label">Music Video Coming Soon</div>
+                  <a class="listen-now" href="https://www.noiskey.com/kova/unacaramas" target="_blank" rel="noopener noreferrer">Listen Now</a>
                 </div>
               </div>
               <div class="poster-title">Un Día Normal</div>
@@ -1074,6 +1098,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
                 <div class="poster-soon">
                   <div class="soon-name">We Live in Time</div>
                   <div class="soon-label">Music Video Coming Soon</div>
+                  <a class="listen-now" href="https://www.noiskey.com/kova/unacaramas" target="_blank" rel="noopener noreferrer">Listen Now</a>
                 </div>
               </div>
               <div class="poster-title">We Live in Time</div>
@@ -1084,6 +1109,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
                 <div class="poster-soon">
                   <div class="soon-name">Obsesivo Compulsivo</div>
                   <div class="soon-label">Music Video Coming Soon</div>
+                  <a class="listen-now" href="https://www.noiskey.com/kova/unacaramas" target="_blank" rel="noopener noreferrer">Listen Now</a>
                 </div>
               </div>
               <div class="poster-title">Obsesivo Compulsivo</div>
@@ -1094,6 +1120,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
                 <div class="poster-soon">
                   <div class="soon-name">Yo No Soy Tu Pai</div>
                   <div class="soon-label">Music Video Coming Soon</div>
+                  <a class="listen-now" href="https://www.noiskey.com/kova/unacaramas" target="_blank" rel="noopener noreferrer">Listen Now</a>
                 </div>
               </div>
               <div class="poster-title">Yo No Soy Tu Pai</div>
@@ -1546,6 +1573,10 @@ import SpeedInsights from '@vercel/speed-insights/astro'
                if (hit.closest('#prev-btn')) showPrev();
                if (hit.closest('#next-btn')) showNext();
                if (hit.closest('#ms-lang-btn')) msLangBtn?.click();
+               if (hit.closest('.listen-now')) {
+                 const a = hit.closest('.listen-now') as HTMLAnchorElement | null;
+                 if (a) a.click();
+               }
              }
         });
 
@@ -1994,9 +2025,10 @@ import SpeedInsights from '@vercel/speed-insights/astro'
              const overSocialIcon = hoveredElement?.closest('.social-icon') as HTMLElement | null;
              const overTheatreBtn = hoveredElement?.closest('#webpromo-theatre-btn') as HTMLElement | null;
              const overLangBtn = hoveredElement?.closest('#ms-lang-btn') as HTMLElement | null;
+             const overListenNow = hoveredElement?.closest('.listen-now') as HTMLElement | null;
 
              if (cursor) {
-               if (overArrow || overDocImg || overVinyl || overPromoImg || overFooterLink || overSocialIcon || overTheatreBtn || overLangBtn) {
+               if (overArrow || overDocImg || overVinyl || overPromoImg || overFooterLink || overSocialIcon || overTheatreBtn || overLangBtn || overListenNow) {
                  cursor.classList.add('hand-mode');
                  cursor.classList.remove('active');
                } else if (overStarfield) {
