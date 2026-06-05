@@ -113,74 +113,25 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 
       /* --- MANUSCRIPT (typewriter) PANEL --- */
       .panel-manuscript {
-        overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 8vh 6vw;
       }
-      .manuscript-box {
-        width: min(620px, 80vw);
-        height: 68vh;
-        overflow: hidden; /* hard clip on all 4 sides */
-        position: relative;
-        flex-shrink: 0;
-      }
-      .manuscript-scroll {
+      .manuscript-page {
         width: 100%;
-        height: 100%;
-        overflow-y: scroll;
-        scrollbar-width: none;
-        padding: 2rem 2.5rem;
-        box-sizing: border-box;
+        max-width: 720px;
       }
-      .manuscript-scroll::-webkit-scrollbar { display: none; }
       .manuscript-text {
         margin: 0;
         font-family: 'EB Garamond', serif;
-        font-size: clamp(1rem, 1.45vw, 1.3rem);
+        font-size: clamp(1.15rem, 2vw, 1.6rem);
         font-weight: 400;
-        line-height: 1.9;
+        line-height: 1.8;
         color: #111;
         white-space: pre-wrap;
         word-break: break-word;
         text-transform: none;
-        border-radius: 3px;
-        transition: background 0.15s;
-      }
-      .manuscript-text.ms-highlighted {
-        background: rgba(100, 149, 237, 0.22);
-      }
-      #manuscript-text.ms-highlighted {
-        background: rgba(100, 149, 237, 0.4);
-        border-radius: 2px;
-      }
-      .manuscript-wrapper {
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        gap: 1.5rem;
-      }
-      .ms-lang-btn {
-        font-family: 'EB Garamond', serif;
-        font-size: 0.78rem;
-        font-weight: 600;
-        letter-spacing: 0.18em;
-        color: #fff;
-        background: #111;
-        border: 1px solid #111;
-        padding: 0.4rem 0.85rem;
-        cursor: pointer;
-        margin-top: 2rem;
-        flex-shrink: 0;
-        text-transform: uppercase;
-        transition: background 0.2s, color 0.2s, border-color 0.2s;
-        position: relative;
-        z-index: 2;
-      }
-      .ms-lang-btn:hover {
-        background: #fff;
-        color: #111;
-        border-color: #111;
       }
       .manuscript-caret {
         display: inline-block;
@@ -786,15 +737,6 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         html, body {
           cursor: auto;
         }
-
-        .manuscript-wrapper {
-          flex-direction: column-reverse;
-          align-items: flex-end;
-          gap: 0.75rem;
-        }
-        .ms-lang-btn {
-          margin-top: 0;
-        }
       }
 
       /* --- FOOTER PANEL --- */
@@ -900,14 +842,8 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         width: 80px;
         height: auto;
         display: block;
+        margin: auto auto 0;
         opacity: 0.85;
-      }
-
-      .footer-inner > picture {
-        display: flex;
-        justify-content: center;
-        margin-top: auto;
-        margin-bottom: 2rem;
       }
 
       @media (max-width: 768px) {
@@ -1176,14 +1112,8 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 
       <!-- Panel Manuscript: Typewriter -->
       <section class="panel panel-manuscript" id="p-manuscript">
-        <audio id="manuscript-audio" preload="none" loop src="/audio/we-live-in-time.m4a"></audio>
-        <div class="manuscript-wrapper">
-          <div class="manuscript-box" id="manuscript-box">
-            <div class="manuscript-scroll" id="manuscript-scroll">
-              <p class="manuscript-text"><span id="manuscript-text"></span><span class="manuscript-caret" aria-hidden="true"></span></p>
-            </div>
-          </div>
-          <button class="ms-lang-btn" id="ms-lang-btn" aria-label="Switch to English">EN</button>
+        <div class="manuscript-page">
+          <p class="manuscript-text"><span id="manuscript-text"></span><span class="manuscript-caret" aria-hidden="true"></span></p>
         </div>
       </section>
 
@@ -1205,25 +1135,26 @@ import SpeedInsights from '@vercel/speed-insights/astro'
               <h4 class="footer-heading">LEGAL</h4>
               <a href="#" class="footer-link">Privacy Policy</a>
               <a href="#" class="footer-link">Terms of Service</a>
+              <a href="#" class="footer-link">Cookie Policy</a>
             </div>
-            <div class="footer-col spacer" aria-hidden="true" style="pointer-events:none;"></div>
+            <div class="footer-col">
+              <h4 class="footer-heading">SUBSCRIBE</h4>
+              <a href="#" class="footer-link">Newsletter &rsaquo;</a>
+            </div>
           </div>
           <div class="footer-bottom">
             <nav class="footer-socials" aria-label="Social media">
-              <a href="https://www.instagram.com/parkerkova/" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram">
+              <a href="https://www.instagram.com/parkerkovaa" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram">
                 <svg viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5Zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5Zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5Zm5.5-.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/></svg>
               </a>
-              <a href="https://www.tiktok.com/@parkerkova" target="_blank" rel="noopener" class="social-icon" aria-label="TikTok">
+              <a href="https://www.tiktok.com" target="_blank" rel="noopener" class="social-icon" aria-label="TikTok">
                 <svg viewBox="0 0 24 24"><path d="M16.6 5.82A4.278 4.278 0 0 1 13.64 3h-3.015v12.418a2.592 2.592 0 0 1-2.584 2.477 2.59 2.59 0 0 1-2.59-2.59 2.59 2.59 0 0 1 2.59-2.59c.267 0 .525.04.77.112V9.78a5.625 5.625 0 0 0-.77-.053 5.627 5.627 0 0 0-5.625 5.625A5.627 5.627 0 0 0 8.04 21a5.627 5.627 0 0 0 5.625-5.625V9.34a7.31 7.31 0 0 0 4.275 1.374V7.7a4.293 4.293 0 0 1-1.34-1.88Z"/></svg>
               </a>
-              <a href="https://www.youtube.com/@kovaparker" target="_blank" rel="noopener" class="social-icon" aria-label="YouTube">
+              <a href="https://www.youtube.com" target="_blank" rel="noopener" class="social-icon" aria-label="YouTube">
                 <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814ZM9.545 15.568V8.432L15.818 12l-6.273 3.568Z"/></svg>
               </a>
-              <a href="https://open.spotify.com/artist/3O75GnWP8PI0FR2GmGXkse?si=ry-yeO8GRu2ktqSkvKY-iA" target="_blank" rel="noopener" class="social-icon" aria-label="Spotify">
-                <svg viewBox="0 0 226.73334 226.73334"><g transform="matrix(1.3333333,0,0,-1.3333333,0,226.73333)"><g transform="scale(0.1)"><path d="m 1345.62,945.281 c -269.94,160.309 -715.202,175.049 -972.893,96.839 -41.383,-12.56 -85.145,10.81 -97.68,52.18 -12.543,41.41 10.793,85.14 52.207,97.72 295.812,89.79 787.556,72.45 1098.316,-112.02 37.22,-22.1 49.43,-70.17 27.37,-107.328 -22.08,-37.219 -70.19,-49.488 -107.32,-27.391 z m -8.84,-237.441 c -18.94,-30.731 -59.12,-40.371 -89.81,-21.5 -225.05,138.336 -568.216,178.41 -834.466,97.59 -34.527,-10.434 -70.996,9.035 -81.484,43.496 -10.403,34.527 9.074,70.929 43.539,81.429 304.152,92.295 682.261,47.59 940.741,-111.253 30.69,-18.903 40.35,-59.102 21.48,-89.762 z M 1234.31,479.809 c -15.05,-24.68 -47.18,-32.411 -71.77,-17.368 -196.653,120.188 -444.173,147.329 -735.673,80.75 -28.09,-6.441 -56.086,11.161 -62.492,39.25 -6.434,28.079 11.102,56.079 39.254,62.489 318.996,72.925 592.633,41.539 813.361,-93.34 24.61,-15.031 32.36,-47.18 17.32,-71.781 z M 850.254,1687.68 c -462.496,0 -837.4337,-374.93 -837.4337,-837.418 0,-462.543 374.9377,-837.4417 837.4337,-837.4417 462.506,0 837.426,374.8987 837.426,837.4417 0,462.488 -374.92,837.418 -837.426,837.418"/></g></g></svg>
-              </a>
-              <a href="https://music.apple.com/us/album/una-cara-m%C3%A1s/6768697452" target="_blank" rel="noopener" class="social-icon" aria-label="Apple Music">
-                <svg viewBox="0 0 361 361"><path d="M359.98,99.71c-0.02-3.62-0.06-7.24-0.16-10.86c-0.21-7.89-0.68-15.84-2.08-23.64c-1.42-7.92-3.75-15.29-7.41-22.49c-3.6-7.07-8.3-13.53-13.91-19.14c-5.61-5.61-12.08-10.31-19.15-13.91c-7.19-3.66-14.56-5.98-22.47-7.41c-7.8-1.4-15.76-1.87-23.65-2.08c-3.62-0.1-7.24-0.14-10.86-0.16C255.99,0,251.69,0,247.39,0H112.61c-4.3,0-8.6,0-12.9,0.02c-3.62,0.02-7.24,0.06-10.86,0.16C80.96,0.4,73,0.86,65.2,2.27c-7.92,1.42-15.28,3.75-22.47,7.41c-7.07,3.6-13.54,8.3-19.15,13.91c-5.61,5.61-10.31,12.07-13.91,19.14c-3.66,7.2-5.99,14.57-7.41,22.49c-1.4,7.8-1.87,15.76-2.08,23.64c-0.1,3.62-0.14,7.24-0.16,10.86C0,104.01,0,108.31,0,112.61v134.77c0,4.3,0,8.6,0.02,12.9c0.02,3.62,0.06,7.24,0.16,10.86c0.21,7.89,0.68,15.84,2.08,23.64c1.42,7.92,3.75,15.29,7.41,22.49c3.6,7.07,8.3,13.53,13.91,19.14c5.61,5.61,12.08,10.31,19.15,13.91c7.19,3.66,14.56,5.98,22.47,7.41c7.8,1.4,15.76,1.87,23.65,2.08c3.62,0.1,7.24,0.14,10.86,0.16c4.3,0.03,8.6,0.02,12.9,0.02h134.77c4.3,0,8.6,0,12.9-0.02c3.62-0.02,7.24-0.06,10.86-0.16c7.89-0.21,15.85-0.68,23.65-2.08c7.92-1.42,15.28-3.74,22.47-7.41c7.07-3.6,13.54-8.3,19.15-13.91c5.61-5.61,10.31-12.07,13.91-19.14c3.66-7.2,5.99-14.57,7.41-22.49c1.4-7.8,1.87-15.76,2.08-23.64c0.1-3.62,0.14-7.24,0.16-10.86c0.03-4.3,0.02-8.6,0.02-12.9V112.61C360,108.31,360,104.01,359.98,99.71z M263.54,234.26c0,4.56-0.04,8.7-1,13.26c-0.93,4.43-2.63,8.6-5.24,12.35c-2.61,3.74-5.95,6.81-9.85,9.11c-3.95,2.33-8.08,3.66-12.5,4.55c-8.3,1.67-13.97,2.05-19.31,0.98c-5.14-1.03-9.5-3.4-12.99-6.6c-5.17-4.74-8.39-11.14-9.09-17.82c-0.82-7.84,1.79-16.21,7.67-22.38c2.97-3.11,6.7-5.57,11.68-7.51c5.21-2.02,10.96-3.23,19.8-5.01c2.33-0.47,4.66-0.94,6.99-1.41c3.06-0.62,5.69-1.4,7.81-3.99c2.13-2.61,2.17-5.78,2.17-8.92l0-79.29c0-6.07-2.72-7.72-8.52-6.61c-4.14,0.81-93.09,18.75-93.09,18.75c-5.02,1.21-6.78,2.85-6.78,9.08l0,116.15c0,4.56-0.24,8.7-1.19,13.26c-0.93,4.43-2.63,8.6-5.24,12.35c-2.61,3.74-5.95,6.81-9.85,9.11c-3.95,2.33-8.08,3.72-12.5,4.61c-8.3,1.67-13.97,2.05-19.31,0.98c-5.14-1.03-9.5-3.47-12.99-6.66c-5.17-4.74-8.17-11.14-8.88-17.82c-0.82-7.84,1.57-16.21,7.46-22.38c2.97-3.11,6.7-5.57,11.68-7.51c5.21-2.02,10.96-3.23,19.8-5.01c2.33-0.47,4.66-0.94,6.99-1.41c3.06-0.62,5.69-1.4,7.81-3.99c2.12-2.59,2.37-5.64,2.37-8.76c0-24.6,0-133.92,0-133.92c0-1.8,0.15-3.02,0.24-3.62c0.43-2.82,1.56-5.24,3.6-6.95c1.7-1.42,3.88-2.41,6.67-3l0.04-0.01l107-21.59c0.93-0.19,8.66-1.56,9.53-1.64c5.78-0.5,9.03,3.3,9.03,9.46V234.26z"/></svg>
+              <a href="https://www.x.com" target="_blank" rel="noopener" class="social-icon" aria-label="X">
+                <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
               </a>
             </nav>
           </div>
@@ -1304,17 +1235,6 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       const manuscriptCtrl = typeof (window as any).initManuscript === 'function'
         ? (window as any).initManuscript('manuscript-text')
         : null;
-
-      // Language toggle button
-      let msCurrentLang: 'es' | 'en' = 'es';
-      const msLangBtn = document.getElementById('ms-lang-btn') as HTMLButtonElement | null;
-      msLangBtn?.addEventListener('click', () => {
-        if (!manuscriptCtrl?.switchTo) return;
-        msCurrentLang = msCurrentLang === 'es' ? 'en' : 'es';
-        msLangBtn.textContent = msCurrentLang === 'es' ? 'EN' : 'ES';
-        msLangBtn.setAttribute('aria-label', msCurrentLang === 'es' ? 'Switch to English' : 'Switch to Spanish');
-        manuscriptCtrl.switchTo(msCurrentLang);
-      });
 
       // Moved from bottom to be available in renderLoop
       const documentaryImage = document.getElementById('documentary-image');
@@ -1441,7 +1361,6 @@ import SpeedInsights from '@vercel/speed-insights/astro'
       const vinylImg = vinylContainer?.querySelector('.vinyl-img') as HTMLElement | null;
       const vinylInfo = document.getElementById('vinyl-info');
       const timeDisplay = document.getElementById('time-display');
-      const manuscriptAudio = document.getElementById('manuscript-audio') as HTMLAudioElement | null;
 
       // --- CAROUSEL LOGIC ---
       const carouselItems = document.querySelectorAll('.carousel-item');
@@ -1545,7 +1464,6 @@ import SpeedInsights from '@vercel/speed-insights/astro'
              if (hit) {
                if (hit.closest('#prev-btn')) showPrev();
                if (hit.closest('#next-btn')) showNext();
-               if (hit.closest('#ms-lang-btn')) msLangBtn?.click();
              }
         });
 
@@ -1658,78 +1576,11 @@ import SpeedInsights from '@vercel/speed-insights/astro'
           }
         }, { passive: true });
       }
-
-      // MANUSCRIPT PANEL — intercept wheel + touch only when cursor is inside the box
-      // AND the manuscript panel is the currently visible panel
-      const manuscriptBox = document.getElementById('manuscript-box');
-      const manuscriptScroll = document.getElementById('manuscript-scroll');
-
-      function manuscriptIsActive(): boolean {
-        if (!scroller || !pManuscript) return false;
-        // pManuscript is visible when its transform is translateY(0%) — i.e. fully in view
-        // We check scroll position: snapped to manuscript means scrollTop ≈ manuscriptEnd
-        const vh = window.innerHeight;
-        const isMob = window.innerWidth <= 768;
-        const mEnd = isMob ? 6 * vh : 5 * vh;
-        return Math.abs(scroller.scrollTop - mEnd) < vh * 0.5;
-      }
-
-      function cursorInManuscriptBox(): boolean {
-        if (!manuscriptBox) return false;
-        const r = manuscriptBox.getBoundingClientRect();
-        return mx >= r.left && mx <= r.right && my >= r.top && my <= r.bottom;
-      }
-
-      scroller?.addEventListener('wheel', (e) => {
-        if (!manuscriptScroll || !manuscriptIsActive() || !cursorInManuscriptBox()) return;
-        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
-        e.preventDefault();
-        manuscriptScroll.scrollTop += e.deltaY;
-      }, { passive: false });
-
-      let msTouchY = 0, msTouchActive = false;
-      scroller?.addEventListener('touchstart', (e) => {
-        if (!manuscriptBox || !manuscriptIsActive()) return;
-        const r = manuscriptBox.getBoundingClientRect();
-        const t = e.touches[0];
-        if (t.clientX >= r.left && t.clientX <= r.right && t.clientY >= r.top && t.clientY <= r.bottom) {
-          msTouchY = t.clientY;
-          msTouchActive = true;
-        }
-      }, { passive: true });
-      scroller?.addEventListener('touchmove', (e) => {
-        if (!msTouchActive || !manuscriptScroll) return;
-        e.preventDefault();
-        const dy = msTouchY - e.touches[0].clientY;
-        manuscriptScroll.scrollTop += dy;
-        msTouchY = e.touches[0].clientY;
-      }, { passive: false });
-      scroller?.addEventListener('touchend', () => { msTouchActive = false; }, { passive: true });
-
+      
       let mx = 0, my = 0, cx = 0, cy = 0;
       let lastHoveredMedia: HTMLElement | null = null;
       let lastScrollTop = -1;
       let tick = 0;
-      let msAudioInView = false;
-
-      // Crossfade utility — ramps audio.volume from `fromVol` to `toVol` over `durationMs`
-      function fadeAudio(
-        audio: HTMLAudioElement,
-        fromVol: number,
-        toVol: number,
-        durationMs: number,
-        onComplete?: () => void
-      ) {
-        audio.volume = Math.max(0, Math.min(1, fromVol));
-        const start = performance.now();
-        function tick() {
-          const t = Math.min((performance.now() - start) / durationMs, 1);
-          audio.volume = Math.max(0, Math.min(1, fromVol + (toVol - fromVol) * t));
-          if (t < 1) requestAnimationFrame(tick);
-          else { audio.volume = Math.max(0, Math.min(1, toVol)); onComplete?.(); }
-        }
-        requestAnimationFrame(tick);
-      }
 
       // Initialize panel-1-active state
       fixedUi?.classList.add('panel-1-active');
@@ -1864,55 +1715,15 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 
             // Start typing once the manuscript panel is essentially in view,
             // and pause/resume as the user scrolls off and back onto the panel.
-            const manuscriptInView =
-              scrollTop >= manuscriptStart + vh * 0.4 &&
-              scrollTop < manuscriptEnd + vh * 0.5;
-
             if (manuscriptCtrl) {
+              const manuscriptInView =
+                scrollTop >= manuscriptStart + vh * 0.4 &&
+                scrollTop < manuscriptEnd + vh * 0.5;
               if (manuscriptInView) {
                 manuscriptCtrl.start();
                 manuscriptCtrl.resume();
               } else {
                 manuscriptCtrl.pause();
-              }
-            }
-
-            // ---- MANUSCRIPT AUDIO CROSSFADE ----
-            if (manuscriptInView && !msAudioInView) {
-              msAudioInView = true;
-              // Crossfade out vinyl if playing
-              if (vinylAudio && !vinylAudio.paused) {
-                (vinylAudio as any)._msPaused = true;
-                const v = vinylAudio.volume;
-                fadeAudio(vinylAudio, v, 0, 1200, () => {
-                  if (vinylAudio) { vinylAudio.pause(); vinylAudio.volume = 1; }
-                  if (vinylImg) vinylImg.classList.remove('playing');
-                });
-              }
-              // Crossfade in manuscript audio
-              if (manuscriptAudio) {
-                manuscriptAudio.volume = 0;
-                manuscriptAudio.play().catch(() => {});
-                fadeAudio(manuscriptAudio, 0, 1, 1200);
-              }
-            } else if (!manuscriptInView && msAudioInView) {
-              msAudioInView = false;
-              // Crossfade out manuscript audio
-              if (manuscriptAudio && !manuscriptAudio.paused) {
-                fadeAudio(manuscriptAudio, manuscriptAudio.volume, 0, 1200, () => {
-                  if (manuscriptAudio) { manuscriptAudio.pause(); manuscriptAudio.volume = 1; }
-                });
-              }
-              // Crossfade vinyl back in if we were the ones who paused it
-              if (vinylAudio && (vinylAudio as any)._msPaused && !(vinylAudio as any)._autoPaused) {
-                (vinylAudio as any)._msPaused = false;
-                vinylAudio.volume = 0;
-                vinylAudio.play().catch(() => {});
-                fadeAudio(vinylAudio, 0, 1, 1200, () => {
-                  if (vinylImg) vinylImg.classList.add('playing');
-                });
-              } else if ((vinylAudio as any)?._msPaused) {
-                (vinylAudio as any)._msPaused = false;
               }
             }
 
@@ -1957,7 +1768,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
               if (unmuteBtn) unmuteBtn.classList.remove('visible');
 
               // NEW: Auto-resume vinyl if we paused it automatically
-              if (vinylAudio && (vinylAudio as any)._autoPaused && !msAudioInView) {
+              if (vinylAudio && (vinylAudio as any)._autoPaused) {
                  vinylAudio.play().then(() => {
                    if (vinylImg) vinylImg.classList.add('playing');
                    // Note: vinylInfo should have stayed visible so that's fine.
@@ -1993,10 +1804,9 @@ import SpeedInsights from '@vercel/speed-insights/astro'
              const overFooterLink = hoveredElement?.closest('.footer-link') as HTMLElement | null;
              const overSocialIcon = hoveredElement?.closest('.social-icon') as HTMLElement | null;
              const overTheatreBtn = hoveredElement?.closest('#webpromo-theatre-btn') as HTMLElement | null;
-             const overLangBtn = hoveredElement?.closest('#ms-lang-btn') as HTMLElement | null;
 
              if (cursor) {
-               if (overArrow || overDocImg || overVinyl || overPromoImg || overFooterLink || overSocialIcon || overTheatreBtn || overLangBtn) {
+               if (overArrow || overDocImg || overVinyl || overPromoImg || overFooterLink || overSocialIcon || overTheatreBtn) {
                  cursor.classList.add('hand-mode');
                  cursor.classList.remove('active');
                } else if (overStarfield) {
