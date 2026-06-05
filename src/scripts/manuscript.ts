@@ -58,23 +58,11 @@ const opsES: Op[] = [
   { kind: 'type',   text: 'Contradicciones con piernas.\n\n' },
 
   { kind: 'type',   text: 'Una Cara Más nació de ahí.\n' },
-  { kind: 'type',   text: 'Y de muchas otras cosas que probablemente voy a seguir escribiendo aquí…\n\n' },
-
-  // TYPO 4: "versiones" → "versionnes" → delete 1 → "es distintas.\n"
-  { kind: 'type',   text: 'De entender que dentro de uno viven demasiadas versio' },
-  { kind: 'type',   text: 'nn' },
-  { kind: 'pause',  ms: 140 },
+  { kind: 'type',   text: 'Y de muchas otras cosas que probablemente voy a seguir escribiendo' },
+  { kind: 'type',   text: 'o' },
+  { kind: 'pause',  ms: 130 },
   { kind: 'delete', count: 1 },
-  { kind: 'type',   text: 'es distintas.\n' },
-
-  { kind: 'type',   text: 'Y que quizás la vida no se trata de escoger una sola.\n' },
-  { kind: 'type',   text: 'Sino de aprender a vivir con todas.\n\n' },
-
-  { kind: 'type',   text: 'Con la que se equivoca.\n' },
-  { kind: 'type',   text: 'Con la que quiere desaparecer un rato.\n' },
-  { kind: 'type',   text: 'Con la que todavía cree en algo, aunque le dé vergüenza decirlo.\n' },
-  { kind: 'type',   text: 'Con la que sigue.\n' },
-  { kind: 'type',   text: 'Aunque no siempre sepa hacia dónde.\n\n' },
+  { kind: 'type',   text: ' aquí…\n\n' },
 
   { kind: 'type',   text: 'Gracias por entrar a este mundo.\n' },
   { kind: 'type',   text: 'Disfruten el ' },
@@ -139,23 +127,11 @@ const opsEN: Op[] = [
   { kind: 'type',   text: 'Contradictions with legs.\n\n' },
 
   { kind: 'type',   text: 'Una Cara Más was born from that.\n' },
-  { kind: 'type',   text: "And from many other things I'll probably keep writing about here…\n\n" },
-
-  // TYPO 4: "versions" → "versioins" → delete 2 → "ns"
-  { kind: 'type',   text: 'From understanding that too many different versio' },
-  { kind: 'type',   text: 'in' },
-  { kind: 'pause',  ms: 140 },
+  { kind: 'type',   text: "And from many other things I'll probably keep writi" },
+  { kind: 'type',   text: 'gn' },
+  { kind: 'pause',  ms: 130 },
   { kind: 'delete', count: 2 },
-  { kind: 'type',   text: 'ns live inside of us.\n' },
-
-  { kind: 'type',   text: "And that maybe life isn't about choosing just one.\n" },
-  { kind: 'type',   text: 'But about learning to live with all of them.\n\n' },
-
-  { kind: 'type',   text: 'With the one that makes mistakes.\n' },
-  { kind: 'type',   text: 'With the one that wants to disappear for a while.\n' },
-  { kind: 'type',   text: "With the one that still believes in something, even if it's embarrassing to say.\n" },
-  { kind: 'type',   text: 'With the one that keeps going.\n' },
-  { kind: 'type',   text: "Even when she doesn't always know where.\n\n" },
+  { kind: 'type',   text: 'ng about here…\n\n' },
 
   { kind: 'type',   text: 'Thanks for entering this world.\n' },
   { kind: 'type',   text: 'Enjoy the ' },
