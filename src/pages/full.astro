@@ -7,7 +7,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Una Cara Más — Kova Parker</title>
     <meta name="description" content="Una Cara Más — the debut album by Kova Parker. Out June 4, 2026.">
     <meta name="theme-color" content="#000000">
@@ -86,6 +86,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         overflow: hidden;
         will-change: transform;
         transform: translateY(100%);
+        padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
       }
 
       /* STACKING ORDER & THEMES */
