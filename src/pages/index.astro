@@ -1184,17 +1184,8 @@ import SpeedInsights from '@vercel/speed-insights/astro'
                   <source srcset="/images/kova_wall.webp" type="image/webp">
                   <img class="bio-img" src="/images/kova_wall.jpeg" onerror="this.src='https://placehold.co/800x1000/EEE/111?text=Kova+Portrait'">
                 </picture>
-                <div id="webpromo-bg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: none; z-index: 5;"></div>
-                <video id="kova-webpromo" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; display: none; z-index: 10;" playsinline preload="none">
-                </video>
-                <button id="webpromo-theatre-btn" title="Theatre mode" aria-label="Expand to theatre mode">
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 8V5h3M21 8V5h-3M3 16v3h3M21 16v3h-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </button>
               </div>
               <h2 class="bio-label">KOVA PARKER</h2>
-              <p class="bio-action">(EXPLORE)</p>
             </div>
             <div class="bio-item" id="documentary-image">
               <div class="bio-img-wrapper" style="position: relative;">
@@ -2238,7 +2229,8 @@ import SpeedInsights from '@vercel/speed-insights/astro'
           documentaryOverlay.style.opacity = isVisible ? '0' : '1';
         }
 
-        // A2. Promo Image Video Logic
+        // A2. Promo Image Video Logic - Disabled videolayer; keeping it a standard picture
+        /*
         if (hit && promoImage && kovaWebpromo && promoImage.contains(hit)) {
           const webpromoBg = document.getElementById('webpromo-bg');
           const tBtn = document.getElementById('webpromo-theatre-btn');
@@ -2259,6 +2251,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
             kovaWebpromo.pause();
           }
         }
+        */
 
         // B. Vinyl Logic (Pass-through click)
         if (hit && hit.closest('.vinyl-container')) {
