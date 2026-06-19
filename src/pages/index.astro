@@ -1053,13 +1053,14 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 
             <!-- Items -->
             <!-- 1 -->
-            <div class="carousel-item active">
-              <div class="poster-media">
-                <div class="poster-soon">
-                  <div class="soon-name">Go Boy</div>
-                  <div class="soon-label">Music Video Coming Soon</div>
-                  <a class="listen-now" href="https://www.noiskey.com/kova/unacaramas" target="_blank" rel="noopener noreferrer">Listen Now</a>
-                </div>
+            <div class="carousel-item next">
+               <div class="poster-media">
+                <picture>
+                  <source srcset="/images/goboy.avif" type="image/avif">
+                  <source srcset="/images/goboy.webp" type="image/webp">
+                  <img src="/images/manana.png" loading="eager" decoding="sync">
+                </picture>
+                <video class="poster-video" src="https://d2a01uidrlfe3n.cloudfront.net/videos/goboy.mp4" muted loop playsinline preload="none"></video>
               </div>
               <div class="poster-title">Go Boy</div>
             </div>
