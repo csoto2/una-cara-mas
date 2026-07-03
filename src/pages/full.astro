@@ -368,6 +368,11 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         pointer-events: none;
       }
 
+      .poster-video.zoom-130 {
+        transform: scale(1.3);
+        transform-origin: center center;
+      }
+
       .poster-title {
         margin-top: 2rem;
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -1059,22 +1064,16 @@ import SpeedInsights from '@vercel/speed-insights/astro'
             <!-- 7 -->
             <div class="carousel-item">
                <div class="poster-media">
-                <div class="poster-soon">
-                  <div class="soon-name">We Live in Time</div>
-                  <div class="soon-label">Music Video Coming Soon</div>
-                  <a class="listen-now" href="https://www.noiskey.com/kova/unacaramas" target="_blank" rel="noopener noreferrer">Listen Now</a>
-                </div>
+                <img src="/images/weliveintime.png" loading="eager" decoding="sync" alt="We Live in Time">
+                <video class="poster-video zoom-130" src="https://d2a01uidrlfe3n.cloudfront.net/videos/weliveintime.mp4" muted loop playsinline preload="none"></video>
               </div>
               <div class="poster-title">We Live in Time</div>
             </div>
             <!-- 8 -->
             <div class="carousel-item">
                <div class="poster-media">
-                <div class="poster-soon">
-                  <div class="soon-name">Obsesivo Compulsivo</div>
-                  <div class="soon-label">Music Video Coming Soon</div>
-                  <a class="listen-now" href="https://www.noiskey.com/kova/unacaramas" target="_blank" rel="noopener noreferrer">Listen Now</a>
-                </div>
+                <img src="/images/obsesivo.png" loading="eager" decoding="sync" alt="Obsesivo Compulsivo">
+                <video class="poster-video zoom-130" src="https://d2a01uidrlfe3n.cloudfront.net/videos/obsesivo.mp4" muted loop playsinline preload="none"></video>
               </div>
               <div class="poster-title">Obsesivo Compulsivo</div>
             </div>
